@@ -10,8 +10,9 @@ public extension CongruentScrollingHStack {
 
     init(
         items: Binding<OrderedSet<Item>>,
-        columns: CGFloat,
-        inset: CGFloat = 15,
+        columns: Int,
+        columnTrailingInset: CGFloat = 0,
+        horizontalInset: CGFloat = 15,
         spacing: CGFloat = 10,
         scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         @ViewBuilder content: @escaping (Item) -> any View
@@ -20,10 +21,31 @@ public extension CongruentScrollingHStack {
             didReachTrailingSide: {},
             didReachTrailingSideOffset: 0,
             didScrollToItems: { _ in },
-            horizontalInset: inset,
+            horizontalInset: horizontalInset,
             items: items,
             itemSpacing: spacing,
-            layout: .columns(columns),
+            layout: .columns(columns, trailingInset: columnTrailingInset),
+            scrollBehavior: scrollBehavior,
+            viewProvider: content
+        )
+    }
+
+    init(
+        items: Binding<OrderedSet<Item>>,
+        columns: CGFloat,
+        horizontalInset: CGFloat = 15,
+        spacing: CGFloat = 10,
+        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
+        @ViewBuilder content: @escaping (Item) -> any View
+    ) {
+        self.init(
+            didReachTrailingSide: {},
+            didReachTrailingSideOffset: 0,
+            didScrollToItems: { _ in },
+            horizontalInset: horizontalInset,
+            items: items,
+            itemSpacing: spacing,
+            layout: .fractionalColumns(columns),
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )
@@ -71,6 +93,8 @@ public extension CongruentScrollingHStack {
     }
 }
 
+// MARK: Range<Int>
+
 // TODO: columns and mindWidth inits
 public extension CongruentScrollingHStack where Item == Int {
 
@@ -96,6 +120,27 @@ public extension CongruentScrollingHStack where Item == Int {
 
     init(
         _ data: Range<Int>,
+        columns: Int,
+        inset: CGFloat = 15,
+        spacing: CGFloat = 10,
+        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
+        @ViewBuilder content: @escaping (Item) -> any View
+    ) {
+        self.init(
+            didReachTrailingSide: {},
+            didReachTrailingSideOffset: 0,
+            didScrollToItems: { _ in },
+            horizontalInset: inset,
+            items: .constant(OrderedSet(data)),
+            itemSpacing: spacing,
+            layout: .columns(columns, trailingInset: 0),
+            scrollBehavior: scrollBehavior,
+            viewProvider: content
+        )
+    }
+
+    init(
+        _ data: Range<Int>,
         columns: CGFloat,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
@@ -109,11 +154,16 @@ public extension CongruentScrollingHStack where Item == Int {
             horizontalInset: inset,
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
-            layout: .columns(columns),
+            layout: .fractionalColumns(columns),
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
+}
+
+// MARK: ClosedRange<Int>
+
+public extension CongruentScrollingHStack where Item == Int {
 
     init(
         _ data: ClosedRange<Int>,

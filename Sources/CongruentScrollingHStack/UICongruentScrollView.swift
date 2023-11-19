@@ -10,8 +10,7 @@ import SwiftUI
 // - placeholder views?
 // - empty view?
 // TODO: fix scroll position on layout change
-// TODO: columns with trailing padding
-// TODO: allow passing height info? (full height)
+// TODO: allow passing height info and widths are calculated instead?
 // TODO: prefetch items rules
 // - cancel?
 // - must be fresh
@@ -149,7 +148,7 @@ UICollectionViewDataSourcePrefetching {
         let height: CGFloat
 
         switch layout {
-        case .columns, .minimumWidth:
+        case .columns, .fractionalColumns, .minimumWidth:
             let itemWidth = itemSize(for: layout).width
             height = singleItemSize(width: itemWidth).height
         case .selfSizing:
@@ -249,7 +248,11 @@ UICollectionViewDataSourcePrefetching {
     private func itemSize(for layout: CongruentScrollingHStackLayout) -> CGSize {
 
         switch layout {
-        case let .columns(columns):
+        case let .columns(columns, trailingInset: trailingInset):
+            let width = itemWidth(columns: CGFloat(columns), trailingInset: trailingInset)
+            guard width >= 0 else { return CGSize(width: 0, height: size.height) }
+            return CGSize(width: width, height: size.height)
+        case let .fractionalColumns(columns):
             let width = itemWidth(columns: columns)
             guard width >= 0 else { return CGSize(width: 0, height: size.height) }
             return CGSize(width: width, height: size.height)
@@ -261,7 +264,7 @@ UICollectionViewDataSourcePrefetching {
         }
     }
 
-    private func itemWidth(columns: CGFloat) -> CGFloat {
+    private func itemWidth(columns: CGFloat, trailingInset: CGFloat = 0) -> CGFloat {
 
         guard columns > 0 else {
             logger.warning("Given `columns` is less than or equal to 0, setting to single column display instead.")
@@ -280,7 +283,7 @@ UICollectionViewDataSourcePrefetching {
         }
 
         let itemSpacing = itemSpaces * collectionView.flowLayout.minimumInteritemSpacing
-        let totalNegative = sectionInsets + itemSpacing
+        let totalNegative = sectionInsets + itemSpacing + trailingInset
 
         return (effectiveWidth - totalNegative) / columns
     }

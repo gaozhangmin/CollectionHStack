@@ -66,7 +66,7 @@ struct ContentView: View {
                     }
                     .alwaysPopover(isPresented: $isEndlessColorsDescriptionPresented) {
                         VStack {
-                            Text("Top: 3 columns/continuous")
+                            Text("Top: 3 columns/50 columnTrailingInset/continuous")
 
                             Text("Bottom: 3 columns/continuousLeadingEdge")
                         }
@@ -75,7 +75,11 @@ struct ContentView: View {
                         .padding()
                     }
 
-                    CongruentScrollingHStack(items: $uuids, columns: 3) { uuid in
+                    CongruentScrollingHStack(
+                        items: $uuids,
+                        columns: 3,
+                        columnTrailingInset: 50
+                    ) { uuid in
                         Button {
                             print(uuid.uuidString)
                         } label: {
