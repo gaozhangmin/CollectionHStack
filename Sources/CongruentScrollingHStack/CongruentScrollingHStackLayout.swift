@@ -5,5 +5,6 @@ enum CongruentScrollingHStackLayout {
     case columns(Int, trailingInset: CGFloat)
     case fractionalColumns(CGFloat)
     case minimumWidth(CGFloat)
-    case selfSizing
+    case selfSizingSameSize
+    case selfSizingVariadicWidth
 }

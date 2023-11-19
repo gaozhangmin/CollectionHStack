@@ -77,6 +77,7 @@ public extension CongruentScrollingHStack {
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
         scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
+        variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -86,7 +87,7 @@ public extension CongruentScrollingHStack {
             horizontalInset: inset,
             items: items,
             itemSpacing: spacing,
-            layout: .selfSizing,
+            layout: variadicWidths ? .selfSizingVariadicWidth : .selfSizingSameSize,
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )
@@ -103,6 +104,7 @@ public extension CongruentScrollingHStack where Item == Int {
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
         scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
+        variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -112,7 +114,7 @@ public extension CongruentScrollingHStack where Item == Int {
             horizontalInset: inset,
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
-            layout: .selfSizing,
+            layout: variadicWidths ? .selfSizingVariadicWidth : .selfSizingSameSize,
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )
@@ -179,7 +181,7 @@ public extension CongruentScrollingHStack where Item == Int {
             horizontalInset: inset,
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
-            layout: .selfSizing,
+            layout: .selfSizingSameSize,
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )

@@ -15,6 +15,8 @@ struct ContentView: View {
     var isSelfSizingDescriptionPresented = false
     @State
     var isFractionalColumnDescriptionPresented = false
+    @State
+    var isVariadicWidthsDescriptionPresented = false
 
     @State
     var uuids = OrderedSet((0 ..< 100).map { _ in UUID() })
@@ -238,6 +240,36 @@ struct ContentView: View {
                             Color.cyan
                         }
                         .aspectRatio(3, contentMode: .fill)
+                    }
+
+                    Button {
+                        isVariadicWidthsDescriptionPresented = true
+                    } label: {
+                        Text("Variadic Widths")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .alwaysPopover(isPresented: $isVariadicWidthsDescriptionPresented) {
+                        Text("self sizing/variadic width/continuousLeadingEdge")
+                            .font(.subheadline.weight(.light))
+                            .foregroundStyle(.secondary)
+                            .padding()
+                    }
+
+                    CongruentScrollingHStack(0 ..< 20, scrollBehavior: .continuousLeadingEdge, variadicWidths: true) { i in
+                        colors.randomElement()!
+                            .frame(width: 50 * (CGFloat(i % 3) + 1), height: 200)
+                    }
+
+                    CongruentScrollingHStack(0 ..< 5, scrollBehavior: .continuousLeadingEdge, variadicWidths: true) { i in
+                        if i == 0 {
+                            colors.randomElement()!
+                                .aspectRatio(2 / 3, contentMode: .fill)
+                                .frame(height: 200)
+                        } else {
+                            colors.randomElement()!
+                                .frame(width: 300, height: 200)
+                        }
                     }
                 }
             }

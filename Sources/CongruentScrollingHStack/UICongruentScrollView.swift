@@ -20,8 +20,8 @@ import SwiftUI
 // TODO: different default insets/spacing for tvOS
 // TODO: tvOS spacing issue with Button focus
 // - can be solved with padding but should do that here (see vertical insets)?
-// TODO: macOS?
 // TODO: alwaysBounceHorizontal setting
+// TODO: should prefetch use row instead of hashvalue?
 
 class UICongruentScrollView<Item: Hashable>: UIView, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,
 UICollectionViewDataSourcePrefetching {
@@ -153,7 +153,7 @@ UICollectionViewDataSourcePrefetching {
         case .columns, .fractionalColumns, .minimumWidth:
             let itemWidth = itemSize(for: layout).width
             height = singleItemSize(width: itemWidth).height
-        case .selfSizing:
+        case .selfSizingSameSize, .selfSizingVariadicWidth:
             height = singleItemSize().height
         }
 
@@ -238,12 +238,27 @@ UICollectionViewDataSourcePrefetching {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
 
-        if let itemSize {
-            return itemSize
+        if case CongruentScrollingHStackLayout.selfSizingVariadicWidth = layout {
+
+            let item = items.wrappedValue[indexPath.row]
+
+            if let prefetch = prefetchedViewCache[item.hashValue] {
+                prefetch.view.sizeToFit()
+                return prefetch.view.bounds.size
+            } else {
+                let view: AnyView = AnyView(viewProvider(item))
+                let singleItem = UIHostingController(rootView: view)
+                singleItem.view.sizeToFit()
+                return singleItem.view.bounds.size
+            }
         } else {
-            let size = itemSize(for: layout)
-            itemSize = size
-            return size
+            if let itemSize {
+                return itemSize
+            } else {
+                let s = itemSize(for: layout)
+                itemSize = s
+                return s
+            }
         }
     }
 
@@ -261,7 +276,7 @@ UICollectionViewDataSourcePrefetching {
         case let .minimumWidth(width):
             let width = itemWidth(minWidth: width)
             return CGSize(width: width, height: size.height)
-        case .selfSizing:
+        case .selfSizingSameSize, .selfSizingVariadicWidth:
             return singleItemSize()
         }
     }
