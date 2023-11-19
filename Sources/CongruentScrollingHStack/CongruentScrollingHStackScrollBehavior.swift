@@ -6,14 +6,14 @@ import UIKit
 public enum CongruentScrollingHStackScrollBehavior {
 
     case continuous
-    case continuousLeadingBoundary
+    case continuousLeadingEdge
     case itemPaging
 
     var flowLayout: UICollectionViewFlowLayout {
         switch self {
         case .continuous:
             UICollectionViewFlowLayout()
-        case .continuousLeadingBoundary:
+        case .continuousLeadingEdge:
             SingleRowFlowLayout()
         case .itemPaging:
             SingleRowFlowPagingItemLayout()
@@ -65,6 +65,7 @@ class SingleRowFlowLayout: UICollectionViewFlowLayout {
     }
 }
 
+// TODO: what to do when item size larger than collectionView width (ex: columns < 1)
 class SingleRowFlowPagingItemLayout: UICollectionViewFlowLayout {
 
     override func targetContentOffset(
@@ -99,7 +100,7 @@ class SingleRowFlowPagingItemLayout: UICollectionViewFlowLayout {
             m = layoutAttributes[0].frame.minX
         }
 
-        let leadingInset = (collectionView!.collectionViewLayout as! UICollectionViewFlowLayout).sectionInset.left
+        let leadingInset = collectionView!.flowLayout.sectionInset.left
 
         return CGPoint(
             x: m - leadingInset,

@@ -3,7 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
 
-    var colors: [Color] = [
+    let colors: [Color] = [
         .blue,
         .green,
         .yellow,
@@ -25,7 +25,7 @@ struct ContentView: View {
                     columns: 1.2,
                     inset: 20,
                     spacing: 10,
-                    scrollBehavior: .continuousLeadingBoundary
+                    scrollBehavior: .continuousLeadingEdge
                 ) { i in
                     Button {
                         print(i)

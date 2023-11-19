@@ -268,8 +268,21 @@ UICollectionViewDataSourcePrefetching {
             return itemWidth(columns: 1)
         }
 
-        let itemSpacing = (columns - 1) * collectionView.flowLayout.minimumInteritemSpacing
-        return (effectiveWidth - collectionView.flowLayout.sectionInset.horizontal - itemSpacing) / columns
+        let itemSpaces: CGFloat
+        let sectionInsets: CGFloat
+
+        if floor(columns) == columns {
+            itemSpaces = columns - 1
+            sectionInsets = collectionView.flowLayout.sectionInset.horizontal
+        } else {
+            itemSpaces = floor(columns)
+            sectionInsets = collectionView.flowLayout.sectionInset.left
+        }
+
+        let itemSpacing = itemSpaces * collectionView.flowLayout.minimumInteritemSpacing
+        let totalNegative = sectionInsets + itemSpacing
+
+        return (effectiveWidth - totalNegative) / columns
     }
 
     private func itemWidth(minWidth: CGFloat) -> CGFloat {

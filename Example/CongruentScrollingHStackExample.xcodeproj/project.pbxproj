@@ -16,6 +16,7 @@
 		E1D3C3782B09841B00BFA270 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1D3C3772B09841B00BFA270 /* Assets.xcassets */; };
 		E1D3C3812B09844600BFA270 /* CongruentScrollingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E1D3C3802B09844600BFA270 /* CongruentScrollingHStack */; };
 		E1D3C3852B09847F00BFA270 /* CongruentScrollingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E1D3C3842B09847F00BFA270 /* CongruentScrollingHStack */; };
+		E1D3C39D2B09B19D00BFA270 /* AlwaysPopover in Frameworks */ = {isa = PBXBuildFile; productRef = E1D3C39C2B09B19D00BFA270 /* AlwaysPopover */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1D3C39D2B09B19D00BFA270 /* AlwaysPopover in Frameworks */,
 				E1D3C3812B09844600BFA270 /* CongruentScrollingHStack in Frameworks */,
 				E18D91502B08AE0E0076CE98 /* CongruentScrollingHStack in Frameworks */,
 			);
@@ -115,6 +117,7 @@
 			packageProductDependencies = (
 				E18D914F2B08AE0E0076CE98 /* CongruentScrollingHStack */,
 				E1D3C3802B09844600BFA270 /* CongruentScrollingHStack */,
+				E1D3C39C2B09B19D00BFA270 /* AlwaysPopover */,
 			);
 			productName = CongruentScrollingHStackExample;
 			productReference = E15BAE062B08ADF00086FC31 /* iOS.app */;
@@ -169,6 +172,7 @@
 			mainGroup = E15BADFD2B08ADF00086FC31;
 			packageReferences = (
 				E1D3C37F2B09844600BFA270 /* XCLocalSwiftPackageReference ".." */,
+				E1D3C39B2B09B19D00BFA270 /* XCRemoteSwiftPackageReference "AlwaysPopover" */,
 			);
 			productRefGroup = E15BAE072B08ADF00086FC31 /* Products */;
 			projectDirPath = "";
@@ -493,6 +497,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		E1D3C39B2B09B19D00BFA270 /* XCRemoteSwiftPackageReference "AlwaysPopover" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LePips/AlwaysPopover";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		E18D914F2B08AE0E0076CE98 /* CongruentScrollingHStack */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -505,6 +520,11 @@
 		E1D3C3842B09847F00BFA270 /* CongruentScrollingHStack */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CongruentScrollingHStack;
+		};
+		E1D3C39C2B09B19D00BFA270 /* AlwaysPopover */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E1D3C39B2B09B19D00BFA270 /* XCRemoteSwiftPackageReference "AlwaysPopover" */;
+			productName = AlwaysPopover;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

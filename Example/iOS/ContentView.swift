@@ -1,3 +1,4 @@
+import AlwaysPopover
 import CongruentScrollingHStack
 import OrderedCollections
 import SwiftUI
@@ -5,9 +6,20 @@ import SwiftUI
 struct ContentView: View {
 
     @State
+    var isEndlessColorsDescriptionPresented = false
+    @State
+    var isColorGridDescriptionPresented = false
+    @State
+    var isPagingDescriptionPresented = false
+    @State
+    var isSelfSizingDescriptionPresented = false
+    @State
+    var isFractionalColumnDescriptionPresented = false
+
+    @State
     var uuids = OrderedSet((0 ..< 100).map { _ in UUID() })
 
-    var colors: [Color] = [
+    let colors: [Color] = [
         .blue,
         .green,
         .yellow,
@@ -23,7 +35,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack {
 
                     CongruentScrollingHStack(0 ..< 10, columns: 1, scrollBehavior: .itemPaging) { _ in
@@ -45,14 +57,23 @@ struct ContentView: View {
                         .cornerRadius(5)
                     }
 
-                    Text("Endless Colors")
-                        .font(.title3)
-                        .fontWeight(.bold)
+                    Button {
+                        isEndlessColorsDescriptionPresented = true
+                    } label: {
+                        Text("Endless Colors")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .alwaysPopover(isPresented: $isEndlessColorsDescriptionPresented) {
+                        VStack {
+                            Text("Top: 3 columns/continuous")
 
-                    Text("3 columns/continuous")
-                        .font(.subheadline)
-                        .fontWeight(.light)
+                            Text("Bottom: 3 columns/continuousLeadingEdge")
+                        }
+                        .font(.subheadline.weight(.light))
                         .foregroundStyle(.secondary)
+                        .padding()
+                    }
 
                     CongruentScrollingHStack(items: $uuids, columns: 3) { uuid in
                         Button {
@@ -72,12 +93,7 @@ struct ContentView: View {
                         uuids.append(contentsOf: newUUIDS)
                     }
 
-                    Text("3 columns/continuousLeadingBoundary")
-                        .font(.subheadline)
-                        .fontWeight(.light)
-                        .foregroundStyle(.secondary)
-
-                    CongruentScrollingHStack(items: $uuids, columns: 3, scrollBehavior: .continuousLeadingBoundary) { uuid in
+                    CongruentScrollingHStack(items: $uuids, columns: 3, scrollBehavior: .continuousLeadingEdge) { uuid in
                         Button {
                             print(uuid.uuidString)
                         } label: {
@@ -95,14 +111,19 @@ struct ContentView: View {
                         uuids.append(contentsOf: newUUIDS)
                     }
 
-                    Text("Color Grid")
-                        .font(.title3)
-                        .fontWeight(.bold)
-
-                    Text("4 columns/0 insets/0 spacing/continuousLeadingBoundary")
-                        .font(.subheadline)
-                        .fontWeight(.light)
-                        .foregroundStyle(.secondary)
+                    Button {
+                        isColorGridDescriptionPresented = true
+                    } label: {
+                        Text("Color Grid")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .alwaysPopover(isPresented: $isColorGridDescriptionPresented) {
+                        Text("4 columns/0 insets/0 spacing/continuousLeadingEdge")
+                            .font(.subheadline.weight(.light))
+                            .foregroundStyle(.secondary)
+                            .padding()
+                    }
 
                     VStack(spacing: 0) {
                         CongruentScrollingHStack(
@@ -110,7 +131,7 @@ struct ContentView: View {
                             columns: 4,
                             inset: 0,
                             spacing: 0,
-                            scrollBehavior: .continuousLeadingBoundary
+                            scrollBehavior: .continuousLeadingEdge
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
@@ -121,7 +142,7 @@ struct ContentView: View {
                             columns: 4,
                             inset: 0,
                             spacing: 0,
-                            scrollBehavior: .continuousLeadingBoundary
+                            scrollBehavior: .continuousLeadingEdge
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
@@ -132,7 +153,7 @@ struct ContentView: View {
                             columns: 4,
                             inset: 0,
                             spacing: 0,
-                            scrollBehavior: .continuousLeadingBoundary
+                            scrollBehavior: .continuousLeadingEdge
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
@@ -143,43 +164,81 @@ struct ContentView: View {
                             columns: 4,
                             inset: 0,
                             spacing: 0,
-                            scrollBehavior: .continuousLeadingBoundary
+                            scrollBehavior: .continuousLeadingEdge
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
                         }
                     }
 
-                    Text("Paging")
-                        .font(.title3)
-                        .fontWeight(.bold)
-
-                    Text("1 column/item paging")
-                        .font(.subheadline)
-                        .fontWeight(.light)
-                        .foregroundStyle(.secondary)
+                    Button {
+                        isPagingDescriptionPresented = true
+                    } label: {
+                        Text("Paging")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .alwaysPopover(isPresented: $isPagingDescriptionPresented) {
+                        Text("1 column/item paging")
+                            .font(.subheadline.weight(.light))
+                            .foregroundStyle(.secondary)
+                            .padding()
+                    }
 
                     CongruentScrollingHStack(0 ..< 10, columns: 1, scrollBehavior: .itemPaging) { _ in
                         colors.randomElement()!
                             .aspectRatio(3, contentMode: .fill)
                     }
 
-                    Text("Self Sizing")
-                        .font(.title3)
-                        .fontWeight(.bold)
+                    Button {
+                        isSelfSizingDescriptionPresented = true
+                    } label: {
+                        Text("Self Sizing")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .alwaysPopover(isPresented: $isSelfSizingDescriptionPresented) {
+                        Text("self sizing/continuousLeadingEdge")
+                            .font(.subheadline.weight(.light))
+                            .foregroundStyle(.secondary)
+                            .padding()
+                    }
 
-                    Text("self sizing/continuousLeadingBoundary")
-                        .font(.subheadline)
-                        .fontWeight(.light)
-                        .foregroundStyle(.secondary)
-
-                    CongruentScrollingHStack(0 ..< 20, scrollBehavior: .continuousLeadingBoundary) { _ in
+                    CongruentScrollingHStack(0 ..< 20, scrollBehavior: .continuousLeadingEdge) { _ in
                         colors.randomElement()!
                             .frame(width: 200, height: 200)
+                    }
+
+                    Button {
+                        isFractionalColumnDescriptionPresented = true
+                    } label: {
+                        Text("Fractional Columns")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                    }
+                    .alwaysPopover(isPresented: $isFractionalColumnDescriptionPresented) {
+                        Text("1.5 columns/itemPaging")
+                            .font(.subheadline.weight(.light))
+                            .foregroundStyle(.secondary)
+                            .padding()
+                    }
+
+                    CongruentScrollingHStack(
+                        0 ..< 10,
+                        columns: 1.5,
+                        scrollBehavior: .itemPaging
+                    ) { _ in
+                        HStack(spacing: 0) {
+                            Color.purple
+
+                            Color.cyan
+                        }
+                        .aspectRatio(3, contentMode: .fill)
                     }
                 }
             }
             .navigationTitle("Example")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
