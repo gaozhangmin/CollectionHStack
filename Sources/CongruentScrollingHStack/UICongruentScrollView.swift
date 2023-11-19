@@ -21,6 +21,7 @@ import SwiftUI
 // TODO: tvOS spacing issue with Button focus
 // - can be solved with padding but should do that here (see vertical insets)?
 // TODO: macOS?
+// TODO: alwaysBounceHorizontal setting
 
 class UICongruentScrollView<Item: Hashable>: UIView, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,
 UICollectionViewDataSourcePrefetching {
@@ -117,6 +118,7 @@ UICollectionViewDataSourcePrefetching {
         collectionView.automaticallyAdjustsScrollIndicatorInsets = false
         collectionView.delegate = self
         collectionView.backgroundColor = nil
+        collectionView.alwaysBounceHorizontal = true
 
         if scrollBehavior == .itemPaging {
             collectionView.decelerationRate = .fast
