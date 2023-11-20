@@ -279,10 +279,14 @@ struct ContentView: View {
                         ColorTrailingEdgeView(color: $didReachEdgeColor)
                     }
                     .onReachedLeadingEdge {
-                        didReachEdgeColor = .red
+                        withAnimation {
+                            didReachEdgeColor = .red
+                        }
                     }
                     .onReachedTrailingEdge {
-                        didReachEdgeColor = .blue
+                        withAnimation {
+                            didReachEdgeColor = .blue
+                        }
                     }
                 }
             }

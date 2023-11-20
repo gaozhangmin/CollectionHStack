@@ -38,6 +38,7 @@ struct ContentView: View {
                     .padding()
                     .padding()
                 }
+                .asCarousel()
 
                 CongruentScrollingHStack(0 ..< 30, columns: 6.5) { i in
                     Button {
