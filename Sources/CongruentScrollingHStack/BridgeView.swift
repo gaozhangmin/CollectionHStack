@@ -5,6 +5,7 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
 
     typealias UIViewType = UICongruentScrollView<Item>
 
+    let allowBouncing: Binding<Bool>
     let allowScrolling: Binding<Bool>
     let bottomInset: CGFloat
     let clipsToBounds: Bool
@@ -47,6 +48,7 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
     func updateUIView(_ view: UIViewType, context: Context) {
         view.updateItems(
             with: items,
+            allowBouncing: allowBouncing.wrappedValue,
             allowScrolling: allowScrolling.wrappedValue
         )
     }

@@ -4,8 +4,8 @@ import OSLog
 import SwiftUI
 
 // TODO: comments/documentation
-// TODO: vertical insets? (like for shadows)
 // TODO: proxy for index selection/paging
+// - look at bindings instead of a proxy object?
 // TODO: did scroll to item with index row?
 // TODO: need to determine way for single item sizing item init (first item init?)
 // - placeholder views?
@@ -16,12 +16,11 @@ import SwiftUI
 // - cancel?
 // - must be fresh
 // - turn off
-// TODO: cols + rows
 // TODO: continuousLeadingBoundary/item paging behavior every X items?
 // TODO: different default insets/spacing for tvOS
 // TODO: tvOS spacing issue with Button focus
 // - can be solved with padding but should do that here (see vertical insets)?
-// TODO: alwaysBounceHorizontal setting
+// TODO: deceleration customization
 
 // MARK: UICongruentScrollView
 
@@ -64,6 +63,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
+
     private let topInset: CGFloat
 
     // view providers
@@ -152,7 +152,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         collectionView.prefetchDataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = nil
-        collectionView.alwaysBounceHorizontal = true
+        collectionView.bounces = true
 
         if scrollBehavior == .columnPaging || scrollBehavior == .fullPaging {
             collectionView.decelerationRate = .fast
@@ -176,7 +176,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         super.layoutSubviews()
 
         size = computeSize()
-        updateItems(with: items, allowScrolling: nil)
+        updateItems(with: items)
     }
 
     /// Computes the size that this view should be based on the effectiveWidth and the total item content height
@@ -284,7 +284,8 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
     func updateItems(
         with newItems: Binding<OrderedSet<Item>>,
-        allowScrolling: Bool?
+        allowBouncing: Bool? = nil,
+        allowScrolling: Bool? = nil
     ) {
 
         let changes = StagedChangeset(
@@ -297,6 +298,10 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
         collectionView.reload(using: changes) { _ in
             // we already set the new binding
+        }
+
+        if let allowBouncing {
+            collectionView.bounces = allowBouncing
         }
 
         if let allowScrolling {

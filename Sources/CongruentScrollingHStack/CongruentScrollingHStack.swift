@@ -6,6 +6,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     @StateObject
     private var sizeObserver = SizeObserver()
 
+    var allowBouncing: Binding<Bool>
     var allowScrolling: Binding<Bool>
     var bottomInset: CGFloat
     var clipsToBounds: Bool
@@ -24,6 +25,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     let viewProvider: (Item) -> any View
 
     init(
+        allowBouncing: Binding<Bool> = .constant(true),
         allowScrolling: Binding<Bool> = .constant(true),
         bottomInset: CGFloat = 0,
         clipsToBounds: Bool = false,
@@ -41,6 +43,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
         topInset: CGFloat = 0,
         viewProvider: @escaping (Item) -> any View
     ) {
+        self.allowBouncing = allowBouncing
         self.allowScrolling = allowScrolling
         self.bottomInset = bottomInset
         self.clipsToBounds = clipsToBounds
@@ -64,6 +67,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
             SizeObserverView(sizeObserver: sizeObserver)
 
             BridgeView(
+                allowBouncing: allowBouncing,
                 allowScrolling: allowScrolling,
                 bottomInset: bottomInset,
                 clipsToBounds: clipsToBounds,

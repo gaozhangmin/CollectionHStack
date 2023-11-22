@@ -70,9 +70,10 @@ struct ContentView: View {
                         Color(hue: Double(i * 5) / 360, saturation: 1, brightness: 1)
                             .aspectRatio(2 / 3, contentMode: .fill)
                             .cornerRadius(5)
-                            .shadow(color: .white, radius: 10, y: 2)
+                            .shadow(radius: 5, y: 2)
                     }
-                    .allowScrolling($allowScrolling)
+//                    .allowScrolling($allowScrolling)
+                    .allowBouncing(true)
                     .asCarousel()
                     .clipsToBounds(false)
                     .scrollBehavior(.continuousLeadingEdge)
