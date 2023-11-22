@@ -7,8 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E10B701A2B0E993F0083FCFD /* MusicGenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B70192B0E993F0083FCFD /* MusicGenreView.swift */; };
+		E10B701C2B0EADCC0083FCFD /* SquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B701B2B0EADCC0083FCFD /* SquareView.swift */; };
+		E10B701F2B0EAEAC0083FCFD /* HeroCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B701E2B0EAEAC0083FCFD /* HeroCard.swift */; };
+		E10B70212B0EB1DD0083FCFD /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B70202B0EB1DD0083FCFD /* HeaderView.swift */; };
+		E10B70232B0EB2410083FCFD /* SingleRowHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B70222B0EB2410083FCFD /* SingleRowHStack.swift */; };
+		E10B70252B0EB3AA0083FCFD /* TwoRowHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B70242B0EB3AA0083FCFD /* TwoRowHStack.swift */; };
+		E10B70272B0EB42A0083FCFD /* SongItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B70262B0EB42A0083FCFD /* SongItem.swift */; };
+		E10B702A2B0EB4BF0083FCFD /* SongsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10B70292B0EB4BF0083FCFD /* SongsRow.swift */; };
+		E119E00D2B0EB7F8007361BF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E119E00C2B0EB7F8007361BF /* ContentView.swift */; };
 		E15BAE0A2B08ADF00086FC31 /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15BAE092B08ADF00086FC31 /* iOSApp.swift */; };
-		E15BAE0C2B08ADF00086FC31 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15BAE0B2B08ADF00086FC31 /* ContentView.swift */; };
+		E15BAE0C2B08ADF00086FC31 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15BAE0B2B08ADF00086FC31 /* ColorView.swift */; };
 		E15BAE0E2B08ADF10086FC31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E15BAE0D2B08ADF10086FC31 /* Assets.xcassets */; };
 		E168CD682B0B2B7F00937566 /* ColorTrailingEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E168CD672B0B2B7F00937566 /* ColorTrailingEdgeView.swift */; };
 		E18D91502B08AE0E0076CE98 /* CongruentScrollingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E18D914F2B08AE0E0076CE98 /* CongruentScrollingHStack */; };
@@ -21,9 +30,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E10B70192B0E993F0083FCFD /* MusicGenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicGenreView.swift; sourceTree = "<group>"; };
+		E10B701B2B0EADCC0083FCFD /* SquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareView.swift; sourceTree = "<group>"; };
+		E10B701E2B0EAEAC0083FCFD /* HeroCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroCard.swift; sourceTree = "<group>"; };
+		E10B70202B0EB1DD0083FCFD /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		E10B70222B0EB2410083FCFD /* SingleRowHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleRowHStack.swift; sourceTree = "<group>"; };
+		E10B70242B0EB3AA0083FCFD /* TwoRowHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoRowHStack.swift; sourceTree = "<group>"; };
+		E10B70262B0EB42A0083FCFD /* SongItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongItem.swift; sourceTree = "<group>"; };
+		E10B70292B0EB4BF0083FCFD /* SongsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsRow.swift; sourceTree = "<group>"; };
+		E119E00C2B0EB7F8007361BF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E15BAE062B08ADF00086FC31 /* iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15BAE092B08ADF00086FC31 /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		E15BAE0B2B08ADF00086FC31 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E15BAE0B2B08ADF00086FC31 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		E15BAE0D2B08ADF10086FC31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E168CD672B0B2B7F00937566 /* ColorTrailingEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTrailingEdgeView.swift; sourceTree = "<group>"; };
 		E1D3C3712B09841A00BFA270 /* tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +72,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E10B701D2B0EAE3F0083FCFD /* MusicGenreView */ = {
+			isa = PBXGroup;
+			children = (
+				E10B70282B0EB4380083FCFD /* Components */,
+				E10B70192B0E993F0083FCFD /* MusicGenreView.swift */,
+			);
+			path = MusicGenreView;
+			sourceTree = "<group>";
+		};
+		E10B70282B0EB4380083FCFD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E10B70202B0EB1DD0083FCFD /* HeaderView.swift */,
+				E10B701E2B0EAEAC0083FCFD /* HeroCard.swift */,
+				E10B70222B0EB2410083FCFD /* SingleRowHStack.swift */,
+				E10B70262B0EB42A0083FCFD /* SongItem.swift */,
+				E10B70292B0EB4BF0083FCFD /* SongsRow.swift */,
+				E10B701B2B0EADCC0083FCFD /* SquareView.swift */,
+				E10B70242B0EB3AA0083FCFD /* TwoRowHStack.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E119E00B2B0EB7F1007361BF /* ColorView */ = {
+			isa = PBXGroup;
+			children = (
+				E119E00E2B0EB8DB007361BF /* Components */,
+				E15BAE0B2B08ADF00086FC31 /* ColorView.swift */,
+			);
+			path = ColorView;
+			sourceTree = "<group>";
+		};
+		E119E00E2B0EB8DB007361BF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E168CD672B0B2B7F00937566 /* ColorTrailingEdgeView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		E15BADFD2B08ADF00086FC31 = {
 			isa = PBXGroup;
 			children = (
@@ -77,8 +135,9 @@
 			isa = PBXGroup;
 			children = (
 				E15BAE092B08ADF00086FC31 /* iOSApp.swift */,
-				E15BAE0B2B08ADF00086FC31 /* ContentView.swift */,
-				E168CD672B0B2B7F00937566 /* ColorTrailingEdgeView.swift */,
+				E119E00C2B0EB7F8007361BF /* ContentView.swift */,
+				E119E00B2B0EB7F1007361BF /* ColorView */,
+				E10B701D2B0EAE3F0083FCFD /* MusicGenreView */,
 				E15BAE0D2B08ADF10086FC31 /* Assets.xcassets */,
 			);
 			path = iOS;
@@ -211,9 +270,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E10B70232B0EB2410083FCFD /* SingleRowHStack.swift in Sources */,
+				E10B701A2B0E993F0083FCFD /* MusicGenreView.swift in Sources */,
+				E119E00D2B0EB7F8007361BF /* ContentView.swift in Sources */,
+				E10B701C2B0EADCC0083FCFD /* SquareView.swift in Sources */,
+				E10B70252B0EB3AA0083FCFD /* TwoRowHStack.swift in Sources */,
 				E168CD682B0B2B7F00937566 /* ColorTrailingEdgeView.swift in Sources */,
-				E15BAE0C2B08ADF00086FC31 /* ContentView.swift in Sources */,
+				E15BAE0C2B08ADF00086FC31 /* ColorView.swift in Sources */,
 				E15BAE0A2B08ADF00086FC31 /* iOSApp.swift in Sources */,
+				E10B70272B0EB42A0083FCFD /* SongItem.swift in Sources */,
+				E10B701F2B0EAEAC0083FCFD /* HeroCard.swift in Sources */,
+				E10B702A2B0EB4BF0083FCFD /* SongsRow.swift in Sources */,
+				E10B70212B0EB1DD0083FCFD /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
