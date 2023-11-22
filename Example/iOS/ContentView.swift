@@ -70,9 +70,11 @@ struct ContentView: View {
                         Color(hue: Double(i * 5) / 360, saturation: 1, brightness: 1)
                             .aspectRatio(2 / 3, contentMode: .fill)
                             .cornerRadius(5)
+                            .shadow(color: .white, radius: 10, y: 2)
                     }
                     .allowScrolling($allowScrolling)
                     .asCarousel()
+                    .clipsToBounds(false)
                     .scrollBehavior(.continuousLeadingEdge)
                 }
             }
@@ -165,39 +167,7 @@ struct ContentView: View {
                     VStack(spacing: 0) {
                         CongruentScrollingHStack(
                             0 ..< 100,
-                            columns: 4,
-                            inset: 0,
-                            spacing: 0
-                        ) { _ in
-                            colors.randomElement()!
-                                .aspectRatio(1, contentMode: .fill)
-                        }
-
-                        CongruentScrollingHStack(
-                            0 ..< 100,
-                            columns: 4,
-                            inset: 0,
-                            spacing: 0
-                        ) { _ in
-                            colors.randomElement()!
-                                .aspectRatio(1, contentMode: .fill)
-                        }
-
-                        CongruentScrollingHStack(
-                            0 ..< 100,
-                            columns: 4,
-                            inset: 0,
-                            spacing: 0
-                        ) { _ in
-                            colors.randomElement()!
-                                .aspectRatio(1, contentMode: .fill)
-                        }
-
-                        CongruentScrollingHStack(
-                            0 ..< 100,
-                            columns: 4,
-                            inset: 0,
-                            spacing: 0
+                            columns: 4
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)

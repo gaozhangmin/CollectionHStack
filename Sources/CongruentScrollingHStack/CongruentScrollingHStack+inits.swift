@@ -15,14 +15,10 @@ public extension CongruentScrollingHStack {
         items: Binding<OrderedSet<Item>>,
         columns: Int,
         columnTrailingInset: CGFloat = 0,
-        horizontalInset: CGFloat = 15,
-        spacing: CGFloat = 10,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: horizontalInset,
             items: items,
-            itemSpacing: spacing,
             layout: .grid(columns: CGFloat(columns), rows: 1, columnTrailingInset: columnTrailingInset),
             viewProvider: content
         )
@@ -31,14 +27,10 @@ public extension CongruentScrollingHStack {
     init(
         items: Binding<OrderedSet<Item>>,
         columns: CGFloat,
-        horizontalInset: CGFloat = 15,
-        spacing: CGFloat = 10,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: horizontalInset,
             items: items,
-            itemSpacing: spacing,
             layout: .grid(columns: columns, rows: 1, columnTrailingInset: 0),
             viewProvider: content
         )
@@ -47,14 +39,10 @@ public extension CongruentScrollingHStack {
     init(
         items: Binding<OrderedSet<Item>>,
         minWidth: CGFloat,
-        inset: CGFloat = 15,
-        spacing: CGFloat = 10,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: inset,
             items: items,
-            itemSpacing: spacing,
             layout: .minimumWidth(columnWidth: minWidth, rows: 0),
             viewProvider: content
         )
@@ -63,15 +51,11 @@ public extension CongruentScrollingHStack {
     init(
         items: Binding<OrderedSet<Item>>,
         rows: Int = 1,
-        inset: CGFloat = 15,
-        spacing: CGFloat = 10,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: inset,
             items: items,
-            itemSpacing: spacing,
             layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
             viewProvider: content
         )
@@ -86,15 +70,11 @@ public extension CongruentScrollingHStack where Item == Int {
     init(
         _ data: Range<Int>,
         rows: Int = 1,
-        inset: CGFloat = 15,
-        spacing: CGFloat = 10,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: inset,
             items: .constant(OrderedSet(data)),
-            itemSpacing: spacing,
             layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
             viewProvider: content
         )
@@ -105,14 +85,10 @@ public extension CongruentScrollingHStack where Item == Int {
         columns: Int,
         rows: Int = 1,
         columnTrailingInset: CGFloat = 0,
-        inset: CGFloat = 15,
-        spacing: CGFloat = 10,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: inset,
             items: .constant(OrderedSet(data)),
-            itemSpacing: spacing,
             layout: .grid(columns: CGFloat(columns), rows: rows, columnTrailingInset: 0),
             viewProvider: content
         )
@@ -121,14 +97,10 @@ public extension CongruentScrollingHStack where Item == Int {
     init(
         _ data: Range<Int>,
         columns: CGFloat,
-        inset: CGFloat = 15,
-        spacing: CGFloat = 10,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: inset,
             items: .constant(OrderedSet(data)),
-            itemSpacing: spacing,
             layout: .grid(columns: columns, rows: 1, columnTrailingInset: 0),
             viewProvider: content
         )
@@ -142,14 +114,10 @@ public extension CongruentScrollingHStack where Item == Int {
     init(
         _ data: ClosedRange<Int>,
         rows: Int = 1,
-        inset: CGFloat = 15,
-        spacing: CGFloat = 10,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            horizontalInset: inset,
             items: .constant(OrderedSet(data)),
-            itemSpacing: spacing,
             layout: .selfSizingSameSize(rows: rows),
             viewProvider: content
         )

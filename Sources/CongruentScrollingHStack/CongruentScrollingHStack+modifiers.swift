@@ -14,8 +14,20 @@ public extension CongruentScrollingHStack {
         copy(modifying: \.isCarousel, to: true)
     }
 
+    func clipsToBounds(_ value: Bool) -> Self {
+        copy(modifying: \.clipsToBounds, to: value)
+    }
+
     func didScrollToItems(_ action: @escaping ([Item]) -> Void) -> Self {
         copy(modifying: \.didScrollToItems, to: action)
+    }
+
+    func horizontalInset(_ inset: CGFloat) -> Self {
+        copy(modifying: \.horizontalInset, to: inset)
+    }
+
+    func itemSpacing(_ spacing: CGFloat) -> Self {
+        copy(modifying: \.itemSpacing, to: spacing)
     }
 
     func onReachedLeadingEdge(offset: CGFloat = 0, _ action: @escaping () -> Void) -> Self {
@@ -30,5 +42,10 @@ public extension CongruentScrollingHStack {
 
     func scrollBehavior(_ scrollBehavior: CongruentScrollingHStackScrollBehavior) -> Self {
         copy(modifying: \.scrollBehavior, to: scrollBehavior)
+    }
+
+    func verticalInsets(top: CGFloat = 0, bottom: CGFloat = 0) -> Self {
+        copy(modifying: \.bottomInset, to: bottom)
+            .copy(modifying: \.topInset, to: top)
     }
 }

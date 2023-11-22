@@ -46,6 +46,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     private let onReachedTrailingEdgeOffset: CGFloat
 
     // internal
+    private let bottomInset: CGFloat
     private var effectiveWidth: CGFloat
     private let horizontalInset: CGFloat
     private var items: Binding<OrderedSet<Item>>
@@ -63,6 +64,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
+    private let topInset: CGFloat
 
     // view providers
     private let viewProvider: (Item) -> any View
@@ -70,6 +72,8 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     // MARK: init
 
     init(
+        bottomInset: CGFloat,
+        clipsToBounds: Bool,
         didScrollToItems: @escaping ([Item]) -> Void,
         horizontalInset: CGFloat,
         isCarousel: Bool,
@@ -82,8 +86,10 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         onReachedTrailingEdgeOffset: CGFloat,
         scrollBehavior: CongruentScrollingHStackScrollBehavior,
         sizeObserver: SizeObserver,
+        topInset: CGFloat,
         viewProvider: @escaping (Item) -> any View
     ) {
+        self.bottomInset = bottomInset
         self.didScrollToItems = didScrollToItems
         self.effectiveWidth = 0
         self.horizontalInset = horizontalInset
@@ -99,6 +105,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         self.prefetchedViewCache = [:]
         self.scrollBehavior = scrollBehavior
         self.size = .zero
+        self.topInset = topInset
         self.viewProvider = viewProvider
 
         super.init(frame: .zero)
@@ -107,6 +114,8 @@ class UICongruentScrollView<Item: Hashable>: UIView,
             self.effectiveWidth = newSize.width
             self.layoutSubviews()
         }
+
+        collectionView.clipsToBounds = clipsToBounds
 
         updateItems(with: items, allowScrolling: nil)
     }
@@ -249,7 +258,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         }
 
         let spacing = (_rows - 1) * itemSpacing
-        let height = singleItemHeight * _rows + spacing
+        let height = singleItemHeight * _rows + spacing + bottomInset + topInset
 
         return CGSize(width: effectiveWidth, height: height)
     }
@@ -412,20 +421,29 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
     private func itemSize(for layout: CongruentScrollingHStackLayout) -> CGSize {
 
+        let _rows: Int
+        let width: CGFloat
+
         switch layout {
         case let .grid(columns, rows, trailingInset):
-            let width = itemWidth(columns: columns, trailingInset: trailingInset)
-            let spacing = (rows - 1) * itemSpacing
-            return CGSize(width: width, height: (size.height - spacing) / rows)
+            _rows = rows
+            width = itemWidth(columns: columns, trailingInset: trailingInset)
 
         case let .minimumWidth(minWidth, rows):
-            let width = itemWidth(minWidth: minWidth)
-            let spacing = (rows - 1) * itemSpacing
-            return CGSize(width: width, height: (size.height - spacing) / rows)
+            _rows = rows
+            width = itemWidth(minWidth: minWidth)
 
         case .selfSizingSameSize, .selfSizingVariadicWidth:
             return singleItemSize()
         }
+
+        let insets = bottomInset + topInset
+        let spacing = (_rows - 1) * itemSpacing
+
+        return CGSize(
+            width: width,
+            height: (size.height - spacing - insets) / _rows
+        )
     }
 
     // MARK: item width

@@ -22,9 +22,7 @@ struct ContentView: View {
             VStack {
                 CongruentScrollingHStack(
                     0 ..< 10,
-                    columns: 1,
-                    inset: 100,
-                    spacing: 10
+                    columns: 1
                 ) { i in
                     Button {
                         print(i)
