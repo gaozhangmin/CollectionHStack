@@ -4,20 +4,29 @@ import SwiftUI
 
 // MARK: CGFloat/Int math
 
+@_disfavoredOverload
 func * (lhs: CGFloat, rhs: Int) -> CGFloat {
     lhs * CGFloat(rhs)
 }
 
+@_disfavoredOverload
 func * (lhs: Int, rhs: CGFloat) -> CGFloat {
     CGFloat(lhs) * rhs
 }
 
+@_disfavoredOverload
 func / (lhs: CGFloat, rhs: Int) -> CGFloat {
     lhs / CGFloat(rhs)
 }
 
+@_disfavoredOverload
 func / (lhs: Int, rhs: CGFloat) -> CGFloat {
     CGFloat(lhs) / rhs
+}
+
+@_disfavoredOverload
+func % (lhs: CGFloat, rhs: CGFloat) -> CGFloat {
+    lhs.truncatingRemainder(dividingBy: rhs)
 }
 
 // MARK: Collection

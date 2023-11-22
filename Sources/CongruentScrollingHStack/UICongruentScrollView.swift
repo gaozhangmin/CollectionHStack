@@ -144,7 +144,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         collectionView.backgroundColor = nil
         collectionView.alwaysBounceHorizontal = true
 
-        if scrollBehavior == .columnPaging {
+        if scrollBehavior == .columnPaging || scrollBehavior == .fullPaging {
             collectionView.decelerationRate = .fast
         }
 
@@ -290,13 +290,6 @@ class UICongruentScrollView<Item: Hashable>: UIView,
                 didReachTrailingSide()
             }
         }
-    }
-
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-
-//        if let layout = collectionView.flowLayout as? ScrollViewStatefulLayout {
-//            layout.scrollViewWillBeginDraggingContentOffset = scrollView.contentOffset.x
-//        }
     }
 
     // TODO: should probably be instead when items just became visible / make separate method?

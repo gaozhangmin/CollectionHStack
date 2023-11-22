@@ -44,44 +44,6 @@ struct ContentView: View {
             ScrollView(showsIndicators: false) {
                 VStack {
 
-                    CongruentScrollingHStack(
-                        0 ..< 9,
-                        columns: 2,
-                        rows: 2,
-                        scrollBehavior: .continuousLeadingEdge
-                    ) { i in
-                        ZStack {
-                            Color.secondary
-                                .opacity(0.2)
-
-                            Text("\(i)")
-                        }
-                        .aspectRatio(1, contentMode: .fill)
-                    }
-
-                    CongruentScrollingHStack(
-                        0 ..< 18,
-                        columns: 3,
-                        scrollBehavior: .columnPaging
-                    ) { i in
-                        ZStack {
-                            Color.secondary
-                                .opacity(0.2)
-
-                            Text("\(i)")
-                        }
-                        .aspectRatio(2 / 3, contentMode: .fill)
-                    }
-                }
-            }
-        }
-    }
-
-    var abody: some View {
-        NavigationView {
-            ScrollView(showsIndicators: false) {
-                VStack {
-
                     CongruentScrollingHStack(0 ..< 10, columns: 1, scrollBehavior: .columnPaging) { _ in
                         AsyncImage(
                             url: URL(string: "https://picsum.photos/750/500"),
@@ -287,7 +249,7 @@ struct ContentView: View {
                             .frame(width: 50 * (CGFloat(i % 3) + 1), height: 200)
                     }
 
-                    CongruentScrollingHStack(0 ..< 5, scrollBehavior: .continuousLeadingEdge, variadicWidths: true) { i in
+                    CongruentScrollingHStack(0 ..< 5, scrollBehavior: .columnPaging, variadicWidths: true) { i in
                         if i == 0 {
                             colors.randomElement()!
                                 .aspectRatio(2 / 3, contentMode: .fill)
