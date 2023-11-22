@@ -17,7 +17,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     var onReachedLeadingSideOffset: CGFloat
     var onReachedTrailingEdge: () -> Void
     var onReachedTrailingEdgeOffset: CGFloat
-    let scrollBehavior: CongruentScrollingHStackScrollBehavior
+    var scrollBehavior: CongruentScrollingHStackScrollBehavior
     let viewProvider: (Item) -> any View
 
     init(
@@ -32,7 +32,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
         onReachedLeadingSideOffset: CGFloat = 0,
         onReachedTrailingEdge: @escaping () -> Void = {},
         onReachedTrailingEdgeOffset: CGFloat = 0,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior,
+        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         viewProvider: @escaping (Item) -> any View
     ) {
         self.allowScrolling = allowScrolling

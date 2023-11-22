@@ -17,7 +17,6 @@ public extension CongruentScrollingHStack {
         columnTrailingInset: CGFloat = 0,
         horizontalInset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -25,7 +24,6 @@ public extension CongruentScrollingHStack {
             items: items,
             itemSpacing: spacing,
             layout: .grid(columns: CGFloat(columns), rows: 1, columnTrailingInset: columnTrailingInset),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
@@ -35,7 +33,6 @@ public extension CongruentScrollingHStack {
         columns: CGFloat,
         horizontalInset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -43,7 +40,6 @@ public extension CongruentScrollingHStack {
             items: items,
             itemSpacing: spacing,
             layout: .grid(columns: columns, rows: 1, columnTrailingInset: 0),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
@@ -53,7 +49,6 @@ public extension CongruentScrollingHStack {
         minWidth: CGFloat,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -61,7 +56,6 @@ public extension CongruentScrollingHStack {
             items: items,
             itemSpacing: spacing,
             layout: .minimumWidth(columnWidth: minWidth, rows: 0),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
@@ -71,7 +65,6 @@ public extension CongruentScrollingHStack {
         rows: Int = 1,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
@@ -80,7 +73,6 @@ public extension CongruentScrollingHStack {
             items: items,
             itemSpacing: spacing,
             layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
@@ -96,7 +88,6 @@ public extension CongruentScrollingHStack where Item == Int {
         rows: Int = 1,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
@@ -105,7 +96,6 @@ public extension CongruentScrollingHStack where Item == Int {
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
             layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
@@ -117,7 +107,6 @@ public extension CongruentScrollingHStack where Item == Int {
         columnTrailingInset: CGFloat = 0,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -125,7 +114,6 @@ public extension CongruentScrollingHStack where Item == Int {
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
             layout: .grid(columns: CGFloat(columns), rows: rows, columnTrailingInset: 0),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
@@ -135,7 +123,6 @@ public extension CongruentScrollingHStack where Item == Int {
         columns: CGFloat,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -143,7 +130,6 @@ public extension CongruentScrollingHStack where Item == Int {
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
             layout: .grid(columns: columns, rows: 1, columnTrailingInset: 0),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }
@@ -158,7 +144,6 @@ public extension CongruentScrollingHStack where Item == Int {
         rows: Int = 1,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
@@ -166,7 +151,6 @@ public extension CongruentScrollingHStack where Item == Int {
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
             layout: .selfSizingSameSize(rows: rows),
-            scrollBehavior: scrollBehavior,
             viewProvider: content
         )
     }

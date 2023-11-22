@@ -27,4 +27,8 @@ public extension CongruentScrollingHStack {
         copy(modifying: \.onReachedTrailingEdge, to: action)
             .copy(modifying: \.onReachedTrailingEdgeOffset, to: offset)
     }
+
+    func scrollBehavior(_ scrollBehavior: CongruentScrollingHStackScrollBehavior) -> Self {
+        copy(modifying: \.scrollBehavior, to: scrollBehavior)
+    }
 }

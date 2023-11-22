@@ -21,6 +21,8 @@ struct ContentView: View {
     var isOnReachedEdgeDescriptionPresented = false
 
     @State
+    var allowScrolling = true
+    @State
     var didReachEdgeColor = Color.red
     @State
     var uuids = OrderedSet((0 ..< 100).map { _ in UUID() })
@@ -44,7 +46,49 @@ struct ContentView: View {
             ScrollView(showsIndicators: false) {
                 VStack {
 
-                    CongruentScrollingHStack(0 ..< 10, columns: 1, scrollBehavior: .columnPaging) { _ in
+                    CongruentScrollingHStack(
+                        0 ..< 4,
+                        columns: 2,
+                        rows: 2
+                    ) { _ in
+                        colors.randomElement()!
+                            .aspectRatio(1, contentMode: .fill)
+                            .cornerRadius(5)
+                    }
+                    .allowScrolling(false)
+
+                    Button {
+                        allowScrolling.toggle()
+                    } label: {
+                        Text("Toggle Scrolling")
+                    }
+
+                    CongruentScrollingHStack(
+                        0 ..< 72,
+                        columns: 3
+                    ) { i in
+                        Color(hue: Double(i * 5) / 360, saturation: 1, brightness: 1)
+                            .aspectRatio(2 / 3, contentMode: .fill)
+                            .cornerRadius(5)
+                    }
+                    .allowScrolling($allowScrolling)
+                    .asCarousel()
+                    .scrollBehavior(.continuousLeadingEdge)
+                }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+    var abody: some View {
+        NavigationView {
+            ScrollView(showsIndicators: false) {
+                VStack {
+
+                    CongruentScrollingHStack(
+                        0 ..< 10,
+                        columns: 1
+                    ) { _ in
                         AsyncImage(
                             url: URL(string: "https://picsum.photos/750/500"),
                             transaction: Transaction(animation: .easeInOut)
@@ -96,8 +140,7 @@ struct ContentView: View {
 
                     CongruentScrollingHStack(
                         0 ..< 72,
-                        columns: 3,
-                        scrollBehavior: .continuousLeadingEdge
+                        columns: 3
                     ) { i in
                         Color(hue: Double(i * 5) / 360, saturation: 1, brightness: 1)
                             .aspectRatio(2 / 3, contentMode: .fill)
@@ -124,8 +167,7 @@ struct ContentView: View {
                             0 ..< 100,
                             columns: 4,
                             inset: 0,
-                            spacing: 0,
-                            scrollBehavior: .continuousLeadingEdge
+                            spacing: 0
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
@@ -135,8 +177,7 @@ struct ContentView: View {
                             0 ..< 100,
                             columns: 4,
                             inset: 0,
-                            spacing: 0,
-                            scrollBehavior: .continuousLeadingEdge
+                            spacing: 0
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
@@ -146,8 +187,7 @@ struct ContentView: View {
                             0 ..< 100,
                             columns: 4,
                             inset: 0,
-                            spacing: 0,
-                            scrollBehavior: .continuousLeadingEdge
+                            spacing: 0
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
@@ -157,8 +197,7 @@ struct ContentView: View {
                             0 ..< 100,
                             columns: 4,
                             inset: 0,
-                            spacing: 0,
-                            scrollBehavior: .continuousLeadingEdge
+                            spacing: 0
                         ) { _ in
                             colors.randomElement()!
                                 .aspectRatio(1, contentMode: .fill)
@@ -179,7 +218,10 @@ struct ContentView: View {
                             .padding()
                     }
 
-                    CongruentScrollingHStack(0 ..< 10, columns: 1, scrollBehavior: .columnPaging) { _ in
+                    CongruentScrollingHStack(
+                        0 ..< 10,
+                        columns: 1
+                    ) { _ in
                         colors.randomElement()!
                             .aspectRatio(3, contentMode: .fill)
                     }
@@ -198,7 +240,9 @@ struct ContentView: View {
                             .padding()
                     }
 
-                    CongruentScrollingHStack(0 ..< 20, scrollBehavior: .continuousLeadingEdge) { _ in
+                    CongruentScrollingHStack(
+                        0 ..< 20
+                    ) { _ in
                         colors.randomElement()!
                             .frame(width: 200, height: 200)
                     }
@@ -219,8 +263,7 @@ struct ContentView: View {
 
                     CongruentScrollingHStack(
                         0 ..< 10,
-                        columns: 1.5,
-                        scrollBehavior: .columnPaging
+                        columns: 1.5
                     ) { _ in
                         HStack(spacing: 0) {
                             Color.purple
@@ -244,12 +287,18 @@ struct ContentView: View {
                             .padding()
                     }
 
-                    CongruentScrollingHStack(0 ..< 20, scrollBehavior: .continuousLeadingEdge, variadicWidths: true) { i in
+                    CongruentScrollingHStack(
+                        0 ..< 20,
+                        variadicWidths: true
+                    ) { i in
                         colors.randomElement()!
                             .frame(width: 50 * (CGFloat(i % 3) + 1), height: 200)
                     }
 
-                    CongruentScrollingHStack(0 ..< 5, scrollBehavior: .columnPaging, variadicWidths: true) { i in
+                    CongruentScrollingHStack(
+                        0 ..< 5,
+                        variadicWidths: true
+                    ) { i in
                         if i == 0 {
                             colors.randomElement()!
                                 .aspectRatio(2 / 3, contentMode: .fill)
