@@ -2,6 +2,10 @@ import SwiftUI
 
 public extension CongruentScrollingHStack {
 
+    func allowScrolling(_ value: Bool) -> Self {
+        copy(modifying: \.allowScrolling, to: .constant(value))
+    }
+
     func allowScrolling(_ binding: Binding<Bool>) -> Self {
         copy(modifying: \.allowScrolling, to: binding)
     }
