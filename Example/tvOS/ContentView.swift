@@ -24,8 +24,7 @@ struct ContentView: View {
                     0 ..< 10,
                     columns: 1,
                     inset: 100,
-                    spacing: 10,
-                    scrollBehavior: .fullPaging
+                    spacing: 10
                 ) { i in
                     Button {
                         print(i)
@@ -37,8 +36,30 @@ struct ContentView: View {
                     .padding(50)
                 }
                 .asCarousel()
+                .scrollBehavior(.fullPaging)
 
-                CongruentScrollingHStack(0 ..< 30, columns: 6.5) { i in
+                CongruentScrollingHStack(
+                    0 ..< 72,
+                    columns: 6
+                ) { i in
+                    Button {
+                        print(i)
+                    } label: {
+                        Color(hue: Double(i * 5) / 360, saturation: 1, brightness: 1)
+                            .aspectRatio(2 / 3, contentMode: .fill)
+                            .cornerRadius(5)
+                    }
+                    .buttonStyle(.card)
+                    .padding()
+                    .padding()
+                }
+                .asCarousel()
+                .scrollBehavior(.continuousLeadingEdge)
+
+                CongruentScrollingHStack(
+                    0 ..< 30,
+                    columns: 6
+                ) { i in
                     Button {
                         print(i)
                     } label: {
@@ -49,8 +70,12 @@ struct ContentView: View {
                     .padding()
                     .padding()
                 }
+                .scrollBehavior(.continuousLeadingEdge)
 
-                CongruentScrollingHStack(0 ..< 30, columns: 6.5) { i in
+                CongruentScrollingHStack(
+                    0 ..< 30,
+                    columns: 6
+                ) { i in
                     Button {
                         print(i)
                     } label: {
@@ -61,8 +86,12 @@ struct ContentView: View {
                     .padding()
                     .padding()
                 }
+                .scrollBehavior(.continuousLeadingEdge)
 
-                CongruentScrollingHStack(0 ..< 30, columns: 6.5) { i in
+                CongruentScrollingHStack(
+                    0 ..< 30,
+                    columns: 6
+                ) { i in
                     Button {
                         print(i)
                     } label: {
@@ -73,18 +102,7 @@ struct ContentView: View {
                     .padding()
                     .padding()
                 }
-
-                CongruentScrollingHStack(0 ..< 30, columns: 6.5) { i in
-                    Button {
-                        print(i)
-                    } label: {
-                        colors.randomElement()!
-                            .aspectRatio(2 / 3, contentMode: .fill)
-                    }
-                    .buttonStyle(.card)
-                    .padding()
-                    .padding()
-                }
+                .scrollBehavior(.continuousLeadingEdge)
             }
         }
         .ignoresSafeArea()
