@@ -75,7 +75,8 @@ class ContinuousLeadingEdgeFlowLayout: UICollectionViewFlowLayout, ColumnAligned
         }
 
         let startOfColumnAttributes = layoutAttributes
-            .striding(by: rows)
+            .chunks(ofCount: rows)
+            .compactMap { $0.max(using: \.bounds.width) }
 
         // TODO: remove when allowing item sizes > collection view width
         guard startOfColumnAttributes.count > 1 else { return proposedContentOffset }
@@ -118,9 +119,9 @@ class ColumnPagingFlowLayout: UICollectionViewFlowLayout, ColumnAlignedLayout {
         // TODO: remove when allowing item sizes > collection view width
         guard layoutAttributes.count > 1 else { return proposedContentOffset }
 
-        // TODO: fix column choosing with items in rect
         let startOfColumnAttributes = layoutAttributes
-            .striding(by: rows)
+            .chunks(ofCount: rows)
+            .compactMap { $0.max(using: \.bounds.width) }
 
         // TODO: remove when allowing item sizes > collection view width
         guard startOfColumnAttributes.count > 1 else { return proposedContentOffset }

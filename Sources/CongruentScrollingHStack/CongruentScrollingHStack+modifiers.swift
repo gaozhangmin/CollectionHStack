@@ -1,6 +1,10 @@
-import Foundation
+import SwiftUI
 
 public extension CongruentScrollingHStack {
+
+    func allowScrolling(_ binding: Binding<Bool>) -> Self {
+        copy(modifying: \.allowScrolling, to: binding)
+    }
 
     func asCarousel() -> Self {
         copy(modifying: \.isCarousel, to: true)

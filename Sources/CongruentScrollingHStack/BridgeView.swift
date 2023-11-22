@@ -5,6 +5,7 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
 
     typealias UIViewType = UICongruentScrollView<Item>
 
+    let allowScrolling: Binding<Bool>
     let didScrollToItems: ([Item]) -> Void
     let horizontalInset: CGFloat
     let isCarousel: Bool
@@ -38,6 +39,9 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
     }
 
     func updateUIView(_ view: UIViewType, context: Context) {
-        view.updateItems(with: items)
+        view.updateItems(
+            with: items,
+            allowScrolling: allowScrolling.wrappedValue
+        )
     }
 }

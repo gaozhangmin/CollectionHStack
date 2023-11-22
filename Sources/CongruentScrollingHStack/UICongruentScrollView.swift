@@ -106,7 +106,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
             self.layoutSubviews()
         }
 
-        updateItems(with: items)
+        updateItems(with: items, allowScrolling: nil)
     }
 
     @available(*, unavailable)
@@ -165,7 +165,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         super.layoutSubviews()
 
         size = computeSize()
-        updateItems(with: items)
+        updateItems(with: items, allowScrolling: nil)
     }
 
     /// Computes the size that this view should be based on the effectiveWidth and the total item content height
@@ -173,7 +173,8 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     /// In the event of an invalid layout, warnings are logged and a corrected layout will be applied instead
     private func computeSize() -> CGSize {
 
-        let height: CGFloat
+        let _rows: Int
+        let singleItemHeight: CGFloat
 
         switch layout {
         case let .grid(columns, rows, trailingInset):
@@ -184,20 +185,17 @@ class UICongruentScrollView<Item: Hashable>: UIView,
                 return computeSize()
             }
 
+            _rows = rows
+
             guard columns > 0 else {
                 logger.warning("Given `columns` is less than or equal to 0, setting to single column display instead.")
                 layout = .grid(columns: 1, rows: rows, columnTrailingInset: trailingInset)
                 return computeSize()
             }
 
-            if let alignedLayout = (collectionView.flowLayout as? ColumnAlignedLayout) {
-                alignedLayout.rows = rows
-            }
-
             let itemWidth = itemSize(for: layout).width
-            let spacing = (rows - 1) * itemSpacing
 
-            height = singleItemSize(width: itemWidth).height * rows + spacing
+            singleItemHeight = singleItemSize(width: itemWidth).height
 
         case let .minimumWidth(minWidth, rows):
 
@@ -213,19 +211,43 @@ class UICongruentScrollView<Item: Hashable>: UIView,
                 return computeSize()
             }
 
-            if let alignedLayout = (collectionView.flowLayout as? ColumnAlignedLayout) {
-                alignedLayout.rows = rows
-            }
+            _rows = rows
 
             let itemWidth = itemSize(for: layout).width
-            let spacing = (rows - 1) * itemSpacing
 
-            height = singleItemSize(width: itemWidth).height * rows + spacing
+            singleItemHeight = singleItemSize(width: itemWidth).height
 
-        case .selfSizingSameSize, .selfSizingVariadicWidth:
+        case let .selfSizingSameSize(rows):
 
-            height = singleItemSize().height
+            guard rows > 0 else {
+                logger.warning("Given `rows` is less than or equal to 0, setting to single row display instead.")
+                layout = .selfSizingSameSize(rows: 1)
+                return computeSize()
+            }
+
+            _rows = rows
+
+            singleItemHeight = singleItemSize().height
+
+        case let .selfSizingVariadicWidth(rows):
+
+            guard rows > 0 else {
+                logger.warning("Given `rows` is less than or equal to 0, setting to single row display instead.")
+                layout = .selfSizingVariadicWidth(rows: 1)
+                return computeSize()
+            }
+
+            _rows = rows
+
+            singleItemHeight = singleItemSize().height
         }
+
+        if let alignedLayout = (collectionView.flowLayout as? ColumnAlignedLayout) {
+            alignedLayout.rows = _rows
+        }
+
+        let spacing = (_rows - 1) * itemSpacing
+        let height = singleItemHeight * _rows + spacing
 
         return CGSize(width: effectiveWidth, height: height)
     }
@@ -249,7 +271,10 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
     // MARK: updateItems
 
-    func updateItems(with newItems: Binding<OrderedSet<Item>>) {
+    func updateItems(
+        with newItems: Binding<OrderedSet<Item>>,
+        allowScrolling: Bool?
+    ) {
 
         let changes = StagedChangeset(
             source: items.wrappedValue.map(\.hashValue),
@@ -261,6 +286,10 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
         collectionView.reload(using: changes) { _ in
             // we already set the new binding
+        }
+
+        if let allowScrolling {
+            collectionView.isScrollEnabled = allowScrolling
         }
     }
 

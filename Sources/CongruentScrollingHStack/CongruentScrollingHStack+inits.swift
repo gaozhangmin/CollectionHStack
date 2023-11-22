@@ -68,6 +68,7 @@ public extension CongruentScrollingHStack {
 
     init(
         items: Binding<OrderedSet<Item>>,
+        rows: Int = 1,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
         scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
@@ -78,7 +79,7 @@ public extension CongruentScrollingHStack {
             horizontalInset: inset,
             items: items,
             itemSpacing: spacing,
-            layout: variadicWidths ? .selfSizingVariadicWidth : .selfSizingSameSize,
+            layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )
@@ -92,6 +93,7 @@ public extension CongruentScrollingHStack where Item == Int {
 
     init(
         _ data: Range<Int>,
+        rows: Int = 1,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
         scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
@@ -102,7 +104,7 @@ public extension CongruentScrollingHStack where Item == Int {
             horizontalInset: inset,
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
-            layout: variadicWidths ? .selfSizingVariadicWidth : .selfSizingSameSize,
+            layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )
@@ -153,6 +155,7 @@ public extension CongruentScrollingHStack where Item == Int {
 
     init(
         _ data: ClosedRange<Int>,
+        rows: Int = 1,
         inset: CGFloat = 15,
         spacing: CGFloat = 10,
         scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
@@ -162,7 +165,7 @@ public extension CongruentScrollingHStack where Item == Int {
             horizontalInset: inset,
             items: .constant(OrderedSet(data)),
             itemSpacing: spacing,
-            layout: .selfSizingSameSize,
+            layout: .selfSizingSameSize(rows: rows),
             scrollBehavior: scrollBehavior,
             viewProvider: content
         )

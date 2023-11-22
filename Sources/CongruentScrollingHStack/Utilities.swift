@@ -29,9 +29,46 @@ func % (lhs: CGFloat, rhs: CGFloat) -> CGFloat {
     lhs.truncatingRemainder(dividingBy: rhs)
 }
 
+// MARK: Array
+
+public extension Array {
+
+    @inlinable
+    func max(using keyPath: KeyPath<Element, some Comparable>) -> Element? {
+        self.max(by: { $0[keyPath: keyPath] < $1[keyPath: keyPath] })
+    }
+}
+
 // MARK: Collection
 
 extension Sequence {
+
+    func chunks(ofCount count: Int) -> [[Element]] {
+
+        guard count > 0 else { return [Array(self)] }
+
+        var results: [[Element]] = []
+        var c: [Element] = []
+        var i = 0
+        var iterator = makeIterator()
+
+        while let e = iterator.next() {
+            if i % count == 0, !c.isEmpty {
+                results.append(c)
+                c = []
+            }
+
+            c.append(e)
+
+            i += 1
+        }
+
+        if !c.isEmpty {
+            results.append(c)
+        }
+
+        return results
+    }
 
     func striding(by step: Int) -> [Element] {
 
@@ -80,21 +117,6 @@ extension UICollectionView {
 
     var flowLayout: UICollectionViewFlowLayout {
         collectionViewLayout as! UICollectionViewFlowLayout
-    }
-
-    var isAtMinContentOffset: Bool {
-        contentOffset == .zero
-    }
-
-    var isAtMaxContentOffset: Bool {
-        contentOffset == maxContentOffset
-    }
-
-    var maxContentOffset: CGPoint {
-        CGPoint(
-            x: contentSize.width - bounds.width,
-            y: contentSize.height - bounds.height
-        )
     }
 }
 

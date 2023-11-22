@@ -6,6 +6,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     @StateObject
     private var sizeObserver = SizeObserver()
 
+    var allowScrolling: Binding<Bool>
     var didScrollToItems: ([Item]) -> Void
     let horizontalInset: CGFloat
     var isCarousel: Bool
@@ -20,8 +21,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     let viewProvider: (Item) -> any View
 
     init(
-        didReachTrailingSide: @escaping () -> Void = {},
-        didReachTrailingSideOffset: CGFloat = 0,
+        allowScrolling: Binding<Bool> = .constant(true),
         didScrollToItems: @escaping ([Item]) -> Void = { _ in },
         horizontalInset: CGFloat,
         isCarousel: Bool = false,
@@ -35,6 +35,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
         scrollBehavior: CongruentScrollingHStackScrollBehavior,
         viewProvider: @escaping (Item) -> any View
     ) {
+        self.allowScrolling = allowScrolling
         self.didScrollToItems = didScrollToItems
         self.horizontalInset = horizontalInset
         self.isCarousel = isCarousel
@@ -54,6 +55,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
             SizeObserverView(sizeObserver: sizeObserver)
 
             BridgeView(
+                allowScrolling: allowScrolling,
                 didScrollToItems: didScrollToItems,
                 horizontalInset: horizontalInset,
                 isCarousel: isCarousel,
