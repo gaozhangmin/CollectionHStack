@@ -5,8 +5,6 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
 
     typealias UIViewType = UICongruentScrollView<Item>
 
-    let didReachTrailingSide: () -> Void
-    let didReachTrailingSideOffset: CGFloat
     let didScrollToItems: ([Item]) -> Void
     let horizontalInset: CGFloat
     let isCarousel: Bool
@@ -15,14 +13,14 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
     let layout: CongruentScrollingHStackLayout
     let onReachedLeadingEdge: () -> Void
     let onReachedLeadingEdgeOffset: CGFloat
+    let onReachedTrailingEdge: () -> Void
+    let onReachedTrailingEdgeOffset: CGFloat
     let scrollBehavior: CongruentScrollingHStackScrollBehavior
     let sizeObserver: SizeObserver
     let viewProvider: (Item) -> any View
 
     func makeUIView(context: Context) -> UIViewType {
         UICongruentScrollView(
-            didReachTrailingSide: didReachTrailingSide,
-            didReachTrailingSideOffset: didReachTrailingSideOffset,
             didScrollToItems: didScrollToItems,
             horizontalInset: horizontalInset,
             isCarousel: isCarousel,
@@ -31,6 +29,8 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
             layout: layout,
             onReachedLeadingEdge: onReachedLeadingEdge,
             onReachedLeadingEdgeOffset: onReachedLeadingEdgeOffset,
+            onReachedTrailingEdge: onReachedTrailingEdge,
+            onReachedTrailingEdgeOffset: onReachedTrailingEdgeOffset,
             scrollBehavior: scrollBehavior,
             sizeObserver: sizeObserver,
             viewProvider: viewProvider

@@ -38,13 +38,12 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     private var isCarousel: Bool
     private var effectiveItemCount = 100
 
-    // TODO: rename didReachTrailingSide -> onReachedTrailingSide
     // events
-    private let didReachTrailingSide: () -> Void
-    private let didReachTrailingSideOffset: CGFloat
     private let didScrollToItems: ([Item]) -> Void
     private let onReachedLeadingEdge: () -> Void
     private let onReachedLeadingEdgeOffset: CGFloat
+    private let onReachedTrailingEdge: () -> Void
+    private let onReachedTrailingEdgeOffset: CGFloat
 
     // internal
     private var effectiveWidth: CGFloat
@@ -70,8 +69,6 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     // MARK: init
 
     init(
-        didReachTrailingSide: @escaping () -> Void,
-        didReachTrailingSideOffset: CGFloat,
         didScrollToItems: @escaping ([Item]) -> Void,
         horizontalInset: CGFloat,
         isCarousel: Bool,
@@ -80,12 +77,12 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         layout: CongruentScrollingHStackLayout,
         onReachedLeadingEdge: @escaping () -> Void,
         onReachedLeadingEdgeOffset: CGFloat,
+        onReachedTrailingEdge: @escaping () -> Void,
+        onReachedTrailingEdgeOffset: CGFloat,
         scrollBehavior: CongruentScrollingHStackScrollBehavior,
         sizeObserver: SizeObserver,
         viewProvider: @escaping (Item) -> any View
     ) {
-        self.didReachTrailingSide = didReachTrailingSide
-        self.didReachTrailingSideOffset = didReachTrailingSideOffset
         self.didScrollToItems = didScrollToItems
         self.effectiveWidth = 0
         self.horizontalInset = horizontalInset
@@ -95,6 +92,8 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         self.layout = layout
         self.onReachedLeadingEdge = onReachedLeadingEdge
         self.onReachedLeadingEdgeOffset = onReachedLeadingEdgeOffset
+        self.onReachedTrailingEdge = onReachedTrailingEdge
+        self.onReachedTrailingEdgeOffset = onReachedTrailingEdgeOffset
         self.prefetchedViewCache = [:]
         self.scrollBehavior = scrollBehavior
         self.size = .zero
@@ -197,7 +196,9 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
             let itemWidth = itemSize(for: layout).width
             let spacing = (rows - 1) * itemSpacing
+
             height = singleItemSize(width: itemWidth).height * rows + spacing
+
         case let .minimumWidth(minWidth, rows):
 
             guard minWidth > 0 else {
@@ -218,8 +219,11 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
             let itemWidth = itemSize(for: layout).width
             let spacing = (rows - 1) * itemSpacing
+
             height = singleItemSize(width: itemWidth).height * rows + spacing
+
         case .selfSizingSameSize, .selfSizingVariadicWidth:
+
             height = singleItemSize().height
         }
 
@@ -283,11 +287,11 @@ class UICongruentScrollView<Item: Hashable>: UIView,
                 collectionView.reloadData()
             }
         } else {
-            let reachPosition = scrollView.contentSize.width - scrollView.bounds.width - didReachTrailingSideOffset
+            let reachPosition = scrollView.contentSize.width - scrollView.bounds.width - onReachedTrailingEdgeOffset
             let reachedTrailing = scrollView.contentOffset.x >= reachPosition
 
             if reachedTrailing {
-                didReachTrailingSide()
+                onReachedTrailingEdge()
             }
         }
     }

@@ -16,7 +16,7 @@ public extension CongruentScrollingHStack {
     }
 
     func onReachedTrailingEdge(offset: CGFloat = 0, _ action: @escaping () -> Void) -> Self {
-        copy(modifying: \.didReachTrailingSide, to: action)
-            .copy(modifying: \.didReachTrailingSideOffset, to: offset)
+        copy(modifying: \.onReachedTrailingEdge, to: action)
+            .copy(modifying: \.onReachedTrailingEdgeOffset, to: offset)
     }
 }

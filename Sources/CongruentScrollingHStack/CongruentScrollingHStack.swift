@@ -6,8 +6,6 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     @StateObject
     private var sizeObserver = SizeObserver()
 
-    var didReachTrailingSide: () -> Void
-    var didReachTrailingSideOffset: CGFloat
     var didScrollToItems: ([Item]) -> Void
     let horizontalInset: CGFloat
     var isCarousel: Bool
@@ -16,6 +14,8 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     let layout: CongruentScrollingHStackLayout
     var onReachedLeadingSide: () -> Void
     var onReachedLeadingSideOffset: CGFloat
+    var onReachedTrailingEdge: () -> Void
+    var onReachedTrailingEdgeOffset: CGFloat
     let scrollBehavior: CongruentScrollingHStackScrollBehavior
     let viewProvider: (Item) -> any View
 
@@ -30,11 +30,11 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
         layout: CongruentScrollingHStackLayout,
         onReachedLeadingSide: @escaping () -> Void = {},
         onReachedLeadingSideOffset: CGFloat = 0,
+        onReachedTrailingEdge: @escaping () -> Void = {},
+        onReachedTrailingEdgeOffset: CGFloat = 0,
         scrollBehavior: CongruentScrollingHStackScrollBehavior,
         viewProvider: @escaping (Item) -> any View
     ) {
-        self.didReachTrailingSide = didReachTrailingSide
-        self.didReachTrailingSideOffset = didReachTrailingSideOffset
         self.didScrollToItems = didScrollToItems
         self.horizontalInset = horizontalInset
         self.isCarousel = isCarousel
@@ -43,6 +43,8 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
         self.layout = layout
         self.onReachedLeadingSide = onReachedLeadingSide
         self.onReachedLeadingSideOffset = onReachedLeadingSideOffset
+        self.onReachedTrailingEdge = onReachedTrailingEdge
+        self.onReachedTrailingEdgeOffset = onReachedTrailingEdgeOffset
         self.scrollBehavior = scrollBehavior
         self.viewProvider = viewProvider
     }
@@ -52,8 +54,6 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
             SizeObserverView(sizeObserver: sizeObserver)
 
             BridgeView(
-                didReachTrailingSide: didReachTrailingSide,
-                didReachTrailingSideOffset: didReachTrailingSideOffset,
                 didScrollToItems: didScrollToItems,
                 horizontalInset: horizontalInset,
                 isCarousel: isCarousel,
@@ -62,6 +62,8 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
                 layout: layout,
                 onReachedLeadingEdge: onReachedLeadingSide,
                 onReachedLeadingEdgeOffset: onReachedLeadingSideOffset,
+                onReachedTrailingEdge: onReachedTrailingEdge,
+                onReachedTrailingEdgeOffset: onReachedTrailingEdgeOffset,
                 scrollBehavior: scrollBehavior,
                 sizeObserver: sizeObserver,
                 viewProvider: viewProvider
