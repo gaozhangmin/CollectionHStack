@@ -52,6 +52,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     private let itemSpacing: CGFloat
     private var itemSize: CGSize!
     private var layout: CongruentScrollingHStackLayout
+    private var onReachedEdgeStore: Set<Edge>
     private var prefetchedViewCache: [Int: UIHostingController<AnyView>]
     private let scrollBehavior: CongruentScrollingHStackScrollBehavior
     private var size: CGSize {
@@ -94,6 +95,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         self.onReachedLeadingEdgeOffset = onReachedLeadingEdgeOffset
         self.onReachedTrailingEdge = onReachedTrailingEdge
         self.onReachedTrailingEdgeOffset = onReachedTrailingEdgeOffset
+        self.onReachedEdgeStore = []
         self.prefetchedViewCache = [:]
         self.scrollBehavior = scrollBehavior
         self.size = .zero
@@ -295,7 +297,6 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
     // MARK: UIScrollViewDelegate
 
-    // TODO: only call methods when going over boundary, not continuously
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         // leading edge
@@ -303,7 +304,12 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         let reachedLeading = scrollView.contentOffset.x <= reachedLeadingPosition
 
         if reachedLeading {
-            onReachedLeadingEdge()
+            if !onReachedEdgeStore.contains(.leading) {
+                onReachedEdgeStore.insert(.leading)
+                onReachedLeadingEdge()
+            }
+        } else {
+            onReachedEdgeStore.remove(.leading)
         }
 
         // trailing edge
@@ -320,7 +326,12 @@ class UICongruentScrollView<Item: Hashable>: UIView,
             let reachedTrailing = scrollView.contentOffset.x >= reachPosition
 
             if reachedTrailing {
-                onReachedTrailingEdge()
+                if !onReachedEdgeStore.contains(.trailing) {
+                    onReachedEdgeStore.insert(.trailing)
+                    onReachedTrailingEdge()
+                }
+            } else {
+                onReachedEdgeStore.remove(.trailing)
             }
         }
     }
