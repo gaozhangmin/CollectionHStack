@@ -22,10 +22,10 @@ struct ContentView: View {
             VStack {
                 CongruentScrollingHStack(
                     0 ..< 10,
-                    columns: 1.2,
-                    inset: 20,
+                    columns: 1,
+                    inset: 100,
                     spacing: 10,
-                    scrollBehavior: .continuousLeadingEdge
+                    scrollBehavior: .fullPaging
                 ) { i in
                     Button {
                         print(i)
@@ -34,9 +34,7 @@ struct ContentView: View {
                             .aspectRatio(3, contentMode: .fill)
                     }
                     .buttonStyle(.card)
-                    .padding()
-                    .padding()
-                    .padding()
+                    .padding(50)
                 }
                 .asCarousel()
 
@@ -91,8 +89,4 @@ struct ContentView: View {
         }
         .ignoresSafeArea()
     }
-}
-
-#Preview {
-    ContentView()
 }
