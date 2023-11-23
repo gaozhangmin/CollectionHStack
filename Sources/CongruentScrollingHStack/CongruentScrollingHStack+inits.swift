@@ -11,51 +11,56 @@ import SwiftUI
 
 public extension CongruentScrollingHStack {
 
+    // whole columns with trailing inset
     init(
-        items: Binding<OrderedSet<Item>>,
+        _ data: Binding<OrderedSet<Item>>,
         columns: Int,
+        rows: Int = 1,
         columnTrailingInset: CGFloat = 0,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            items: items,
-            layout: .grid(columns: CGFloat(columns), rows: 1, columnTrailingInset: columnTrailingInset),
+            items: data,
+            layout: .grid(columns: CGFloat(columns), rows: rows, columnTrailingInset: columnTrailingInset),
             viewProvider: content
         )
     }
 
+    // fractional columns
     init(
-        items: Binding<OrderedSet<Item>>,
+        _ data: Binding<OrderedSet<Item>>,
         columns: CGFloat,
+        rows: Int = 1,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            items: items,
-            layout: .grid(columns: columns, rows: 1, columnTrailingInset: 0),
+            items: data,
+            layout: .grid(columns: columns, rows: rows, columnTrailingInset: 0),
             viewProvider: content
         )
     }
 
     init(
-        items: Binding<OrderedSet<Item>>,
+        _ data: Binding<OrderedSet<Item>>,
         minWidth: CGFloat,
+        rows: Int = 1,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            items: items,
-            layout: .minimumWidth(columnWidth: minWidth, rows: 0),
+            items: data,
+            layout: .minimumWidth(columnWidth: minWidth, rows: rows),
             viewProvider: content
         )
     }
 
     init(
-        items: Binding<OrderedSet<Item>>,
+        _ data: Binding<OrderedSet<Item>>,
         rows: Int = 1,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
-            items: items,
+            items: data,
             layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
             viewProvider: content
         )
@@ -67,6 +72,7 @@ public extension CongruentScrollingHStack {
 // TODO: columns and mindWidth inits
 public extension CongruentScrollingHStack where Item == Int {
 
+    // self sizing
     init(
         _ data: Range<Int>,
         rows: Int = 1,
@@ -89,19 +95,34 @@ public extension CongruentScrollingHStack where Item == Int {
     ) {
         self.init(
             items: .constant(OrderedSet(data)),
-            layout: .grid(columns: CGFloat(columns), rows: rows, columnTrailingInset: 0),
+            layout: .grid(columns: CGFloat(columns), rows: rows, columnTrailingInset: columnTrailingInset),
+            viewProvider: content
+        )
+    }
+
+    // fractional columns
+    init(
+        _ data: Range<Int>,
+        columns: CGFloat,
+        rows: Int = 1,
+        @ViewBuilder content: @escaping (Item) -> any View
+    ) {
+        self.init(
+            items: .constant(OrderedSet(data)),
+            layout: .grid(columns: columns, rows: rows, columnTrailingInset: 0),
             viewProvider: content
         )
     }
 
     init(
         _ data: Range<Int>,
-        columns: CGFloat,
+        minWidth: CGFloat,
+        rows: Int = 1,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
         self.init(
             items: .constant(OrderedSet(data)),
-            layout: .grid(columns: columns, rows: 1, columnTrailingInset: 0),
+            layout: .minimumWidth(columnWidth: minWidth, rows: rows),
             viewProvider: content
         )
     }
@@ -109,17 +130,62 @@ public extension CongruentScrollingHStack where Item == Int {
 
 // MARK: ClosedRange
 
-public extension CongruentScrollingHStack where Item == Int {
+// public extension CongruentScrollingHStack where Item == Int {
+//
+//    init(
+//        _ data: ClosedRange<Int>,
+//        rows: Int = 1,
+//        @ViewBuilder content: @escaping (Item) -> any View
+//    ) {
+//        self.init(
+//            items: .constant(OrderedSet(data)),
+//            layout: .selfSizingSameSize(rows: rows),
+//            viewProvider: content
+//        )
+//    }
+// }
 
-    init(
-        _ data: ClosedRange<Int>,
+// MARK: Sequence
+
+public extension CongruentScrollingHStack {
+
+    init<S: Sequence<Item>>(
+        _ data: S,
+        columns: Int,
         rows: Int = 1,
+        columnTrailingInset: CGFloat = 0,
         @ViewBuilder content: @escaping (Item) -> any View
     ) {
+        if let data = data as? OrderedSet<Item> {
+            self.init(
+                .constant(data),
+                columns: columns,
+                rows: rows,
+                columnTrailingInset: columnTrailingInset,
+                content: content
+            )
+            return
+        }
+
+        if S.self == Set<Item>.self || S.self == OrderedSet<Item>.SubSequence.self {
+            let data = OrderedSet(uncheckedUniqueElements: data)
+
+            self.init(
+                .constant(data),
+                columns: columns,
+                rows: rows,
+                columnTrailingInset: columnTrailingInset,
+                content: content
+            )
+            return
+        }
+
         self.init(
-            items: .constant(OrderedSet(data)),
-            layout: .selfSizingSameSize(rows: rows),
-            viewProvider: content
+            .constant(OrderedSet(data)),
+            columns: columns,
+            rows: rows,
+            columnTrailingInset: columnTrailingInset,
+            content: content
         )
     }
 }

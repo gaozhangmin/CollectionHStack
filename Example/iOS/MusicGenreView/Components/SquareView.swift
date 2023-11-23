@@ -1,22 +1,23 @@
 import SwiftUI
 
-struct SquareView: View {
+extension MusicGenreView {
+    struct SquareView: View {
 
-    let title: String
-    let subtitle: String
+        let album: SampleAlbum
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            Color.secondary
-                .opacity(0.5)
-                .aspectRatio(1, contentMode: .fill)
-                .cornerRadius(5)
+        var body: some View {
+            VStack(alignment: .leading) {
+                album.color
+                    .opacity(0.5)
+                    .aspectRatio(1, contentMode: .fill)
+                    .cornerRadius(5)
 
-            Text(title)
-                .foregroundStyle(.primary)
+                Text(album.album)
+                    .foregroundStyle(.primary)
 
-            Text(subtitle)
-                .foregroundStyle(.secondary)
+                Text(album.artist)
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 }

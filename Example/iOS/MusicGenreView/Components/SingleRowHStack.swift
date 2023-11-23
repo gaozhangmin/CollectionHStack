@@ -1,27 +1,26 @@
 import CongruentScrollingHStack
 import SwiftUI
 
-struct SingleRowHStack: View {
+extension MusicGenreView {
+    struct SingleRowHStack: View {
 
-    let title: String
+        let title: String
 
-    var body: some View {
-        VStack(alignment: .leading) {
-            HeaderView(title: title)
-                .padding(.leading, 18)
+        var body: some View {
+            VStack(alignment: .leading) {
+                HeaderView(title: title)
+                    .padding(.leading, 18)
 
-            CongruentScrollingHStack(
-                0 ..< 20,
-                columns: 2
-            ) { _ in
-                SquareView(
-                    title: "Album Title",
-                    subtitle: "Artist"
-                )
+                CongruentScrollingHStack(
+                    sampleAlbums.random(in: 21 ..< 31),
+                    columns: 2
+                ) { album in
+                    SquareView(album: album)
+                }
+                .scrollBehavior(.continuousLeadingEdge)
+                .horizontalInset(18)
+                .itemSpacing(8)
             }
-            .scrollBehavior(.continuousLeadingEdge)
-            .horizontalInset(18)
-            .itemSpacing(8)
         }
     }
 }

@@ -1,22 +1,25 @@
 import CongruentScrollingHStack
 import SwiftUI
 
-extension MusicGenreView {
-    struct TwoRowHStack: View {
+extension AppStoreAppsView {
 
-        let title: String
+    struct AppStoreEventRow: View {
+
+        let apps: [SampleApp]
 
         var body: some View {
             VStack(alignment: .leading) {
-                HeaderView(title: title)
+
+                Text("Events You Might Like")
+                    .font(.title3)
+                    .fontWeight(.bold)
                     .padding(.leading, 18)
 
                 CongruentScrollingHStack(
-                    sampleAlbums.random(in: 25 ..< 35),
-                    columns: 2,
-                    rows: 2
-                ) { album in
-                    SquareView(album: album)
+                    apps,
+                    columns: 1
+                ) { app in
+                    AppStoreEventRowCard(app: app)
                 }
                 .scrollBehavior(.fullPaging)
                 .horizontalInset(18)

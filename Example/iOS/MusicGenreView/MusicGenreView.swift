@@ -8,10 +8,10 @@ struct MusicGenreView: View {
             VStack(spacing: 20) {
 
                 CongruentScrollingHStack(
-                    0 ..< 20,
+                    sampleAlbums.random(in: 15 ..< 21),
                     columns: 1
-                ) { _ in
-                    HeroCard(title: "Title")
+                ) { album in
+                    HeroCard(album: album)
                 }
                 .scrollBehavior(.fullPaging)
                 .horizontalInset(18)
