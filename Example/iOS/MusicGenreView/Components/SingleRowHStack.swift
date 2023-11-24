@@ -1,4 +1,4 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 extension MusicGenreView {
@@ -11,7 +11,7 @@ extension MusicGenreView {
                 HeaderView(title: title)
                     .padding(.leading, 18)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     sampleAlbums.random(in: 21 ..< 31),
                     columns: 2
                 ) { album in

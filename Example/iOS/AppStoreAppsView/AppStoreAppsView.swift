@@ -1,4 +1,4 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 struct AppStoreAppsView: View {
@@ -7,7 +7,7 @@ struct AppStoreAppsView: View {
         ScrollView {
             VStack(spacing: 30) {
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     sampleApps.shuffled().prefix(20).shuffled(),
                     columns: 1
                 ) { app in

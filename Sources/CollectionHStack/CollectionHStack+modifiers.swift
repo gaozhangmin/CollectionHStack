@@ -1,6 +1,6 @@
 import SwiftUI
 
-public extension CongruentScrollingHStack {
+public extension CollectionHStack {
 
     func allowBouncing(_ value: Bool) -> Self {
         copy(modifying: \.allowBouncing, to: .constant(value))
@@ -48,7 +48,7 @@ public extension CongruentScrollingHStack {
             .copy(modifying: \.onReachedTrailingEdgeOffset, to: offset)
     }
 
-    func scrollBehavior(_ scrollBehavior: CongruentScrollingHStackScrollBehavior) -> Self {
+    func scrollBehavior(_ scrollBehavior: CollectionHStackScrollBehavior) -> Self {
         copy(modifying: \.scrollBehavior, to: scrollBehavior)
     }
 

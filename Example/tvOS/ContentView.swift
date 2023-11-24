@@ -1,7 +1,10 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 struct ContentView: View {
+
+    @FocusState
+    var focusedI: Int?
 
     let colors: [Color] = [
         .blue,
@@ -20,7 +23,10 @@ struct ContentView: View {
     var body: some View {
         ScrollView {
             VStack {
-                CongruentScrollingHStack(
+
+                Text("\(focusedI ?? -1)")
+
+                CollectionHStack(
                     0 ..< 10,
                     columns: 1
                 ) { i in
@@ -32,11 +38,12 @@ struct ContentView: View {
                     }
                     .buttonStyle(.card)
                     .padding(50)
+                    .focused($focusedI, equals: i)
                 }
                 .asCarousel()
                 .scrollBehavior(.fullPaging)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 72,
                     columns: 6
                 ) { i in
@@ -54,7 +61,7 @@ struct ContentView: View {
                 .asCarousel()
                 .scrollBehavior(.continuousLeadingEdge)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 30,
                     columns: 6
                 ) { i in
@@ -70,7 +77,7 @@ struct ContentView: View {
                 }
                 .scrollBehavior(.continuousLeadingEdge)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 30,
                     columns: 6
                 ) { i in
@@ -86,7 +93,7 @@ struct ContentView: View {
                 }
                 .scrollBehavior(.continuousLeadingEdge)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 30,
                     columns: 6
                 ) { i in

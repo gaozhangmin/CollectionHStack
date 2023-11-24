@@ -1,4 +1,4 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 struct LayoutView: View {
@@ -18,7 +18,7 @@ struct LayoutView: View {
                 )
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 3
                 ) { _ in
@@ -47,7 +47,7 @@ struct LayoutView: View {
 
                 ZStack {
                     ScrollView {
-                        CongruentScrollingHStack(
+                        CollectionHStack(
                             0 ..< 20,
                             minWidth: minWidth
                         ) { _ in
@@ -73,7 +73,7 @@ struct LayoutView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 3,
                     columnTrailingInset: 60
@@ -92,7 +92,7 @@ struct LayoutView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 3.5
                 ) { _ in
@@ -114,7 +114,7 @@ struct LayoutView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(0 ..< 20) { _ in
+                CollectionHStack(0 ..< 20) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
                         .frame(height: 200)
@@ -130,7 +130,7 @@ struct LayoutView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     variadicWidths: true
                 ) { i in
@@ -148,7 +148,7 @@ struct LayoutView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 4,
                     rows: 4

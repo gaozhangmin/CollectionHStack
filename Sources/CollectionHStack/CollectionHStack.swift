@@ -1,7 +1,7 @@
 import OrderedCollections
 import SwiftUI
 
-public struct CongruentScrollingHStack<Item: Hashable>: View {
+public struct CollectionHStack<Item: Hashable>: View {
 
     @StateObject
     private var sizeObserver = SizeObserver()
@@ -15,12 +15,12 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
     var isCarousel: Bool
     let items: Binding<OrderedSet<Item>>
     var itemSpacing: CGFloat
-    let layout: CongruentScrollingHStackLayout
+    let layout: CollectionHStackLayout
     var onReachedLeadingSide: () -> Void
     var onReachedLeadingSideOffset: CGFloat
     var onReachedTrailingEdge: () -> Void
     var onReachedTrailingEdgeOffset: CGFloat
-    var scrollBehavior: CongruentScrollingHStackScrollBehavior
+    var scrollBehavior: CollectionHStackScrollBehavior
     var topInset: CGFloat
     let viewProvider: (Item) -> any View
 
@@ -34,12 +34,12 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
         isCarousel: Bool = false,
         items: Binding<OrderedSet<Item>>,
         itemSpacing: CGFloat = 10,
-        layout: CongruentScrollingHStackLayout,
+        layout: CollectionHStackLayout,
         onReachedLeadingSide: @escaping () -> Void = {},
         onReachedLeadingSideOffset: CGFloat = 0,
         onReachedTrailingEdge: @escaping () -> Void = {},
         onReachedTrailingEdgeOffset: CGFloat = 0,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior = .continuous,
+        scrollBehavior: CollectionHStackScrollBehavior = .continuous,
         topInset: CGFloat = 0,
         viewProvider: @escaping (Item) -> any View
     ) {

@@ -3,7 +3,7 @@ import SwiftUI
 
 struct BridgeView<Item: Hashable>: UIViewRepresentable {
 
-    typealias UIViewType = UICongruentScrollView<Item>
+    typealias UIViewType = UICollectionHStack<Item>
 
     let allowBouncing: Binding<Bool>
     let allowScrolling: Binding<Bool>
@@ -14,18 +14,18 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
     let isCarousel: Bool
     let items: Binding<OrderedSet<Item>>
     let itemSpacing: CGFloat
-    let layout: CongruentScrollingHStackLayout
+    let layout: CollectionHStackLayout
     let onReachedLeadingEdge: () -> Void
     let onReachedLeadingEdgeOffset: CGFloat
     let onReachedTrailingEdge: () -> Void
     let onReachedTrailingEdgeOffset: CGFloat
-    let scrollBehavior: CongruentScrollingHStackScrollBehavior
+    let scrollBehavior: CollectionHStackScrollBehavior
     let sizeObserver: SizeObserver
     let topInset: CGFloat
     let viewProvider: (Item) -> any View
 
     func makeUIView(context: Context) -> UIViewType {
-        UICongruentScrollView(
+        UICollectionHStack(
             bottomInset: bottomInset,
             clipsToBounds: clipsToBounds,
             didScrollToItems: didScrollToItems,

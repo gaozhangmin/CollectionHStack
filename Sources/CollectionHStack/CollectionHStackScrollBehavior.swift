@@ -7,7 +7,7 @@ import UIKit
 // get contentoffset from scrollview begin dragging
 // manually compute offset from item widths
 
-public enum CongruentScrollingHStackScrollBehavior {
+public enum CollectionHStackScrollBehavior {
 
     case columnPaging
     case continuous

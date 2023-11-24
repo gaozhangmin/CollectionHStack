@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: Binding<OrderedSet>
 
-public extension CongruentScrollingHStack {
+public extension CollectionHStack {
 
     // whole columns with trailing inset
     init(
@@ -70,7 +70,7 @@ public extension CongruentScrollingHStack {
 // MARK: Range
 
 // TODO: columns and mindWidth inits
-public extension CongruentScrollingHStack where Item == Int {
+public extension CollectionHStack where Item == Int {
 
     // self sizing
     init(
@@ -128,26 +128,9 @@ public extension CongruentScrollingHStack where Item == Int {
     }
 }
 
-// MARK: ClosedRange
-
-// public extension CongruentScrollingHStack where Item == Int {
-//
-//    init(
-//        _ data: ClosedRange<Int>,
-//        rows: Int = 1,
-//        @ViewBuilder content: @escaping (Item) -> any View
-//    ) {
-//        self.init(
-//            items: .constant(OrderedSet(data)),
-//            layout: .selfSizingSameSize(rows: rows),
-//            viewProvider: content
-//        )
-//    }
-// }
-
 // MARK: Sequence
 
-public extension CongruentScrollingHStack {
+public extension CollectionHStack {
 
     init<S: Sequence<Item>>(
         _ data: S,

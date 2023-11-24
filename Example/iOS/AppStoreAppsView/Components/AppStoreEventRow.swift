@@ -1,4 +1,4 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 extension AppStoreAppsView {
@@ -15,7 +15,7 @@ extension AppStoreAppsView {
                     .fontWeight(.bold)
                     .padding(.leading, 18)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     apps,
                     columns: 1
                 ) { app in

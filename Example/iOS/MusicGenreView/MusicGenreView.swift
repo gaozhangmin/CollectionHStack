@@ -1,4 +1,4 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 struct MusicGenreView: View {
@@ -7,7 +7,7 @@ struct MusicGenreView: View {
         ScrollView {
             VStack(spacing: 20) {
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     sampleAlbums.random(in: 15 ..< 21),
                     columns: 1
                 ) { album in

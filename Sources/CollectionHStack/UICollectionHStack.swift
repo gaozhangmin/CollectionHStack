@@ -25,9 +25,9 @@ import SwiftUI
 // - fix layout scrolling?
 // - with animation
 
-// MARK: UICongruentScrollView
+// MARK: UICollectionHStack
 
-class UICongruentScrollView<Item: Hashable>: UIView,
+class UICollectionHStack<Item: Hashable>: UIView,
     UICollectionViewDataSource,
     UICollectionViewDelegate,
     UICollectionViewDelegateFlowLayout,
@@ -54,10 +54,10 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     private var items: Binding<OrderedSet<Item>>
     private let itemSpacing: CGFloat
     private var itemSize: CGSize!
-    private var layout: CongruentScrollingHStackLayout
+    private var layout: CollectionHStackLayout
     private var onReachedEdgeStore: Set<Edge>
     private var prefetchedViewCache: [Int: UIHostingController<AnyView>]
-    private let scrollBehavior: CongruentScrollingHStackScrollBehavior
+    private let scrollBehavior: CollectionHStackScrollBehavior
     private var size: CGSize {
         didSet {
             itemSize = itemSize(for: layout)
@@ -82,12 +82,12 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         isCarousel: Bool,
         items: Binding<OrderedSet<Item>>,
         itemSpacing: CGFloat,
-        layout: CongruentScrollingHStackLayout,
+        layout: CollectionHStackLayout,
         onReachedLeadingEdge: @escaping () -> Void,
         onReachedLeadingEdgeOffset: CGFloat,
         onReachedTrailingEdge: @escaping () -> Void,
         onReachedTrailingEdgeOffset: CGFloat,
-        scrollBehavior: CongruentScrollingHStackScrollBehavior,
+        scrollBehavior: CollectionHStackScrollBehavior,
         sizeObserver: SizeObserver,
         topInset: CGFloat,
         viewProvider: @escaping (Item) -> any View
@@ -402,7 +402,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
 
-        if case CongruentScrollingHStackLayout.selfSizingVariadicWidth = layout {
+        if case CollectionHStackLayout.selfSizingVariadicWidth = layout {
 
             let item = items.wrappedValue[indexPath.row]
 
@@ -428,7 +428,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
     // MARK: item size
 
     /// Precondition: rows > 0
-    private func itemSize(for layout: CongruentScrollingHStackLayout) -> CGSize {
+    private func itemSize(for layout: CollectionHStackLayout) -> CGSize {
 
         let _rows: Int
         let width: CGFloat

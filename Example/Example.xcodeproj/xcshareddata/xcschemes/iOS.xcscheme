@@ -46,9 +46,18 @@
             BlueprintIdentifier = "E15BAE052B08ADF00086FC31"
             BuildableName = "iOS.app"
             BlueprintName = "iOS"
-            ReferencedContainer = "container:CongruentScrollingHStackExample.xcodeproj">
+            ReferencedContainer = "container:Example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "E15BAE052B08ADF00086FC31"
+            BuildableName = "iOS.app"
+            BlueprintName = "iOS"
+            ReferencedContainer = "container:CongruentScrollingHStackExample.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -66,6 +75,15 @@
             ReferencedContainer = "container:CongruentScrollingHStackExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "E15BAE052B08ADF00086FC31"
+            BuildableName = "iOS.app"
+            BlueprintName = "iOS"
+            ReferencedContainer = "container:CongruentScrollingHStackExample.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

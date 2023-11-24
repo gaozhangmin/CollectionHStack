@@ -1,6 +1,6 @@
 import Foundation
 
-enum CongruentScrollingHStackLayout {
+enum CollectionHStackLayout {
 
     case grid(columns: CGFloat, rows: Int, columnTrailingInset: CGFloat)
     case minimumWidth(columnWidth: CGFloat, rows: Int)

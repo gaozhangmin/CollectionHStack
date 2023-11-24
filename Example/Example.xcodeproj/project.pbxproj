@@ -33,15 +33,14 @@
 		E186DC212B0F03F600336B3D /* SampleAlbums.swift in Sources */ = {isa = PBXBuildFile; fileRef = E186DC202B0F03F600336B3D /* SampleAlbums.swift */; };
 		E186DC232B0F153000336B3D /* LayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E186DC222B0F153000336B3D /* LayoutView.swift */; };
 		E186DC262B0F15B600336B3D /* HeaderPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = E186DC252B0F15B600336B3D /* HeaderPopover.swift */; };
-		E18D91502B08AE0E0076CE98 /* CongruentScrollingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E18D914F2B08AE0E0076CE98 /* CongruentScrollingHStack */; };
 		E1CC82362B0F21AA00FD29C1 /* ScrollBehaviorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CC82352B0F21AA00FD29C1 /* ScrollBehaviorView.swift */; };
 		E1CC82382B0F21F800FD29C1 /* OtherBehaviorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CC82372B0F21F800FD29C1 /* OtherBehaviorView.swift */; };
 		E1D3C3742B09841A00BFA270 /* tvOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D3C3732B09841A00BFA270 /* tvOSApp.swift */; };
 		E1D3C3762B09841A00BFA270 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D3C3752B09841A00BFA270 /* ContentView.swift */; };
 		E1D3C3782B09841B00BFA270 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1D3C3772B09841B00BFA270 /* Assets.xcassets */; };
-		E1D3C3812B09844600BFA270 /* CongruentScrollingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E1D3C3802B09844600BFA270 /* CongruentScrollingHStack */; };
-		E1D3C3852B09847F00BFA270 /* CongruentScrollingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E1D3C3842B09847F00BFA270 /* CongruentScrollingHStack */; };
 		E1D3C39D2B09B19D00BFA270 /* AlwaysPopover in Frameworks */ = {isa = PBXBuildFile; productRef = E1D3C39C2B09B19D00BFA270 /* AlwaysPopover */; };
+		E1DDE97D2B107AA6000D96D7 /* CollectionHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E1DDE97C2B107AA6000D96D7 /* CollectionHStack */; };
+		E1DDE97F2B107BE2000D96D7 /* CollectionHStack in Frameworks */ = {isa = PBXBuildFile; productRef = E1DDE97E2B107BE2000D96D7 /* CollectionHStack */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,8 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1D3C39D2B09B19D00BFA270 /* AlwaysPopover in Frameworks */,
-				E1D3C3812B09844600BFA270 /* CongruentScrollingHStack in Frameworks */,
-				E18D91502B08AE0E0076CE98 /* CongruentScrollingHStack in Frameworks */,
+				E1DDE97D2B107AA6000D96D7 /* CollectionHStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1D3C3852B09847F00BFA270 /* CongruentScrollingHStack in Frameworks */,
+				E1DDE97F2B107BE2000D96D7 /* CollectionHStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,9 +244,8 @@
 			);
 			name = iOS;
 			packageProductDependencies = (
-				E18D914F2B08AE0E0076CE98 /* CongruentScrollingHStack */,
-				E1D3C3802B09844600BFA270 /* CongruentScrollingHStack */,
 				E1D3C39C2B09B19D00BFA270 /* AlwaysPopover */,
+				E1DDE97C2B107AA6000D96D7 /* CollectionHStack */,
 			);
 			productName = CongruentScrollingHStackExample;
 			productReference = E15BAE062B08ADF00086FC31 /* iOS.app */;
@@ -268,7 +265,7 @@
 			);
 			name = tvOS;
 			packageProductDependencies = (
-				E1D3C3842B09847F00BFA270 /* CongruentScrollingHStack */,
+				E1DDE97E2B107BE2000D96D7 /* CollectionHStack */,
 			);
 			productName = tvOS;
 			productReference = E1D3C3712B09841A00BFA270 /* tvOS.app */;
@@ -302,8 +299,8 @@
 			);
 			mainGroup = E15BADFD2B08ADF00086FC31;
 			packageReferences = (
-				E1D3C37F2B09844600BFA270 /* XCLocalSwiftPackageReference ".." */,
 				E1D3C39B2B09B19D00BFA270 /* XCRemoteSwiftPackageReference "AlwaysPopover" */,
+				E1DDE97B2B107AA6000D96D7 /* XCLocalSwiftPackageReference ".." */,
 			);
 			productRefGroup = E15BAE072B08ADF00086FC31 /* Products */;
 			projectDirPath = "";
@@ -514,15 +511,15 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CongruentScrollingHStack.iOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CollectionHStackExample.iOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -544,15 +541,15 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CongruentScrollingHStack.iOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CollectionHStackExample.iOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -577,7 +574,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CongruentScrollingHStack.tvOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CollectionHStackExample.tvOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -604,7 +601,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CongruentScrollingHStack.tvOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ethanpippin.CollectionHStackExample.tvOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -647,7 +644,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		E1D3C37F2B09844600BFA270 /* XCLocalSwiftPackageReference ".." */ = {
+		E1DDE97B2B107AA6000D96D7 /* XCLocalSwiftPackageReference ".." */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ..;
 		};
@@ -665,22 +662,18 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E18D914F2B08AE0E0076CE98 /* CongruentScrollingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CongruentScrollingHStack;
-		};
-		E1D3C3802B09844600BFA270 /* CongruentScrollingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CongruentScrollingHStack;
-		};
-		E1D3C3842B09847F00BFA270 /* CongruentScrollingHStack */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CongruentScrollingHStack;
-		};
 		E1D3C39C2B09B19D00BFA270 /* AlwaysPopover */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E1D3C39B2B09B19D00BFA270 /* XCRemoteSwiftPackageReference "AlwaysPopover" */;
 			productName = AlwaysPopover;
+		};
+		E1DDE97C2B107AA6000D96D7 /* CollectionHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CollectionHStack;
+		};
+		E1DDE97E2B107BE2000D96D7 /* CollectionHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CollectionHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

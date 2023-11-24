@@ -1,4 +1,4 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 struct OtherBehaviorView: InterfaceIdiomView {
@@ -25,7 +25,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 )
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 72,
                     columns: 6
                 ) { i in
@@ -44,7 +44,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 10,
                     columns: 6
                 ) { _ in
@@ -83,7 +83,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 6
                 ) { _ in
@@ -115,7 +115,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 6
                 ) { _ in
@@ -137,7 +137,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 Text("Clipped")
                     .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 6
                 ) { _ in
@@ -153,7 +153,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 Text("Not clipped")
                     .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 6
                 ) { _ in
@@ -183,7 +183,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 )
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 72,
                     columns: 3
                 ) { i in
@@ -202,7 +202,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 10,
                     columns: 3
                 ) { _ in
@@ -241,7 +241,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 3
                 ) { _ in
@@ -273,7 +273,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 3
                 ) { _ in
@@ -295,7 +295,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 Text("Clipped")
                     .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 3
                 ) { _ in
@@ -311,7 +311,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 Text("Not clipped")
                     .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 3
                 ) { _ in

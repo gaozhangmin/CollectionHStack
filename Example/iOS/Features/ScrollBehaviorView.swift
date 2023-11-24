@@ -1,4 +1,4 @@
-import CongruentScrollingHStack
+import CollectionHStack
 import SwiftUI
 
 struct ScrollBehaviorView: View {
@@ -15,7 +15,7 @@ struct ScrollBehaviorView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 2
                 ) { _ in
@@ -33,7 +33,7 @@ struct ScrollBehaviorView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 2.5
                 ) { _ in
@@ -52,7 +52,7 @@ struct ScrollBehaviorView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 2.5
                 ) { _ in
@@ -71,7 +71,7 @@ struct ScrollBehaviorView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CongruentScrollingHStack(
+                CollectionHStack(
                     0 ..< 20,
                     columns: 2
                 ) { _ in
