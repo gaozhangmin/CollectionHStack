@@ -21,6 +21,9 @@ import SwiftUI
 // TODO: tvOS spacing issue with Button focus
 // - can be solved with padding but should do that here (see vertical insets)?
 // TODO: deceleration customization
+// TODO: on size changing (see iPadOS with navigation sidebar)
+// - fix layout scrolling?
+// - with animation
 
 // MARK: UICongruentScrollView
 
@@ -424,6 +427,7 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
     // MARK: item size
 
+    /// Precondition: rows > 0
     private func itemSize(for layout: CongruentScrollingHStackLayout) -> CGSize {
 
         let _rows: Int
@@ -444,6 +448,8 @@ class UICongruentScrollView<Item: Hashable>: UIView,
 
         let insets = bottomInset + topInset
         let spacing = (_rows - 1) * itemSpacing
+
+        precondition(_rows > 0)
 
         return CGSize(
             width: width,

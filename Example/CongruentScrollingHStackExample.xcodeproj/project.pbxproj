@@ -24,9 +24,8 @@
 		E13FE2AF2B0EF07C008DBC64 /* LineDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FE2AE2B0EF07C008DBC64 /* LineDivider.swift */; };
 		E13FE2B22B0EF14D008DBC64 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13FE2B12B0EF14D008DBC64 /* Utilities.swift */; };
 		E15BAE0A2B08ADF00086FC31 /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15BAE092B08ADF00086FC31 /* iOSApp.swift */; };
-		E15BAE0C2B08ADF00086FC31 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15BAE0B2B08ADF00086FC31 /* ColorView.swift */; };
 		E15BAE0E2B08ADF10086FC31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E15BAE0D2B08ADF10086FC31 /* Assets.xcassets */; };
-		E168CD682B0B2B7F00937566 /* ColorTrailingEdgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E168CD672B0B2B7F00937566 /* ColorTrailingEdgeView.swift */; };
+		E168CD682B0B2B7F00937566 /* OnEdgeColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E168CD672B0B2B7F00937566 /* OnEdgeColorView.swift */; };
 		E186DC192B0EF5AD00336B3D /* AppStoreEventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E186DC182B0EF5AD00336B3D /* AppStoreEventRow.swift */; };
 		E186DC1B2B0EF85700336B3D /* AppStoreEventRowCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E186DC1A2B0EF85700336B3D /* AppStoreEventRowCard.swift */; };
 		E186DC1D2B0EFAB100336B3D /* GetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E186DC1C2B0EFAB100336B3D /* GetButton.swift */; };
@@ -64,9 +63,8 @@
 		E13FE2B12B0EF14D008DBC64 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E15BAE062B08ADF00086FC31 /* iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15BAE092B08ADF00086FC31 /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		E15BAE0B2B08ADF00086FC31 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		E15BAE0D2B08ADF10086FC31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E168CD672B0B2B7F00937566 /* ColorTrailingEdgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTrailingEdgeView.swift; sourceTree = "<group>"; };
+		E168CD672B0B2B7F00937566 /* OnEdgeColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnEdgeColorView.swift; sourceTree = "<group>"; };
 		E186DC182B0EF5AD00336B3D /* AppStoreEventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEventRow.swift; sourceTree = "<group>"; };
 		E186DC1A2B0EF85700336B3D /* AppStoreEventRowCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreEventRowCard.swift; sourceTree = "<group>"; };
 		E186DC1C2B0EFAB100336B3D /* GetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetButton.swift; sourceTree = "<group>"; };
@@ -124,23 +122,6 @@
 				E10B70292B0EB4BF0083FCFD /* SongsRow.swift */,
 				E10B701B2B0EADCC0083FCFD /* SquareView.swift */,
 				E10B70242B0EB3AA0083FCFD /* TwoRowHStack.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		E119E00B2B0EB7F1007361BF /* ColorView */ = {
-			isa = PBXGroup;
-			children = (
-				E119E00E2B0EB8DB007361BF /* Components */,
-				E15BAE0B2B08ADF00086FC31 /* ColorView.swift */,
-			);
-			path = ColorView;
-			sourceTree = "<group>";
-		};
-		E119E00E2B0EB8DB007361BF /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				E168CD672B0B2B7F00937566 /* ColorTrailingEdgeView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -204,7 +185,6 @@
 				E119E00C2B0EB7F8007361BF /* ContentView.swift */,
 				E13FE2B12B0EF14D008DBC64 /* Utilities.swift */,
 				E119E0112B0ED7C7007361BF /* AppStoreAppsView */,
-				E119E00B2B0EB7F1007361BF /* ColorView */,
 				E186DC242B0F154200336B3D /* Features */,
 				E10B701D2B0EAE3F0083FCFD /* MusicGenreView */,
 				E13FE2B02B0EF093008DBC64 /* SharedComponents */,
@@ -216,11 +196,20 @@
 		E186DC242B0F154200336B3D /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				E1CC823A2B1064D400FD29C1 /* Components */,
 				E186DC222B0F153000336B3D /* LayoutView.swift */,
 				E1CC82372B0F21F800FD29C1 /* OtherBehaviorView.swift */,
 				E1CC82352B0F21AA00FD29C1 /* ScrollBehaviorView.swift */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		E1CC823A2B1064D400FD29C1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E168CD672B0B2B7F00937566 /* OnEdgeColorView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		E1D3C3722B09841A00BFA270 /* tvOS */ = {
@@ -360,11 +349,10 @@
 				E10B701C2B0EADCC0083FCFD /* SquareView.swift in Sources */,
 				E10B70252B0EB3AA0083FCFD /* TwoRowHStack.swift in Sources */,
 				E1CC82362B0F21AA00FD29C1 /* ScrollBehaviorView.swift in Sources */,
-				E168CD682B0B2B7F00937566 /* ColorTrailingEdgeView.swift in Sources */,
+				E168CD682B0B2B7F00937566 /* OnEdgeColorView.swift in Sources */,
 				E1CC82382B0F21F800FD29C1 /* OtherBehaviorView.swift in Sources */,
 				E13FE2AD2B0EEA70008DBC64 /* AppItem.swift in Sources */,
 				E186DC1B2B0EF85700336B3D /* AppStoreEventRowCard.swift in Sources */,
-				E15BAE0C2B08ADF00086FC31 /* ColorView.swift in Sources */,
 				E119E0102B0ED7C3007361BF /* AppStoreAppsView.swift in Sources */,
 				E15BAE0A2B08ADF00086FC31 /* iOSApp.swift in Sources */,
 				E10B70272B0EB42A0083FCFD /* SongItem.swift in Sources */,

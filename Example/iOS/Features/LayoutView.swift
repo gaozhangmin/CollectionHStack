@@ -24,6 +24,7 @@ struct LayoutView: View {
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
+                        .cornerRadius(5)
                 }
 
                 // minwidth
@@ -52,6 +53,7 @@ struct LayoutView: View {
                         ) { _ in
                             Color.blue
                                 .aspectRatio(1.77, contentMode: .fill)
+                                .cornerRadius(5)
                         }
                         .id(minWidth)
                     }
@@ -78,6 +80,7 @@ struct LayoutView: View {
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
+                        .cornerRadius(5)
                 }
 
                 // fractional columns
@@ -99,6 +102,7 @@ struct LayoutView: View {
                         Color.pink
                     }
                     .aspectRatio(2 / 3, contentMode: .fill)
+                    .cornerRadius(5)
                 }
 
                 // self sizing
@@ -114,6 +118,7 @@ struct LayoutView: View {
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
                         .frame(height: 200)
+                        .cornerRadius(5)
                 }
 
                 // variadic widths
@@ -131,6 +136,7 @@ struct LayoutView: View {
                 ) { i in
                     colors[mod: i]
                         .frame(width: 50 * (CGFloat(i % 3) + 1), height: 200)
+                        .cornerRadius(5)
                 }
 
                 // rows
@@ -149,6 +155,7 @@ struct LayoutView: View {
                 ) { _ in
                     Color.blue
                         .aspectRatio(1, contentMode: .fill)
+                        .cornerRadius(5)
                 }
             }
         }

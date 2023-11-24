@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ColorTrailingEdgeView: View {
+struct OnEdgeColorView: View {
 
     @Binding
     var color: Color

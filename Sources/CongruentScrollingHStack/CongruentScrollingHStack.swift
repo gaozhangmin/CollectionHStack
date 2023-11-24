@@ -28,7 +28,7 @@ public struct CongruentScrollingHStack<Item: Hashable>: View {
         allowBouncing: Binding<Bool> = .constant(true),
         allowScrolling: Binding<Bool> = .constant(true),
         bottomInset: CGFloat = 0,
-        clipsToBounds: Bool = false,
+        clipsToBounds: Bool = true,
         didScrollToItems: @escaping ([Item]) -> Void = { _ in },
         horizontalInset: CGFloat = 15,
         isCarousel: Bool = false,

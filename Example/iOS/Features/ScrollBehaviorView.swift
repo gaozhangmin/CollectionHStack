@@ -21,6 +21,7 @@ struct ScrollBehaviorView: View {
                 ) { _ in
                     Color.blue
                         .aspectRatio(1.77, contentMode: .fill)
+                        .cornerRadius(5)
                 }
 
                 // continuous leading edge
@@ -38,6 +39,7 @@ struct ScrollBehaviorView: View {
                 ) { _ in
                     Color.blue
                         .aspectRatio(1.77, contentMode: .fill)
+                        .cornerRadius(5)
                 }
                 .scrollBehavior(.continuousLeadingEdge)
 
@@ -56,6 +58,7 @@ struct ScrollBehaviorView: View {
                 ) { _ in
                     Color.blue
                         .aspectRatio(1.77, contentMode: .fill)
+                        .cornerRadius(5)
                 }
                 .scrollBehavior(.columnPaging)
 
@@ -74,6 +77,7 @@ struct ScrollBehaviorView: View {
                 ) { _ in
                     Color.blue
                         .aspectRatio(1.77, contentMode: .fill)
+                        .cornerRadius(5)
                 }
                 .scrollBehavior(.fullPaging)
             }

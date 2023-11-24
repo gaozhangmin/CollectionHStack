@@ -46,6 +46,8 @@ struct ContentView: View {
             .navigationTitle("Example")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .if(UIDevice.current.userInterfaceIdiom == .phone) { view in
+            view.navigationViewStyle(StackNavigationViewStyle())
+        }
     }
 }

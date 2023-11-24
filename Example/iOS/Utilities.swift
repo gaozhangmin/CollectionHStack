@@ -2,21 +2,17 @@ import Foundation
 import SwiftUI
 
 let colors: [Color] = [
-    .red,
+    .pink,
     .orange,
     .yellow,
     .green,
     .blue,
     .indigo,
     .purple,
-    .pink,
-    .cyan,
-    .teal,
-    .mint,
 ]
 
 func colorWheel(radius: Int) -> Color {
-    Color(hue: Double(radius % 360) / 360, saturation: 1, brightness: 1)
+    Color(hue: Double(radius) / 360, saturation: 1, brightness: 1)
 }
 
 extension Array {
@@ -35,11 +31,41 @@ extension Array {
 extension View {
 
     @ViewBuilder
+    @inlinable
+    func `if`(_ condition: Bool, transform: (Self) -> some View) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+
+    @ViewBuilder
     func scrollDisabledBackport(_ disabled: Bool) -> some View {
         if #available(iOS 16, *) {
             self.scrollDisabled(disabled)
         } else {
             self
+        }
+    }
+}
+
+protocol InterfaceIdiomView: View {
+
+    associatedtype iPadBody: View
+    associatedtype iPhoneBody: View
+
+    var iPadBody: iPadBody { get }
+    var iPhoneBody: iPhoneBody { get }
+}
+
+extension InterfaceIdiomView {
+
+    var body: some View {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            AnyView(self.iPadBody)
+        } else {
+            AnyView(self.iPhoneBody)
         }
     }
 }
