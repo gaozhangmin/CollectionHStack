@@ -18,8 +18,6 @@ import SwiftUI
 // - turn off
 // TODO: continuousLeadingBoundary/item paging behavior every X items?
 // TODO: different default insets/spacing for tvOS
-// TODO: tvOS spacing issue with Button focus
-// - can be solved with padding but should do that here (see vertical insets)?
 // TODO: deceleration customization
 // TODO: on size changing (see iPadOS with navigation sidebar)
 // - fix layout scrolling?

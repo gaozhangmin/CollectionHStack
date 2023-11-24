@@ -22,7 +22,7 @@ struct ContentView: View {
 
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 50) {
 
                 Text("\(focusedI ?? -1)")
 
@@ -37,7 +37,6 @@ struct ContentView: View {
                             .aspectRatio(3, contentMode: .fill)
                     }
                     .buttonStyle(.card)
-                    .padding(50)
                     .focused($focusedI, equals: i)
                 }
                 .asCarousel()
@@ -55,8 +54,6 @@ struct ContentView: View {
                             .cornerRadius(5)
                     }
                     .buttonStyle(.card)
-                    .padding()
-                    .padding()
                 }
                 .asCarousel()
                 .scrollBehavior(.continuousLeadingEdge)
@@ -72,8 +69,6 @@ struct ContentView: View {
                             .aspectRatio(2 / 3, contentMode: .fill)
                     }
                     .buttonStyle(.card)
-                    .padding()
-                    .padding()
                 }
                 .scrollBehavior(.continuousLeadingEdge)
 
@@ -88,8 +83,6 @@ struct ContentView: View {
                             .aspectRatio(2 / 3, contentMode: .fill)
                     }
                     .buttonStyle(.card)
-                    .padding()
-                    .padding()
                 }
                 .scrollBehavior(.continuousLeadingEdge)
 
@@ -104,10 +97,10 @@ struct ContentView: View {
                             .aspectRatio(2 / 3, contentMode: .fill)
                     }
                     .buttonStyle(.card)
-                    .padding()
-                    .padding()
                 }
                 .scrollBehavior(.continuousLeadingEdge)
+
+                Spacer(minLength: 50)
             }
         }
         .ignoresSafeArea()

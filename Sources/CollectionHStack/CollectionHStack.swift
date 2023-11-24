@@ -1,6 +1,16 @@
 import OrderedCollections
 import SwiftUI
 
+#if os(tvOS)
+private let defaultClipsToBounds = false
+private let defaultHorizontalInset: CGFloat = 50
+private let defaultItemSpacing: CGFloat = 40
+#else
+private let defaultClipsToBounds = true
+private let defaultHorizontalInset: CGFloat = 15
+private let defaultItemSpacing: CGFloat = 10
+#endif
+
 public struct CollectionHStack<Item: Hashable>: View {
 
     @StateObject
@@ -28,12 +38,12 @@ public struct CollectionHStack<Item: Hashable>: View {
         allowBouncing: Binding<Bool> = .constant(true),
         allowScrolling: Binding<Bool> = .constant(true),
         bottomInset: CGFloat = 0,
-        clipsToBounds: Bool = true,
+        clipsToBounds: Bool = defaultClipsToBounds,
         didScrollToItems: @escaping ([Item]) -> Void = { _ in },
-        horizontalInset: CGFloat = 15,
+        horizontalInset: CGFloat = defaultHorizontalInset,
         isCarousel: Bool = false,
         items: Binding<OrderedSet<Item>>,
-        itemSpacing: CGFloat = 10,
+        itemSpacing: CGFloat = defaultItemSpacing,
         layout: CollectionHStackLayout,
         onReachedLeadingSide: @escaping () -> Void = {},
         onReachedLeadingSideOffset: CGFloat = 0,

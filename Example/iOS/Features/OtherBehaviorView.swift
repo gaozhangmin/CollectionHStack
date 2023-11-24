@@ -292,7 +292,7 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                Text("Clipped")
+                Text("Clipped (default)")
                     .padding(.leading, 15)
 
                 CollectionHStack(
