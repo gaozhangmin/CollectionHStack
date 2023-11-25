@@ -3,9 +3,6 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @FocusState
-    var focusedI: Int?
-
     let colors: [Color] = [
         .blue,
         .green,
@@ -24,8 +21,6 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: 50) {
 
-                Text("\(focusedI ?? -1)")
-
                 CollectionHStack(
                     0 ..< 10,
                     columns: 1
@@ -37,7 +32,6 @@ struct ContentView: View {
                             .aspectRatio(3, contentMode: .fill)
                     }
                     .buttonStyle(.card)
-                    .focused($focusedI, equals: i)
                 }
                 .asCarousel()
                 .scrollBehavior(.fullPaging)

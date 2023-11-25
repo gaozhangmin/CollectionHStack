@@ -98,6 +98,19 @@ extension Int: ContentEquatable, ContentIdentifiable {}
 
 public extension OrderedSet {
 
+    static func makeSet<S: Sequence<Element>>(from elements: S) -> OrderedSet {
+
+        if let data = elements as? OrderedSet<Element> {
+            return data
+        }
+
+        if S.self == Set<Element>.self || S.self == OrderedSet<Element>.SubSequence.self {
+            return OrderedSet(uncheckedUniqueElements: elements)
+        }
+
+        return OrderedSet(elements)
+    }
+
     @inlinable
     @discardableResult
     mutating func append(checkingContentsOf elements: some Sequence<Element>) -> Bool {
