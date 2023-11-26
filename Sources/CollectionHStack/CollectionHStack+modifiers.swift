@@ -34,9 +34,10 @@ public extension CollectionHStack {
         copy(modifying: \.dataPrefix, to: binding)
     }
 
-    func didScrollToItems(_ action: @escaping ([Item]) -> Void) -> Self {
-        copy(modifying: \.didScrollToItems, to: action)
-    }
+    // TODO: add once behavior defined
+//    func didScrollToElements(_ action: @escaping ([Element]) -> Void) -> Self {
+//        copy(modifying: \.didScrollToElements, to: action)
+//    }
 
     func horizontalInset(_ inset: CGFloat) -> Self {
         copy(modifying: \.horizontalInset, to: inset)

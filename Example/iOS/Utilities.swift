@@ -26,6 +26,10 @@ extension Array {
             .prefix(Int.random(in: range))
             .shuffled()
     }
+
+    mutating func rotate(by step: Int = 1) {
+        append(removeFirst())
+    }
 }
 
 extension View {
@@ -46,26 +50,6 @@ extension View {
             self.scrollDisabled(disabled)
         } else {
             self
-        }
-    }
-}
-
-protocol InterfaceIdiomView: View {
-
-    associatedtype iPadBody: View
-    associatedtype iPhoneBody: View
-
-    var iPadBody: iPadBody { get }
-    var iPhoneBody: iPhoneBody { get }
-}
-
-extension InterfaceIdiomView {
-
-    var body: some View {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            AnyView(self.iPadBody)
-        } else {
-            AnyView(self.iPhoneBody)
         }
     }
 }

@@ -11,7 +11,7 @@ private let defaultHorizontalInset: CGFloat = 15
 private let defaultItemSpacing: CGFloat = 10
 #endif
 
-public struct CollectionHStack<Item: Hashable>: View {
+public struct CollectionHStack<Element: Hashable>: View {
 
     @StateObject
     private var sizeObserver = SizeObserver()
@@ -20,11 +20,11 @@ public struct CollectionHStack<Item: Hashable>: View {
     var allowScrolling: Binding<Bool>
     var bottomInset: CGFloat
     var clipsToBounds: Bool
+    let data: Binding<OrderedSet<Element>>
     var dataPrefix: Binding<Int?>
-    var didScrollToItems: ([Item]) -> Void
+    var didScrollToItems: ([Element]) -> Void
     var horizontalInset: CGFloat
     var isCarousel: Bool
-    let items: Binding<OrderedSet<Item>>
     var itemSpacing: CGFloat
     let layout: CollectionHStackLayout
     var onReachedLeadingSide: () -> Void
@@ -33,18 +33,18 @@ public struct CollectionHStack<Item: Hashable>: View {
     var onReachedTrailingEdgeOffset: CGFloat
     var scrollBehavior: CollectionHStackScrollBehavior
     var topInset: CGFloat
-    let viewProvider: (Item) -> any View
+    let viewProvider: (Element) -> any View
 
     init(
         allowBouncing: Binding<Bool> = .constant(true),
         allowScrolling: Binding<Bool> = .constant(true),
         bottomInset: CGFloat = 0,
         clipsToBounds: Bool = defaultClipsToBounds,
+        data: Binding<OrderedSet<Element>>,
         dataPrefix: Binding<Int?> = .constant(nil),
-        didScrollToItems: @escaping ([Item]) -> Void = { _ in },
+        didScrollToItems: @escaping ([Element]) -> Void = { _ in },
         horizontalInset: CGFloat = defaultHorizontalInset,
         isCarousel: Bool = false,
-        items: Binding<OrderedSet<Item>>,
         itemSpacing: CGFloat = defaultItemSpacing,
         layout: CollectionHStackLayout,
         onReachedLeadingSide: @escaping () -> Void = {},
@@ -53,17 +53,17 @@ public struct CollectionHStack<Item: Hashable>: View {
         onReachedTrailingEdgeOffset: CGFloat = 0,
         scrollBehavior: CollectionHStackScrollBehavior = .continuous,
         topInset: CGFloat = 0,
-        viewProvider: @escaping (Item) -> any View
+        viewProvider: @escaping (Element) -> any View
     ) {
         self.allowBouncing = allowBouncing
         self.allowScrolling = allowScrolling
         self.bottomInset = bottomInset
         self.clipsToBounds = clipsToBounds
+        self.data = data
         self.dataPrefix = dataPrefix
         self.didScrollToItems = didScrollToItems
         self.horizontalInset = horizontalInset
         self.isCarousel = isCarousel
-        self.items = items
         self.itemSpacing = itemSpacing
         self.layout = layout
         self.onReachedLeadingSide = onReachedLeadingSide
@@ -84,11 +84,11 @@ public struct CollectionHStack<Item: Hashable>: View {
                 allowScrolling: allowScrolling,
                 bottomInset: bottomInset,
                 clipsToBounds: clipsToBounds,
+                data: data,
                 dataPrefix: dataPrefix,
                 didScrollToItems: didScrollToItems,
                 horizontalInset: horizontalInset,
                 isCarousel: isCarousel,
-                items: items,
                 itemSpacing: itemSpacing,
                 layout: layout,
                 onReachedLeadingEdge: onReachedLeadingSide,

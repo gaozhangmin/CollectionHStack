@@ -2,7 +2,7 @@ import CollectionHStack
 import OrderedCollections
 import SwiftUI
 
-struct OtherBehaviorView: InterfaceIdiomView {
+struct OtherBehaviorView: View {
 
     @Environment(\.colorScheme)
     var colorScheme
@@ -16,205 +16,9 @@ struct OtherBehaviorView: InterfaceIdiomView {
     @State
     var onEdgeColor = Color.blue
     @State
-    var nums = OrderedSet(0 ..< 20)
+    var colors = OrderedSet((0 ..< 20).map { colorWheel(radius: $0 * 18) })
 
-    // MARK: iPadBody
-
-    var iPadBody: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading) {
-
-                // carousel
-
-                HeaderPopover(
-                    title: "Carousel",
-                    description: "Cells are reused and wrapped around the trailing end"
-                )
-                .padding(.leading, 15)
-
-                CollectionHStack(
-                    0 ..< 72,
-                    columns: 6
-                ) { i in
-                    colorWheel(radius: i * 5)
-                        .aspectRatio(2 / 3, contentMode: .fill)
-                        .cornerRadius(5)
-                }
-                .asCarousel()
-
-                // On edge modifiers
-
-                HeaderPopover(
-                    title: "On edge modifiers",
-                    description: "Modifiers for reaching the leading and trailing edges"
-                )
-                .padding(.top, 30)
-                .padding(.leading, 15)
-
-                CollectionHStack(
-                    0 ..< 10,
-                    columns: 6
-                ) { _ in
-                    OnEdgeColorView(color: $onEdgeColor)
-                }
-                .onReachedLeadingEdge(offset: 10) {
-                    withAnimation {
-                        onEdgeColor = .blue
-                    }
-                }
-                .onReachedTrailingEdge(offset: 10) {
-                    withAnimation {
-                        onEdgeColor = .pink
-                    }
-                }
-
-                // Bouncing
-
-                HStack {
-                    HeaderPopover(
-                        title: "Toggle bouncing",
-                        description: "Enable/disable bouncing"
-                    )
-
-                    Spacer()
-
-                    Button {
-                        allowBouncing.toggle()
-                    } label: {
-                        Text(allowBouncing ? "Disable" : "Enable")
-                            .font(.body.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                            .padding(.trailing, 15)
-                    }
-                }
-                .padding(.top, 30)
-                .padding(.leading, 15)
-
-                CollectionHStack(
-                    0 ..< 20,
-                    columns: 6
-                ) { _ in
-                    Color.blue
-                        .aspectRatio(2 / 3, contentMode: .fill)
-                        .cornerRadius(5)
-                }
-                .allowBouncing($allowBouncing)
-
-                // Scrolling
-
-                HStack {
-                    HeaderPopover(
-                        title: "Toggle scrolling",
-                        description: "Enable/disable scrolling"
-                    )
-
-                    Spacer()
-
-                    Button {
-                        allowScrolling.toggle()
-                    } label: {
-                        Text(allowScrolling ? "Disable" : "Enable")
-                            .font(.body.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                            .padding(.trailing, 15)
-                    }
-                }
-                .padding(.top, 30)
-                .padding(.leading, 15)
-
-                CollectionHStack(
-                    0 ..< 20,
-                    columns: 6
-                ) { _ in
-                    Color.blue
-                        .aspectRatio(2 / 3, contentMode: .fill)
-                        .cornerRadius(5)
-                }
-                .allowScrolling($allowScrolling)
-
-                // Clips to bounds
-
-                HeaderPopover(
-                    title: "Clips to bounds",
-                    description: "Disable clipping cells along the view's bounds"
-                )
-                .padding(.top, 30)
-                .padding(.leading, 15)
-
-                Text("Clipped")
-                    .padding(.leading, 15)
-
-                CollectionHStack(
-                    0 ..< 20,
-                    columns: 6
-                ) { _ in
-                    Color.blue
-                        .aspectRatio(2 / 3, contentMode: .fill)
-                        .cornerRadius(5)
-                        .shadow(
-                            color: colorScheme == .light ? Color.black : Color.white,
-                            radius: 10
-                        )
-                }
-
-                Text("Not clipped")
-                    .padding(.leading, 15)
-
-                CollectionHStack(
-                    0 ..< 20,
-                    columns: 6
-                ) { _ in
-                    Color.blue
-                        .aspectRatio(2 / 3, contentMode: .fill)
-                        .cornerRadius(5)
-                        .shadow(
-                            color: colorScheme == .light ? Color.black : Color.white,
-                            radius: 10
-                        )
-                }
-                .clipsToBounds(false)
-            }
-
-            HStack {
-                HeaderPopover(
-                    title: "Data Prefix",
-                    description: "Enable/disable data prefixing"
-                )
-
-                Spacer()
-
-                Button {
-                    if dataPrefix == nil {
-                        dataPrefix = 5
-                    } else {
-                        dataPrefix = nil
-                    }
-                } label: {
-                    Text(dataPrefix == nil ? "Enable" : "Disable")
-                        .font(.body.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                        .padding(.trailing, 15)
-                }
-            }
-            .padding(.top, 30)
-            .padding(.leading, 15)
-
-            CollectionHStack(
-                $nums,
-                columns: 6
-            ) { _ in
-                Color.blue
-                    .aspectRatio(2 / 3, contentMode: .fill)
-                    .cornerRadius(5)
-            }
-            .dataPrefix($dataPrefix)
-        }
-        .navigationTitle("Other")
-    }
-
-    // MARK: iPhone body
-
-    var iPhoneBody: some View {
+    var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
 
@@ -377,13 +181,31 @@ struct OtherBehaviorView: InterfaceIdiomView {
                     Spacer()
 
                     Button {
+                        colors.shuffle()
+                    } label: {
+                        Image(systemName: "shuffle")
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .padding(.trailing, 15)
+                    }
+
+                    Button {
+                        colors.elements.rotate()
+                    } label: {
+                        Image(systemName: "arrow.circlepath")
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .padding(.trailing, 15)
+                    }
+
+                    Button {
                         if dataPrefix == nil {
-                            dataPrefix = 5
+                            dataPrefix = 3
                         } else {
                             dataPrefix = nil
                         }
                     } label: {
-                        Text(dataPrefix == nil ? "Enable" : "Disable")
+                        Text("Toggle")
                             .font(.body.weight(.semibold))
                             .foregroundStyle(.secondary)
                             .padding(.trailing, 15)
@@ -393,10 +215,10 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    $nums,
+                    $colors,
                     columns: 3
-                ) { _ in
-                    Color.blue
+                ) { color in
+                    color
                         .aspectRatio(2 / 3, contentMode: .fill)
                         .cornerRadius(5)
                 }

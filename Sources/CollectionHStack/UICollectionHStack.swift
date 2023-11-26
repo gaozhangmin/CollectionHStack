@@ -25,7 +25,7 @@ import SwiftUI
 
 // MARK: UICollectionHStack
 
-class UICollectionHStack<Item: Hashable>: UIView,
+class UICollectionHStack<Element: Hashable>: UIView,
     UICollectionViewDataSource,
     UICollectionViewDelegate,
     UICollectionViewDelegateFlowLayout,
@@ -34,8 +34,10 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     private let logger = Logger()
 
+    private var currentHashes: [Int] = []
+
     // events
-    private let didScrollToItems: ([Item]) -> Void
+    private let didScrollToItems: ([Element]) -> Void
     private let onReachedLeadingEdge: () -> Void
     private let onReachedLeadingEdgeOffset: CGFloat
     private let onReachedTrailingEdge: () -> Void
@@ -47,7 +49,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
     private var effectiveWidth: CGFloat
     private let horizontalInset: CGFloat
     private let isCarousel: Bool
-    private var items: Binding<OrderedSet<Item>>
+    private var data: Binding<OrderedSet<Element>>
     private let itemSpacing: CGFloat
     private var itemSize: CGSize!
     private var layout: CollectionHStackLayout
@@ -66,17 +68,17 @@ class UICollectionHStack<Item: Hashable>: UIView,
     private let topInset: CGFloat
 
     // view providers
-    private let viewProvider: (Item) -> any View
+    private let viewProvider: (Element) -> any View
 
     // MARK: init
 
     init(
         bottomInset: CGFloat,
         clipsToBounds: Bool,
-        didScrollToItems: @escaping ([Item]) -> Void,
+        data: Binding<OrderedSet<Element>>,
+        didScrollToItems: @escaping ([Element]) -> Void,
         horizontalInset: CGFloat,
         isCarousel: Bool,
-        items: Binding<OrderedSet<Item>>,
         itemSpacing: CGFloat,
         layout: CollectionHStackLayout,
         onReachedLeadingEdge: @escaping () -> Void,
@@ -86,14 +88,14 @@ class UICollectionHStack<Item: Hashable>: UIView,
         scrollBehavior: CollectionHStackScrollBehavior,
         sizeObserver: SizeObserver,
         topInset: CGFloat,
-        viewProvider: @escaping (Item) -> any View
+        viewProvider: @escaping (Element) -> any View
     ) {
         self.bottomInset = bottomInset
+        self.data = data
         self.didScrollToItems = didScrollToItems
         self.effectiveWidth = 0
         self.horizontalInset = horizontalInset
         self.isCarousel = isCarousel
-        self.items = items
         self.itemSpacing = itemSpacing
         self.layout = layout
         self.onReachedLeadingEdge = onReachedLeadingEdge
@@ -120,7 +122,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
         collectionView.clipsToBounds = clipsToBounds
 
-        updateItems(with: items, allowScrolling: nil)
+        updateItems(with: data, allowScrolling: nil)
     }
 
     @available(*, unavailable)
@@ -179,7 +181,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
         super.layoutSubviews()
 
         size = computeSize()
-        updateItems(with: items)
+        updateItems(with: data)
     }
 
     /// Computes the size that this view should be based on the effectiveWidth and the total item content height
@@ -268,14 +270,14 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     private func singleItemSize(width: CGFloat? = nil) -> CGSize {
 
-        guard !items.wrappedValue.isEmpty else { return .init(width: width ?? 0, height: 0) }
+        guard !data.wrappedValue.isEmpty else { return .init(width: width ?? 0, height: 0) }
 
         let view: AnyView
 
         if let width, width > 0 {
-            view = AnyView(viewProvider(items.wrappedValue[0]).frame(width: width))
+            view = AnyView(viewProvider(data.wrappedValue[0]).frame(width: width))
         } else {
-            view = AnyView(viewProvider(items.wrappedValue[0]))
+            view = AnyView(viewProvider(data.wrappedValue[0]))
         }
 
         let singleItem = UIHostingController(rootView: view)
@@ -287,25 +289,55 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     // values are only updated when not-nil
     func updateItems(
-        with newItems: Binding<OrderedSet<Item>>,
+        with newData: Binding<OrderedSet<Element>>,
         allowBouncing: Bool? = nil,
         allowScrolling: Bool? = nil,
         dataPrefix: Int? = nil
     ) {
 
+        // data
+
         if let dataPrefix, dataPrefix > 0 {
-            effectiveItemCount = min(dataPrefix, newItems.wrappedValue.count)
+
+            let newHashes = newData.wrappedValue.map(\.hashValue).prefix(dataPrefix)
+
+            let changes = StagedChangeset(
+                source: currentHashes[0...],
+                target: newHashes,
+                section: 0
+            )
+
+            data = newData
+
+            collectionView.reload(using: changes) { data in
+                self.effectiveItemCount = data.count
+                self.currentHashes = Array(newHashes)
+            }
         } else {
-            effectiveItemCount = newItems.wrappedValue.count
+
+            let newHashes = newData.wrappedValue.map(\.hashValue)
+
+            let changes = StagedChangeset(
+                source: currentHashes,
+                target: newHashes,
+                section: 0
+            )
+
+            data = newData
+
+            collectionView.reload(using: changes) { data in
+                self.effectiveItemCount = data.count
+                self.currentHashes = newHashes
+            }
         }
 
-        items = newItems
-
-        collectionView.reloadData()
+        // allowBouncing
 
         if let allowBouncing {
             collectionView.bounces = allowBouncing
         }
+
+        // allowScrolling
 
         if let allowScrolling {
             collectionView.isScrollEnabled = allowScrolling
@@ -359,7 +391,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
         let visibleItems = collectionView
             .indexPathsForVisibleItems
-            .map { items.wrappedValue[$0.row % items.wrappedValue.count] }
+            .map { data.wrappedValue[$0.row % data.wrappedValue.count] }
 
         didScrollToItems(visibleItems)
     }
@@ -378,7 +410,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
             for: indexPath
         ) as! HostingCollectionViewCell
 
-        let item = items.wrappedValue[indexPath.row % items.wrappedValue.count]
+        let item = data.wrappedValue[indexPath.row % data.wrappedValue.count]
 
         if let premade = prefetchedViewCache[item.hashValue] {
             cell.setupHostingView(premade: premade)
@@ -400,7 +432,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
         if case CollectionHStackLayout.selfSizingVariadicWidth = layout {
 
-            let item = items.wrappedValue[indexPath.row]
+            let item = data.wrappedValue[indexPath.row]
 
             if let prefetch = prefetchedViewCache[item.hashValue] {
                 prefetch.view.sizeToFit()
@@ -510,7 +542,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
     // TODO: see if these actually do anything regarding prefetching images/View.onAppear
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
 
-        let fetchedItems: [Item] = indexPaths.map { items.wrappedValue[$0.row % items.wrappedValue.count] }
+        let fetchedItems = indexPaths.map { data.wrappedValue[$0.row % data.wrappedValue.count] }
 
         for item in fetchedItems where !prefetchedViewCache.keys.contains(item.hashValue) {
             let premade = UIHostingController(rootView: AnyView(viewProvider(item)))
@@ -520,7 +552,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
 
-        let fetchedItems: [Item] = indexPaths.map { items.wrappedValue[$0.row % items.wrappedValue.count] }
+        let fetchedItems = indexPaths.map { data.wrappedValue[$0.row % data.wrappedValue.count] }
 
         for item in fetchedItems where !prefetchedViewCache.keys.contains(item.hashValue) {
             prefetchedViewCache.removeValue(forKey: item.hashValue)
