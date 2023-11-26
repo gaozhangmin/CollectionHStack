@@ -34,10 +34,6 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     private let logger = Logger()
 
-    // carousel
-    private var isCarousel: Bool
-    private var effectiveItemCount = 100
-
     // events
     private let didScrollToItems: ([Item]) -> Void
     private let onReachedLeadingEdge: () -> Void
@@ -47,8 +43,10 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     // internal
     private let bottomInset: CGFloat
+    private var effectiveItemCount = 0
     private var effectiveWidth: CGFloat
     private let horizontalInset: CGFloat
+    private let isCarousel: Bool
     private var items: Binding<OrderedSet<Item>>
     private let itemSpacing: CGFloat
     private var itemSize: CGSize!
@@ -110,6 +108,10 @@ class UICollectionHStack<Item: Hashable>: UIView,
         self.viewProvider = viewProvider
 
         super.init(frame: .zero)
+
+        if isCarousel {
+            effectiveItemCount = 100
+        }
 
         sizeObserver.onSizeChanged = { newSize in
             self.effectiveWidth = newSize.width
@@ -283,23 +285,23 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     // MARK: updateItems
 
+    // values are only updated when not-nil
     func updateItems(
         with newItems: Binding<OrderedSet<Item>>,
         allowBouncing: Bool? = nil,
-        allowScrolling: Bool? = nil
+        allowScrolling: Bool? = nil,
+        dataPrefix: Int? = nil
     ) {
 
-        let changes = StagedChangeset(
-            source: items.wrappedValue.map(\.hashValue),
-            target: newItems.wrappedValue.map(\.hashValue),
-            section: 0
-        )
+        if let dataPrefix, dataPrefix > 0 {
+            effectiveItemCount = min(dataPrefix, newItems.wrappedValue.count)
+        } else {
+            effectiveItemCount = newItems.wrappedValue.count
+        }
 
         items = newItems
 
-        collectionView.reload(using: changes) { _ in
-            // we already set the new binding
-        }
+        collectionView.reloadData()
 
         if let allowBouncing {
             collectionView.bounces = allowBouncing
@@ -366,11 +368,7 @@ class UICollectionHStack<Item: Hashable>: UIView,
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        if isCarousel {
-            effectiveItemCount
-        } else {
-            items.wrappedValue.count
-        }
+        effectiveItemCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

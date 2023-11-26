@@ -9,6 +9,7 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
     let allowScrolling: Binding<Bool>
     let bottomInset: CGFloat
     let clipsToBounds: Bool
+    let dataPrefix: Binding<Int?>
     let didScrollToItems: ([Item]) -> Void
     let horizontalInset: CGFloat
     let isCarousel: Bool
@@ -49,7 +50,8 @@ struct BridgeView<Item: Hashable>: UIViewRepresentable {
         view.updateItems(
             with: items,
             allowBouncing: allowBouncing.wrappedValue,
-            allowScrolling: allowScrolling.wrappedValue
+            allowScrolling: allowScrolling.wrappedValue,
+            dataPrefix: dataPrefix.wrappedValue
         )
     }
 }

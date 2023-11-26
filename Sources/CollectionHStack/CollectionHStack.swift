@@ -20,6 +20,7 @@ public struct CollectionHStack<Item: Hashable>: View {
     var allowScrolling: Binding<Bool>
     var bottomInset: CGFloat
     var clipsToBounds: Bool
+    var dataPrefix: Binding<Int?>
     var didScrollToItems: ([Item]) -> Void
     var horizontalInset: CGFloat
     var isCarousel: Bool
@@ -39,6 +40,7 @@ public struct CollectionHStack<Item: Hashable>: View {
         allowScrolling: Binding<Bool> = .constant(true),
         bottomInset: CGFloat = 0,
         clipsToBounds: Bool = defaultClipsToBounds,
+        dataPrefix: Binding<Int?> = .constant(nil),
         didScrollToItems: @escaping ([Item]) -> Void = { _ in },
         horizontalInset: CGFloat = defaultHorizontalInset,
         isCarousel: Bool = false,
@@ -57,6 +59,7 @@ public struct CollectionHStack<Item: Hashable>: View {
         self.allowScrolling = allowScrolling
         self.bottomInset = bottomInset
         self.clipsToBounds = clipsToBounds
+        self.dataPrefix = dataPrefix
         self.didScrollToItems = didScrollToItems
         self.horizontalInset = horizontalInset
         self.isCarousel = isCarousel
@@ -81,6 +84,7 @@ public struct CollectionHStack<Item: Hashable>: View {
                 allowScrolling: allowScrolling,
                 bottomInset: bottomInset,
                 clipsToBounds: clipsToBounds,
+                dataPrefix: dataPrefix,
                 didScrollToItems: didScrollToItems,
                 horizontalInset: horizontalInset,
                 isCarousel: isCarousel,

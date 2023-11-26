@@ -26,6 +26,14 @@ public extension CollectionHStack {
         copy(modifying: \.clipsToBounds, to: value)
     }
 
+    func dataPrefix(_ prefix: Int?) -> Self {
+        copy(modifying: \.dataPrefix, to: .constant(prefix))
+    }
+
+    func dataPrefix(_ binding: Binding<Int?>) -> Self {
+        copy(modifying: \.dataPrefix, to: binding)
+    }
+
     func didScrollToItems(_ action: @escaping ([Item]) -> Void) -> Self {
         copy(modifying: \.didScrollToItems, to: action)
     }

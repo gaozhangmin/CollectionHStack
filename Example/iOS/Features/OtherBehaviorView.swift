@@ -1,4 +1,5 @@
 import CollectionHStack
+import OrderedCollections
 import SwiftUI
 
 struct OtherBehaviorView: InterfaceIdiomView {
@@ -11,7 +12,13 @@ struct OtherBehaviorView: InterfaceIdiomView {
     @State
     var allowScrolling = true
     @State
+    var dataPrefix: Int? = nil
+    @State
     var onEdgeColor = Color.blue
+    @State
+    var nums = OrderedSet(0 ..< 20)
+
+    // MARK: iPadBody
 
     var iPadBody: some View {
         ScrollView(showsIndicators: false) {
@@ -167,9 +174,45 @@ struct OtherBehaviorView: InterfaceIdiomView {
                 }
                 .clipsToBounds(false)
             }
+
+            HStack {
+                HeaderPopover(
+                    title: "Data Prefix",
+                    description: "Enable/disable data prefixing"
+                )
+
+                Spacer()
+
+                Button {
+                    if dataPrefix == nil {
+                        dataPrefix = 5
+                    } else {
+                        dataPrefix = nil
+                    }
+                } label: {
+                    Text(dataPrefix == nil ? "Enable" : "Disable")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .padding(.trailing, 15)
+                }
+            }
+            .padding(.top, 30)
+            .padding(.leading, 15)
+
+            CollectionHStack(
+                $nums,
+                columns: 6
+            ) { _ in
+                Color.blue
+                    .aspectRatio(2 / 3, contentMode: .fill)
+                    .cornerRadius(5)
+            }
+            .dataPrefix($dataPrefix)
         }
         .navigationTitle("Other")
     }
+
+    // MARK: iPhone body
 
     var iPhoneBody: some View {
         ScrollView(showsIndicators: false) {
@@ -324,6 +367,40 @@ struct OtherBehaviorView: InterfaceIdiomView {
                         )
                 }
                 .clipsToBounds(false)
+
+                HStack {
+                    HeaderPopover(
+                        title: "Data Prefix",
+                        description: "Enable/disable data prefixing"
+                    )
+
+                    Spacer()
+
+                    Button {
+                        if dataPrefix == nil {
+                            dataPrefix = 5
+                        } else {
+                            dataPrefix = nil
+                        }
+                    } label: {
+                        Text(dataPrefix == nil ? "Enable" : "Disable")
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .padding(.trailing, 15)
+                    }
+                }
+                .padding(.top, 30)
+                .padding(.leading, 15)
+
+                CollectionHStack(
+                    $nums,
+                    columns: 3
+                ) { _ in
+                    Color.blue
+                        .aspectRatio(2 / 3, contentMode: .fill)
+                        .cornerRadius(5)
+                }
+                .dataPrefix($dataPrefix)
             }
         }
         .navigationTitle("Other")
