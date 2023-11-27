@@ -2,7 +2,7 @@ import Foundation
 import OrderedCollections
 import SwiftUI
 
-// TODO: look at macros?
+// TODO: allow binding to any sequence with init(uncheckedUniqueElements:)?
 // TODO: on tvOS, focus updates cause reconstructions of the non-binding init sets
 
 // MARK: Binding<OrderedSet>
@@ -69,7 +69,6 @@ public extension CollectionHStack {
 
 // MARK: Range
 
-// TODO: columns and mindWidth inits
 public extension CollectionHStack where Element == Int {
 
     // columns
@@ -99,6 +98,7 @@ public extension CollectionHStack where Element == Int {
         self.init(
             .constant(OrderedSet(data)),
             columns: columns,
+            rows: rows,
             content: content
         )
     }
@@ -147,7 +147,7 @@ public extension CollectionHStack {
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet.makeSet(from: data)),
+            .constant(OrderedSet(data)),
             columns: columns,
             rows: rows,
             columnTrailingInset: columnTrailingInset,
@@ -163,8 +163,9 @@ public extension CollectionHStack {
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet.makeSet(from: data)),
+            .constant(OrderedSet(data)),
             columns: columns,
+            rows: rows,
             content: content
         )
     }
@@ -177,7 +178,7 @@ public extension CollectionHStack {
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet.makeSet(from: data)),
+            .constant(OrderedSet(data)),
             minWidth: minWidth,
             rows: rows,
             content: content
@@ -192,7 +193,7 @@ public extension CollectionHStack {
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet.makeSet(from: data)),
+            .constant(OrderedSet(data)),
             rows: rows,
             variadicWidths: variadicWidths,
             content: content

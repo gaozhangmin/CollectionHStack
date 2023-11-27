@@ -299,10 +299,10 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
         if let dataPrefix, dataPrefix > 0 {
 
-            let newHashes = newData.wrappedValue.map(\.hashValue).prefix(dataPrefix)
+            let newHashes = Array(newData.wrappedValue.map(\.hashValue).prefix(dataPrefix))
 
             let changes = StagedChangeset(
-                source: currentHashes[0...],
+                source: currentHashes,
                 target: newHashes,
                 section: 0
             )
@@ -311,7 +311,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
             collectionView.reload(using: changes) { data in
                 self.effectiveItemCount = data.count
-                self.currentHashes = Array(newHashes)
+                self.currentHashes = newHashes
             }
         } else {
 

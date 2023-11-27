@@ -2,6 +2,16 @@ import CollectionHStack
 import SwiftUI
 
 struct ScrollBehaviorView: View {
+
+    enum ColumnOptions: String, CaseIterable {
+        case oneRow = "One Row"
+        case twoRows = "Two Rows"
+        case variadicWidths = "Variadic Widths"
+    }
+
+    @State
+    var columnOption: ColumnOptions = .oneRow
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
@@ -26,22 +36,52 @@ struct ScrollBehaviorView: View {
 
                 // continuous leading edge
 
-                HeaderPopover(
-                    title: "Continuous Leading edge",
-                    description: "Continuously scroll and align along the leading edge of the leading item"
-                )
-                .padding(.top, 30)
-                .padding(.leading, 15)
+                HStack {
+                    HeaderPopover(
+                        title: "Continuous Leading edge",
+                        description: "Continuously scroll and align along the leading edge of the column"
+                    )
 
-                CollectionHStack(
-                    0 ..< 20,
-                    columns: 2.5
-                ) { _ in
-                    Color.blue
-                        .aspectRatio(1.77, contentMode: .fill)
-                        .cornerRadius(5)
+                    Spacer()
+
+                    Menu {
+                        ForEach(ColumnOptions.allCases, id: \.rawValue) { option in
+                            Button(option.rawValue) {
+                                columnOption = option
+                            }
+                        }
+                    } label: {
+                        Text(columnOption.rawValue)
+                    }
                 }
-                .scrollBehavior(.continuousLeadingEdge)
+                .padding(.top, 30)
+                .padding(.horizontal, 15)
+
+                if columnOption == .variadicWidths {
+                    CollectionHStack(
+                        0 ..< 40,
+                        rows: 2,
+                        variadicWidths: true
+                    ) { i in
+                        Color.blue
+                            .cornerRadius(5)
+                            .frame(width: CGFloat(i % 4 + 1) * 50, height: 100)
+                    }
+                    .scrollBehavior(.continuousLeadingEdge)
+                    .id(columnOption)
+                } else {
+                    CollectionHStack(
+                        0 ..< 20,
+                        columns: 2.5,
+                        rows: columnOption == .oneRow ? 1 : 2
+                    ) { _ in
+                        Color.blue
+                            .aspectRatio(1.77, contentMode: .fill)
+                            .cornerRadius(5)
+                    }
+                    .scrollBehavior(.continuousLeadingEdge)
+                    .id(columnOption)
+                }
 
                 // column paging
 
