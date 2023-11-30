@@ -23,6 +23,7 @@ import SwiftUI
 // - fix layout scrolling?
 // - with animation
 // TODO: Change to EdgeInsets instead of individual values
+// TODO: guard against negative sizes (why is this happening?)
 
 // MARK: UICollectionHStack
 
