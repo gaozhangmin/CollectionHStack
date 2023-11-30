@@ -22,6 +22,7 @@ import SwiftUI
 // TODO: on size changing (see iPadOS with navigation sidebar)
 // - fix layout scrolling?
 // - with animation
+// TODO: Change to EdgeInsets instead of individual values
 
 // MARK: UICollectionHStack
 
@@ -45,7 +46,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
     // internal
     private let bottomInset: CGFloat
-    private var effectiveItemCount = 0
+    private var effectiveItemCount: Int
     private var effectiveWidth: CGFloat
     private let horizontalInset: CGFloat
     private let isCarousel: Bool
@@ -93,6 +94,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
         self.bottomInset = bottomInset
         self.data = data
         self.didScrollToItems = didScrollToItems
+        self.effectiveItemCount = 0
         self.effectiveWidth = 0
         self.horizontalInset = horizontalInset
         self.isCarousel = isCarousel
