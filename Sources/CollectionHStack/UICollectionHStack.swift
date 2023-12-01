@@ -125,7 +125,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
         collectionView.clipsToBounds = clipsToBounds
 
-        updateItems(with: data, allowScrolling: nil)
+        update(with: data, allowScrolling: nil)
     }
 
     @available(*, unavailable)
@@ -184,7 +184,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
         super.layoutSubviews()
 
         size = computeSize()
-        updateItems(with: data)
+        update(with: data)
     }
 
     /// Computes the size that this view should be based on the effectiveWidth and the total item content height
@@ -288,10 +288,9 @@ class UICollectionHStack<Element: Hashable>: UIView,
         return singleItem.view.bounds.size
     }
 
-    // MARK: updateItems
+    // MARK: update
 
-    // values are only updated when not-nil
-    func updateItems(
+    func update(
         with newData: Binding<OrderedSet<Element>>,
         allowBouncing: Bool? = nil,
         allowScrolling: Bool? = nil,
@@ -347,6 +346,69 @@ class UICollectionHStack<Element: Hashable>: UIView,
         }
     }
 
+    // MARK: UICollectionViewDataSource
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+        effectiveItemCount
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: HostingCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! HostingCollectionViewCell
+
+        let item = data.wrappedValue[indexPath.row % data.wrappedValue.count]
+
+        if let premade = prefetchedViewCache[item.hashValue] {
+            cell.setupHostingView(premade: premade)
+            prefetchedViewCache.removeValue(forKey: item.hashValue)
+        } else {
+            cell.setupHostingView(with: viewProvider(item))
+        }
+
+        return cell
+    }
+
+    // MARK: UICollectionViewDelegate
+
+    // required for tvOS
+    func collectionView(_ collectionView: UICollectionView, canFocusItemAt indexPath: IndexPath) -> Bool {
+        false
+    }
+
+    // MARK: UICollectionViewDelegateFlowLayout
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+
+        if case CollectionHStackLayout.selfSizingVariadicWidth = layout {
+
+            let item = data.wrappedValue[indexPath.row]
+
+            if let prefetch = prefetchedViewCache[item.hashValue] {
+                prefetch.view.sizeToFit()
+                return prefetch.view.bounds.size
+            } else {
+                let singleItem = UIHostingController(rootView: AnyView(viewProvider(item)))
+                singleItem.view.sizeToFit()
+                return singleItem.view.bounds.size
+            }
+        } else {
+            if let itemSize {
+                return itemSize
+            } else {
+                itemSize = itemSize(for: layout)
+                return itemSize
+            }
+        }
+    }
+
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -397,63 +459,6 @@ class UICollectionHStack<Element: Hashable>: UIView,
             .map { data.wrappedValue[$0.row % data.wrappedValue.count] }
 
         didScrollToItems(visibleItems)
-    }
-
-    // MARK: UICollectionViewDataSource
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
-        effectiveItemCount
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: HostingCollectionViewCell.reuseIdentifier,
-            for: indexPath
-        ) as! HostingCollectionViewCell
-
-        let item = data.wrappedValue[indexPath.row % data.wrappedValue.count]
-
-        if let premade = prefetchedViewCache[item.hashValue] {
-            cell.setupHostingView(premade: premade)
-            prefetchedViewCache.removeValue(forKey: item.hashValue)
-        } else {
-            cell.setupHostingView(with: viewProvider(item))
-        }
-
-        return cell
-    }
-
-    // MARK: UICollectionViewDelegate
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-
-        if case CollectionHStackLayout.selfSizingVariadicWidth = layout {
-
-            let item = data.wrappedValue[indexPath.row]
-
-            if let prefetch = prefetchedViewCache[item.hashValue] {
-                prefetch.view.sizeToFit()
-                return prefetch.view.bounds.size
-            } else {
-                let singleItem = UIHostingController(rootView: AnyView(viewProvider(item)))
-                singleItem.view.sizeToFit()
-                return singleItem.view.bounds.size
-            }
-        } else {
-            if let itemSize {
-                return itemSize
-            } else {
-                let s = itemSize(for: layout)
-                itemSize = s
-                return s
-            }
-        }
     }
 
     // MARK: item size
@@ -533,11 +538,6 @@ class UICollectionHStack<Element: Hashable>: UIView,
         }
 
         return itemWidth(columns: columns)
-    }
-
-    // required for tvOS
-    func collectionView(_ collectionView: UICollectionView, canFocusItemAt indexPath: IndexPath) -> Bool {
-        false
     }
 
     // MARK: UICollectionViewDataSourcePrefetching

@@ -47,7 +47,7 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
     }
 
     func updateUIView(_ view: UIViewType, context: Context) {
-        view.updateItems(
+        view.update(
             with: data,
             allowBouncing: allowBouncing.wrappedValue,
             allowScrolling: allowScrolling.wrappedValue,
