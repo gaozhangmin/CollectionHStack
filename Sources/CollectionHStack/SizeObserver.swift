@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO: also pass in safe area insets?
-
 class SizeObserver: ObservableObject {
 
     var onSizeChanged: (CGSize) -> Void
@@ -39,7 +37,28 @@ class SizeObserverViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        sizeObserver.onSizeChanged(size)
+        // only pass new size if the overall orientation and the new size is of the same form
+        //
+        // this prevents a layout issue with other SwiftUI views when used within a view controller
+        // has a mask on `supportedInterfaceOrientations`
+        var mask = UIInterfaceOrientationMask.all
+        var c: UIResponder? = self
+
+        while c != nil {
+            c = c?.next
+
+            if let vc = c as? UIViewController {
+                mask = mask.intersection(vc.supportedInterfaceOrientations)
+            }
+        }
+
+        if mask.contains(.allButUpsideDown) {
+            sizeObserver.onSizeChanged(size)
+        } else if mask.contains(.landscape) && size.isLandscape {
+            sizeObserver.onSizeChanged(size)
+        } else if mask.contains(.portrait) && size.isPortrait {
+            sizeObserver.onSizeChanged(size)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

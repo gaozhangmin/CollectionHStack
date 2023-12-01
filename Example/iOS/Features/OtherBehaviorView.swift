@@ -18,6 +18,14 @@ struct OtherBehaviorView: View {
     @State
     var colors = OrderedSet((0 ..< 20).map { colorWheel(radius: $0 * 18) })
 
+    var columnCount: Int {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            6
+        } else {
+            3
+        }
+    }
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
@@ -32,7 +40,7 @@ struct OtherBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 72,
-                    columns: 3
+                    columns: columnCount
                 ) { i in
                     colorWheel(radius: i * 5)
                         .aspectRatio(2 / 3, contentMode: .fill)
@@ -51,7 +59,7 @@ struct OtherBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 10,
-                    columns: 3
+                    columns: columnCount
                 ) { _ in
                     OnEdgeColorView(color: $onEdgeColor)
                 }
@@ -90,7 +98,7 @@ struct OtherBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 3
+                    columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
@@ -122,7 +130,7 @@ struct OtherBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 3
+                    columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
@@ -144,7 +152,7 @@ struct OtherBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 3
+                    columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
@@ -160,7 +168,7 @@ struct OtherBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 3
+                    columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
@@ -200,7 +208,7 @@ struct OtherBehaviorView: View {
 
                     Button {
                         if dataPrefix == nil {
-                            dataPrefix = 3
+                            dataPrefix = columnCount
                         } else {
                             dataPrefix = nil
                         }
@@ -216,7 +224,7 @@ struct OtherBehaviorView: View {
 
                 CollectionHStack(
                     $colors,
-                    columns: 3
+                    columns: columnCount
                 ) { color in
                     color
                         .aspectRatio(2 / 3, contentMode: .fill)

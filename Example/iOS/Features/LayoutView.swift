@@ -4,7 +4,23 @@ import SwiftUI
 struct LayoutView: View {
 
     @State
-    private var minWidth: CGFloat = 120
+    var minWidth: CGFloat = 120
+
+    var columnCount: Int {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            6
+        } else {
+            3
+        }
+    }
+
+    var fractionalColumnCount: CGFloat {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            5.5
+        } else {
+            3.5
+        }
+    }
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -14,13 +30,13 @@ struct LayoutView: View {
 
                 HeaderPopover(
                     title: "Columns",
-                    description: "3 columns"
+                    description: "\(columnCount) columns"
                 )
                 .padding(.leading, 15)
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 3
+                    columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
@@ -75,7 +91,7 @@ struct LayoutView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 3,
+                    columns: columnCount,
                     columnTrailingInset: 60
                 ) { _ in
                     Color.blue
@@ -94,7 +110,7 @@ struct LayoutView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 3.5
+                    columns: fractionalColumnCount
                 ) { _ in
                     HStack(spacing: 0) {
                         Color.blue

@@ -39,6 +39,19 @@ public extension Array {
     }
 }
 
+// MARK: CGSize
+
+extension CGSize {
+
+    var isLandscape: Bool {
+        width > height
+    }
+
+    var isPortrait: Bool {
+        width < height
+    }
+}
+
 // MARK: Collection
 
 extension Sequence {

@@ -12,6 +12,22 @@ struct ScrollBehaviorView: View {
     @State
     var columnOption: ColumnOptions = .oneRow
 
+    var columnCount: Int {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            5
+        } else {
+            2
+        }
+    }
+
+    var fractionalColumnCount: CGFloat {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            4.5
+        } else {
+            2.5
+        }
+    }
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
@@ -27,7 +43,7 @@ struct ScrollBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 2
+                    columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(1.77, contentMode: .fill)
@@ -72,7 +88,7 @@ struct ScrollBehaviorView: View {
                 } else {
                     CollectionHStack(
                         0 ..< 20,
-                        columns: 2.5,
+                        columns: fractionalColumnCount,
                         rows: columnOption == .oneRow ? 1 : 2
                     ) { _ in
                         Color.blue
@@ -94,7 +110,7 @@ struct ScrollBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 2.5
+                    columns: fractionalColumnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(1.77, contentMode: .fill)
@@ -113,7 +129,7 @@ struct ScrollBehaviorView: View {
 
                 CollectionHStack(
                     0 ..< 20,
-                    columns: 2
+                    columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(1.77, contentMode: .fill)
