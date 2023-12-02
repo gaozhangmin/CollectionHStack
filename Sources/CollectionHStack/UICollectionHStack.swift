@@ -161,6 +161,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = nil
         collectionView.bounces = true
+        collectionView.alwaysBounceHorizontal = true
 
         if scrollBehavior == .columnPaging || scrollBehavior == .fullPaging {
             collectionView.decelerationRate = .fast
@@ -183,7 +184,12 @@ class UICollectionHStack<Element: Hashable>: UIView,
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        size = computeSize()
+        let newSize = computeSize()
+
+        if newSize != size {
+            size = newSize
+        }
+
         update(with: data)
     }
 
