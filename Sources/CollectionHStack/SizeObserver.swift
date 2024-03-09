@@ -34,6 +34,7 @@ class SizeObserverViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    #if os(iOS)
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
@@ -60,6 +61,7 @@ class SizeObserverViewController: UIViewController {
             sizeObserver.onSizeChanged(size)
         }
     }
+    #endif
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

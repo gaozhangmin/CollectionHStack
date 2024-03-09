@@ -81,12 +81,10 @@ class ContinuousLeadingEdgeFlowLayout: UICollectionViewFlowLayout, ColumnAligned
         // TODO: remove when allowing item sizes > collection view width
         guard startOfColumnAttributes.count > 1 else { return proposedContentOffset }
 
-        let m: CGFloat
-
-        if proposedContentOffset.x > startOfColumnAttributes[0].center.x {
-            m = startOfColumnAttributes[1].frame.minX
+        let m: CGFloat = if proposedContentOffset.x > startOfColumnAttributes[0].center.x {
+            startOfColumnAttributes[1].frame.minX
         } else {
-            m = startOfColumnAttributes[0].frame.minX
+            startOfColumnAttributes[0].frame.minX
         }
 
         let leadingInset = collectionView!.flowLayout.sectionInset.left
@@ -126,17 +124,15 @@ class ColumnPagingFlowLayout: UICollectionViewFlowLayout, ColumnAlignedLayout {
         // TODO: remove when allowing item sizes > collection view width
         guard startOfColumnAttributes.count > 1 else { return proposedContentOffset }
 
-        let m: CGFloat
-
-        if velocity.x > 0 {
-            m = startOfColumnAttributes[1].frame.minX
+        let m: CGFloat = if velocity.x > 0 {
+            startOfColumnAttributes[1].frame.minX
         } else if velocity.x < 0 {
-            m = startOfColumnAttributes[0].frame.minX
+            startOfColumnAttributes[0].frame.minX
         } else {
             if proposedContentOffset.x > layoutAttributes[0].center.x {
-                m = startOfColumnAttributes[1].frame.minX
+                startOfColumnAttributes[1].frame.minX
             } else {
-                m = startOfColumnAttributes[0].frame.minX
+                startOfColumnAttributes[0].frame.minX
             }
         }
 

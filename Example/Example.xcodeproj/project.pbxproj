@@ -289,7 +289,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E15BAE012B08ADF00086FC31 /* Build configuration list for PBXProject "CongruentScrollingHStackExample" */;
+			buildConfigurationList = E15BAE012B08ADF00086FC31 /* Build configuration list for PBXProject "Example" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -580,7 +580,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 17.0;
+				TVOS_DEPLOYMENT_TARGET = 15.0;
 			};
 			name = Debug;
 		};
@@ -607,14 +607,14 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 17.0;
+				TVOS_DEPLOYMENT_TARGET = 15.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E15BAE012B08ADF00086FC31 /* Build configuration list for PBXProject "CongruentScrollingHStackExample" */ = {
+		E15BAE012B08ADF00086FC31 /* Build configuration list for PBXProject "Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E15BAE122B08ADF10086FC31 /* Debug */,

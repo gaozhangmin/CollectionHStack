@@ -21,6 +21,8 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: 50) {
 
+                Spacer(minLength: 50)
+
                 CollectionHStack(
                     0 ..< 10,
                     columns: 1

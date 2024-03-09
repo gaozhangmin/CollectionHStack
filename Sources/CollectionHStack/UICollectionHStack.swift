@@ -18,12 +18,11 @@ import SwiftUI
 // - turn off
 // TODO: continuousLeadingBoundary/item paging behavior every X items?
 // TODO: different default insets/spacing for tvOS
-// TODO: deceleration customization
 // TODO: on size changing (see iPadOS with navigation sidebar)
 // - fix layout scrolling?
 // - with animation
 // TODO: Change to EdgeInsets instead of individual values
-// TODO: guard against negative sizes (why is this happening?)
+// TODO: guard against negative sizes (when elements gets zeroed)
 
 // MARK: UICollectionHStack
 
@@ -281,12 +280,10 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
         guard !data.wrappedValue.isEmpty else { return .init(width: width ?? 0, height: 0) }
 
-        let view: AnyView
-
-        if let width, width > 0 {
-            view = AnyView(viewProvider(data.wrappedValue[0]).frame(width: width))
+        let view: AnyView = if let width, width > 0 {
+            AnyView(viewProvider(data.wrappedValue[0]).frame(width: width))
         } else {
-            view = AnyView(viewProvider(data.wrappedValue[0]))
+            AnyView(viewProvider(data.wrappedValue[0]))
         }
 
         let singleItem = UIHostingController(rootView: view)
@@ -355,7 +352,6 @@ class UICollectionHStack<Element: Hashable>: UIView,
     // MARK: UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         effectiveItemCount
     }
 
