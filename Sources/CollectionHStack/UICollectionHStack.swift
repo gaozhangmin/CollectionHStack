@@ -22,7 +22,9 @@ import SwiftUI
 // - fix layout scrolling?
 // - with animation
 // TODO: Change to EdgeInsets instead of individual values
-// TODO: guard against negative sizes (when elements gets zeroed)
+// TODO: guard against negative sizes (why happening?)
+//       - not just when elements are zeroed
+// TODO: relayout when items no longer empty
 
 // MARK: UICollectionHStack
 
@@ -383,11 +385,14 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
     // MARK: UICollectionViewDelegateFlowLayout
 
+    // TODO: should we protect against size changes?
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
+        
+        let size: CGSize
 
         if case CollectionHStackLayout.selfSizingVariadicWidth = layout {
 
@@ -395,19 +400,28 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
             if let prefetch = prefetchedViewCache[item.hashValue] {
                 prefetch.view.sizeToFit()
-                return prefetch.view.bounds.size
+                size = prefetch.view.bounds.size
+//                return prefetch.view.bounds.size
             } else {
                 let singleItem = UIHostingController(rootView: AnyView(viewProvider(item)))
                 singleItem.view.sizeToFit()
-                return singleItem.view.bounds.size
+                size = singleItem.view.bounds.size
+//                return singleItem.view.bounds.size
             }
         } else {
             if let itemSize {
-                return itemSize
+//                return itemSize
+                size = itemSize
             } else {
                 itemSize = itemSize(for: layout)
-                return itemSize
+                size = itemSize
             }
+        }
+        
+        if size.width < 0 || size.height < 0 {
+            return .zero
+        } else {
+            return size
         }
     }
 

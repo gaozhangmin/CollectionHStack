@@ -35,7 +35,7 @@ class SizeObserverViewController: UIViewController {
     }
 
     #if os(iOS)
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
         // only pass new size if the overall orientation and the new size is of the same form
@@ -60,6 +60,14 @@ class SizeObserverViewController: UIViewController {
         } else if mask.contains(.portrait) && size.isPortrait {
             sizeObserver.onSizeChanged(size)
         }
+    }
+    #endif
+    
+    #if os(tvOS)
+    override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        sizeObserver.onSizeChanged(size)
     }
     #endif
 
