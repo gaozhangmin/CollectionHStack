@@ -2,8 +2,8 @@ import Foundation
 import OrderedCollections
 import SwiftUI
 
-// TODO: allow binding to any sequence with init(uncheckedUniqueElements:)?
 // TODO: on tvOS, focus updates cause reconstructions of the non-binding init sets
+// TODO: inits with (Element, Index) -> any View
 
 // MARK: Binding<OrderedSet>
 

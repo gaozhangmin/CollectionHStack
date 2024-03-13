@@ -62,11 +62,11 @@ class SizeObserverViewController: UIViewController {
         }
     }
     #endif
-    
+
     #if os(tvOS)
     override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+
         sizeObserver.onSizeChanged(size)
     }
     #endif

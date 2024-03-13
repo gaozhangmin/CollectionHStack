@@ -7,12 +7,11 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
 
     let allowBouncing: Binding<Bool>
     let allowScrolling: Binding<Bool>
-    let bottomInset: CGFloat
     let clipsToBounds: Bool
     let data: Binding<OrderedSet<Element>>
     let dataPrefix: Binding<Int?>
     let didScrollToItems: ([Element]) -> Void
-    let horizontalInset: CGFloat
+    let insets: EdgeInsets
     let isCarousel: Bool
     let itemSpacing: CGFloat
     let layout: CollectionHStackLayout
@@ -20,18 +19,17 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
     let onReachedLeadingEdgeOffset: CGFloat
     let onReachedTrailingEdge: () -> Void
     let onReachedTrailingEdgeOffset: CGFloat
+    let proxy: CollectionHStackProxy<Element>
     let scrollBehavior: CollectionHStackScrollBehavior
     let sizeObserver: SizeObserver
-    let topInset: CGFloat
     let viewProvider: (Element) -> any View
 
     func makeUIView(context: Context) -> UIViewType {
         UICollectionHStack(
-            bottomInset: bottomInset,
             clipsToBounds: clipsToBounds,
             data: data,
             didScrollToItems: didScrollToItems,
-            horizontalInset: horizontalInset,
+            insets: insets,
             isCarousel: isCarousel,
             itemSpacing: itemSpacing,
             layout: layout,
@@ -39,9 +37,9 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
             onReachedLeadingEdgeOffset: onReachedLeadingEdgeOffset,
             onReachedTrailingEdge: onReachedTrailingEdge,
             onReachedTrailingEdgeOffset: onReachedTrailingEdgeOffset,
+            proxy: proxy,
             scrollBehavior: scrollBehavior,
             sizeObserver: sizeObserver,
-            topInset: topInset,
             viewProvider: viewProvider
         )
     }

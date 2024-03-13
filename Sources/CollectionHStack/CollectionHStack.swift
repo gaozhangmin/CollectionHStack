@@ -18,12 +18,11 @@ public struct CollectionHStack<Element: Hashable>: View {
 
     var allowBouncing: Binding<Bool>
     var allowScrolling: Binding<Bool>
-    var bottomInset: CGFloat
     var clipsToBounds: Bool
     let data: Binding<OrderedSet<Element>>
     var dataPrefix: Binding<Int?>
     var didScrollToItems: ([Element]) -> Void
-    var horizontalInset: CGFloat
+    var insets: EdgeInsets
     var isCarousel: Bool
     var itemSpacing: CGFloat
     let layout: CollectionHStackLayout
@@ -31,19 +30,18 @@ public struct CollectionHStack<Element: Hashable>: View {
     var onReachedLeadingSideOffset: CGFloat
     var onReachedTrailingEdge: () -> Void
     var onReachedTrailingEdgeOffset: CGFloat
+    var proxy: CollectionHStackProxy<Element>
     var scrollBehavior: CollectionHStackScrollBehavior
-    var topInset: CGFloat
     let viewProvider: (Element) -> any View
 
     init(
         allowBouncing: Binding<Bool> = .constant(true),
         allowScrolling: Binding<Bool> = .constant(true),
-        bottomInset: CGFloat = 0,
         clipsToBounds: Bool = defaultClipsToBounds,
         data: Binding<OrderedSet<Element>>,
         dataPrefix: Binding<Int?> = .constant(nil),
         didScrollToItems: @escaping ([Element]) -> Void = { _ in },
-        horizontalInset: CGFloat = defaultHorizontalInset,
+        insets: EdgeInsets = .init(top: 0, leading: defaultHorizontalInset, bottom: 0, trailing: defaultHorizontalInset),
         isCarousel: Bool = false,
         itemSpacing: CGFloat = defaultItemSpacing,
         layout: CollectionHStackLayout,
@@ -51,18 +49,17 @@ public struct CollectionHStack<Element: Hashable>: View {
         onReachedLeadingSideOffset: CGFloat = 0,
         onReachedTrailingEdge: @escaping () -> Void = {},
         onReachedTrailingEdgeOffset: CGFloat = 0,
+        proxy: CollectionHStackProxy<Element> = .init(),
         scrollBehavior: CollectionHStackScrollBehavior = .continuous,
-        topInset: CGFloat = 0,
         viewProvider: @escaping (Element) -> any View
     ) {
         self.allowBouncing = allowBouncing
         self.allowScrolling = allowScrolling
-        self.bottomInset = bottomInset
         self.clipsToBounds = clipsToBounds
         self.data = data
         self.dataPrefix = dataPrefix
         self.didScrollToItems = didScrollToItems
-        self.horizontalInset = horizontalInset
+        self.insets = insets
         self.isCarousel = isCarousel
         self.itemSpacing = itemSpacing
         self.layout = layout
@@ -70,8 +67,8 @@ public struct CollectionHStack<Element: Hashable>: View {
         self.onReachedLeadingSideOffset = onReachedLeadingSideOffset
         self.onReachedTrailingEdge = onReachedTrailingEdge
         self.onReachedTrailingEdgeOffset = onReachedTrailingEdgeOffset
+        self.proxy = proxy
         self.scrollBehavior = scrollBehavior
-        self.topInset = topInset
         self.viewProvider = viewProvider
     }
 
@@ -82,12 +79,11 @@ public struct CollectionHStack<Element: Hashable>: View {
             BridgeView(
                 allowBouncing: allowBouncing,
                 allowScrolling: allowScrolling,
-                bottomInset: bottomInset,
                 clipsToBounds: clipsToBounds,
                 data: data,
                 dataPrefix: dataPrefix,
                 didScrollToItems: didScrollToItems,
-                horizontalInset: horizontalInset,
+                insets: insets,
                 isCarousel: isCarousel,
                 itemSpacing: itemSpacing,
                 layout: layout,
@@ -95,9 +91,9 @@ public struct CollectionHStack<Element: Hashable>: View {
                 onReachedLeadingEdgeOffset: onReachedLeadingSideOffset,
                 onReachedTrailingEdge: onReachedTrailingEdge,
                 onReachedTrailingEdgeOffset: onReachedTrailingEdgeOffset,
+                proxy: proxy,
                 scrollBehavior: scrollBehavior,
                 sizeObserver: sizeObserver,
-                topInset: topInset,
                 viewProvider: viewProvider
             )
         }

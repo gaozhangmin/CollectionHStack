@@ -41,6 +41,17 @@ public extension Array {
 
 // MARK: CGSize
 
+func max(_ lhs: CGSize, _ rhs: CGSize) -> CGSize {
+    let l = lhs.width * lhs.height
+    let r = rhs.width * rhs.height
+
+    if l > r {
+        return lhs
+    } else {
+        return rhs
+    }
+}
+
 extension CGSize {
 
     var isLandscape: Bool {

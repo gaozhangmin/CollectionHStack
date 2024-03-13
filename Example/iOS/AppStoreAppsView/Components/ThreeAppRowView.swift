@@ -26,7 +26,7 @@ extension AppStoreAppsView {
                     AppItem(app: app)
                 }
                 .scrollBehavior(.fullPaging)
-                .horizontalInset(18)
+                .insets(.init(horizontal: 18))
                 .itemSpacing(8)
             }
         }

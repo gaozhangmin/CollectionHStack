@@ -14,7 +14,7 @@ struct MusicGenreView: View {
                     HeroCard(album: album)
                 }
                 .scrollBehavior(.fullPaging)
-                .horizontalInset(18)
+                .insets(horizontal: 18)
 
                 TwoRowHStack(title: "Albums")
 

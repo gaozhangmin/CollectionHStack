@@ -20,7 +20,7 @@ struct ContentView: View {
                     }
                 }
 
-                Section("Layout Recreations") {
+                Section("Examples") {
 
                     NavigationLink("App Store Apps") {
                         AppStoreAppsView()
@@ -43,7 +43,7 @@ struct ContentView: View {
 //                    }
                 }
             }
-            .navigationTitle("Example")
+            .navigationTitle("CollectionHStack")
             .navigationBarTitleDisplayMode(.inline)
         }
         .if(UIDevice.current.userInterfaceIdiom == .phone) { view in

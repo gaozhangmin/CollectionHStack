@@ -39,8 +39,12 @@ public extension CollectionHStack {
 //        copy(modifying: \.didScrollToElements, to: action)
 //    }
 
-    func horizontalInset(_ inset: CGFloat) -> Self {
-        copy(modifying: \.horizontalInset, to: inset)
+    func insets(_ insets: EdgeInsets) -> Self {
+        copy(modifying: \.insets, to: insets)
+    }
+
+    func insets(horizontal: CGFloat = 0, vertical: CGFloat = 0) -> Self {
+        copy(modifying: \.insets, to: .init(top: vertical, leading: horizontal, bottom: vertical, trailing: horizontal))
     }
 
     func itemSpacing(_ spacing: CGFloat) -> Self {
@@ -57,12 +61,11 @@ public extension CollectionHStack {
             .copy(modifying: \.onReachedTrailingEdgeOffset, to: offset)
     }
 
-    func scrollBehavior(_ scrollBehavior: CollectionHStackScrollBehavior) -> Self {
-        copy(modifying: \.scrollBehavior, to: scrollBehavior)
+    func proxy(_ proxy: CollectionHStackProxy<Element>) -> Self {
+        copy(modifying: \.proxy, to: proxy)
     }
 
-    func verticalInsets(top: CGFloat = 0, bottom: CGFloat = 0) -> Self {
-        copy(modifying: \.bottomInset, to: bottom)
-            .copy(modifying: \.topInset, to: top)
+    func scrollBehavior(_ scrollBehavior: CollectionHStackScrollBehavior) -> Self {
+        copy(modifying: \.scrollBehavior, to: scrollBehavior)
     }
 }

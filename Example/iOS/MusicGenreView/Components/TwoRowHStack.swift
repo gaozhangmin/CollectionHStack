@@ -19,7 +19,7 @@ extension MusicGenreView {
                     SquareView(album: album)
                 }
                 .scrollBehavior(.fullPaging)
-                .horizontalInset(18)
+                .insets(.init(horizontal: 18))
                 .itemSpacing(8)
             }
         }

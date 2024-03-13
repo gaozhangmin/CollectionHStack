@@ -19,7 +19,7 @@ extension MusicGenreView {
                     SongItem(album: album)
                 }
                 .scrollBehavior(.fullPaging)
-                .horizontalInset(18)
+                .insets(horizontal: 18)
                 .itemSpacing(8)
             }
         }

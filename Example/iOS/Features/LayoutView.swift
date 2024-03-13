@@ -6,6 +6,9 @@ struct LayoutView: View {
     @State
     var minWidth: CGFloat = 120
 
+    @StateObject
+    var proxy: CollectionHStackProxy<Int> = .init()
+
     var columnCount: Int {
         if UIDevice.current.userInterfaceIdiom == .pad {
             6
@@ -48,7 +51,7 @@ struct LayoutView: View {
                 HStack {
                     HeaderPopover(
                         title: "Minimum Width",
-                        description: "Each column is guaranteed to have a guaranteed minimum width"
+                        description: "Each column must have the given minimum width"
                     )
 
                     Spacer()

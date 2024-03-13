@@ -18,7 +18,7 @@ extension MusicGenreView {
                     SquareView(album: album)
                 }
                 .scrollBehavior(.continuousLeadingEdge)
-                .horizontalInset(18)
+                .insets(horizontal: 18)
                 .itemSpacing(8)
             }
         }

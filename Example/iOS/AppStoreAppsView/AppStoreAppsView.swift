@@ -14,7 +14,7 @@ struct AppStoreAppsView: View {
                     HeroCard(app: app)
                 }
                 .scrollBehavior(.fullPaging)
-                .horizontalInset(18)
+                .insets(horizontal: 18)
                 .itemSpacing(8)
 
                 ThreeAppRowView(
