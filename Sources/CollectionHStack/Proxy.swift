@@ -9,7 +9,7 @@ public class CollectionHStackProxy<Element: Hashable>: ObservableObject {
         self.collectionView = nil
     }
 
-    public func scrollTo(index: Int) {
-        collectionView?.scrollTo(index: index)
+    public func scrollTo(index: Int, animated: Bool = true) {
+        collectionView?.scrollTo(index: index, animated: animated)
     }
 }

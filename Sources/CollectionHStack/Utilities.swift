@@ -140,6 +140,13 @@ extension UIEdgeInsets {
     }
 }
 
+// MARK: PreferenceKey
+
+struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
+}
+
 // MARK: View
 
 extension View {
@@ -148,5 +155,15 @@ extension View {
         var copy = self
         copy[keyPath: keyPath] = newValue
         return copy
+    }
+    
+    func onSizeChanged(_ onChange: @escaping (CGSize) -> Void) -> some View {
+        background {
+            GeometryReader { reader in
+                Color.clear
+                    .preference(key: SizePreferenceKey.self, value: reader.size)
+            }
+        }
+        .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
     }
 }

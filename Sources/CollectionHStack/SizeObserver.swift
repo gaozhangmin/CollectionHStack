@@ -9,6 +9,8 @@ class SizeObserver: ObservableObject {
     }
 }
 
+// TODO: can this just be replaced with a view in the `ZStack` in `CollectionHStack`?
+
 struct SizeObserverView: UIViewControllerRepresentable {
 
     let sizeObserver: SizeObserver

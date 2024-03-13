@@ -23,6 +23,7 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
     let scrollBehavior: CollectionHStackScrollBehavior
     let sizeObserver: SizeObserver
     let viewProvider: (Element) -> any View
+    let sizeBinding: Binding<CGSize>
 
     func makeUIView(context: Context) -> UIViewType {
         UICollectionHStack(
@@ -40,7 +41,8 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
             proxy: proxy,
             scrollBehavior: scrollBehavior,
             sizeObserver: sizeObserver,
-            viewProvider: viewProvider
+            viewProvider: viewProvider,
+            sizeBinding: sizeBinding
         )
     }
 

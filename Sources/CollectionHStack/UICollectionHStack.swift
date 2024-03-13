@@ -61,11 +61,13 @@ class UICollectionHStack<Element: Hashable>: UIView,
     private var size: CGSize {
         didSet {
             itemSize = itemSize(for: layout)
+            sizeBinding.wrappedValue = size
             invalidateIntrinsicContentSize()
             collectionView.collectionViewLayout.prepare()
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
+    private let sizeBinding: Binding<CGSize>
 
     // view providers
     private let viewProvider: (Element) -> any View
@@ -87,7 +89,8 @@ class UICollectionHStack<Element: Hashable>: UIView,
         proxy: CollectionHStackProxy<Element>,
         scrollBehavior: CollectionHStackScrollBehavior,
         sizeObserver: SizeObserver,
-        viewProvider: @escaping (Element) -> any View
+        viewProvider: @escaping (Element) -> any View,
+        sizeBinding: Binding<CGSize>
     ) {
         self.data = data
         self.didScrollToItems = didScrollToItems
@@ -107,6 +110,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
         self.scrollBehavior = scrollBehavior
         self.size = .zero
         self.viewProvider = viewProvider
+        self.sizeBinding = sizeBinding
 
         super.init(frame: .zero)
 
@@ -193,9 +197,9 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
     // MARK: proxy
 
-    func scrollTo(index: Int) {
+    func scrollTo(index: Int, animated: Bool) {
         let indexPath = IndexPath(row: index, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     }
 
     /// Computes the size that this view should be based on the effectiveWidth and the total item content height

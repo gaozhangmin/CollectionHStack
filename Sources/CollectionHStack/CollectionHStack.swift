@@ -12,6 +12,9 @@ private let defaultItemSpacing: CGFloat = 10
 #endif
 
 public struct CollectionHStack<Element: Hashable>: View {
+    
+    @State
+    private var contentSize: CGSize = .zero
 
     @StateObject
     private var sizeObserver = SizeObserver()
@@ -75,6 +78,7 @@ public struct CollectionHStack<Element: Hashable>: View {
     public var body: some View {
         ZStack {
             SizeObserverView(sizeObserver: sizeObserver)
+                .frame(height: 1)
 
             BridgeView(
                 allowBouncing: allowBouncing,
@@ -94,8 +98,10 @@ public struct CollectionHStack<Element: Hashable>: View {
                 proxy: proxy,
                 scrollBehavior: scrollBehavior,
                 sizeObserver: sizeObserver,
-                viewProvider: viewProvider
+                viewProvider: viewProvider,
+                sizeBinding: $contentSize
             )
+            .frame(height: contentSize.height)
         }
     }
 }
