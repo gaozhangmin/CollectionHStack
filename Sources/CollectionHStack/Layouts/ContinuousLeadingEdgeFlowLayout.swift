@@ -32,7 +32,7 @@ class ContinuousLeadingEdgeFlowLayout: UICollectionViewFlowLayout, ColumnAligned
         // floating point errors require rounding, nearing whole number is good enough
         let roundedProposedX = proposedContentOffset.x.rounded(.towardZero)
         let roundedLastWindow = (collectionView!.contentSize.width - collectionView!.bounds.width).rounded(.towardZero)
-        
+
         if roundedProposedX.isEqual(to: roundedLastWindow) {
             return proposedContentOffset
         }

@@ -63,12 +63,12 @@ struct OtherBehaviorView: View {
                 ) { _ in
                     OnEdgeColorView(color: $onEdgeColor)
                 }
-                .onReachedLeadingEdge(offset: 10) {
+                .onReachedLeadingEdge {
                     withAnimation {
                         onEdgeColor = .blue
                     }
                 }
-                .onReachedTrailingEdge(offset: 10) {
+                .onReachedTrailingEdge {
                     withAnimation {
                         onEdgeColor = .pink
                     }

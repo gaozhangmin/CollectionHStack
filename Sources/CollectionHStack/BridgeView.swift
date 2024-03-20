@@ -16,9 +16,9 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
     let itemSpacing: CGFloat
     let layout: CollectionHStackLayout
     let onReachedLeadingEdge: () -> Void
-    let onReachedLeadingEdgeOffset: CGFloat
+    let onReachedLeadingEdgeOffset: CollectionHStackEdgeOffset
     let onReachedTrailingEdge: () -> Void
-    let onReachedTrailingEdgeOffset: CGFloat
+    let onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset
     let proxy: CollectionHStackProxy<Element>
     let scrollBehavior: CollectionHStackScrollBehavior
     let sizeObserver: SizeObserver

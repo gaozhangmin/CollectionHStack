@@ -12,7 +12,7 @@ private let defaultItemSpacing: CGFloat = 10
 #endif
 
 public struct CollectionHStack<Element: Hashable>: View {
-    
+
     @State
     private var contentSize: CGSize = .zero
 
@@ -30,9 +30,9 @@ public struct CollectionHStack<Element: Hashable>: View {
     var itemSpacing: CGFloat
     let layout: CollectionHStackLayout
     var onReachedLeadingSide: () -> Void
-    var onReachedLeadingSideOffset: CGFloat
+    var onReachedLeadingSideOffset: CollectionHStackEdgeOffset
     var onReachedTrailingEdge: () -> Void
-    var onReachedTrailingEdgeOffset: CGFloat
+    var onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset
     var proxy: CollectionHStackProxy<Element>
     var scrollBehavior: CollectionHStackScrollBehavior
     let viewProvider: (Element) -> any View
@@ -49,9 +49,9 @@ public struct CollectionHStack<Element: Hashable>: View {
         itemSpacing: CGFloat = defaultItemSpacing,
         layout: CollectionHStackLayout,
         onReachedLeadingSide: @escaping () -> Void = {},
-        onReachedLeadingSideOffset: CGFloat = 0,
+        onReachedLeadingSideOffset: CollectionHStackEdgeOffset = .columns(0),
         onReachedTrailingEdge: @escaping () -> Void = {},
-        onReachedTrailingEdgeOffset: CGFloat = 0,
+        onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset = .columns(0),
         proxy: CollectionHStackProxy<Element> = .init(),
         scrollBehavior: CollectionHStackScrollBehavior = .continuous,
         viewProvider: @escaping (Element) -> any View

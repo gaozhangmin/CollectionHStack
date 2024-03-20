@@ -51,12 +51,12 @@ public extension CollectionHStack {
         copy(modifying: \.itemSpacing, to: spacing)
     }
 
-    func onReachedLeadingEdge(offset: CGFloat = 0, _ action: @escaping () -> Void) -> Self {
+    func onReachedLeadingEdge(offset: CollectionHStackEdgeOffset = .offset(0), perform action: @escaping () -> Void) -> Self {
         copy(modifying: \.onReachedLeadingSide, to: action)
             .copy(modifying: \.onReachedLeadingSideOffset, to: offset)
     }
 
-    func onReachedTrailingEdge(offset: CGFloat = 0, _ action: @escaping () -> Void) -> Self {
+    func onReachedTrailingEdge(offset: CollectionHStackEdgeOffset = .offset(0), perform action: @escaping () -> Void) -> Self {
         copy(modifying: \.onReachedTrailingEdge, to: action)
             .copy(modifying: \.onReachedTrailingEdgeOffset, to: offset)
     }

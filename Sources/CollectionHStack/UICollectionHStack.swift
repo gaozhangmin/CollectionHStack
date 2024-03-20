@@ -24,6 +24,7 @@ import SwiftUI
 // TODO: guard against negative sizes (why happening?)
 //       - not just when elements are zeroed
 // TODO: relayout when items no longer empty
+// TODO: have to properly account for CollectionVGridEdgeOffset.columns when rows > 1
 
 // MARK: UICollectionHStack
 
@@ -41,9 +42,9 @@ class UICollectionHStack<Element: Hashable>: UIView,
     // events
     private let didScrollToItems: ([Element]) -> Void
     private let onReachedLeadingEdge: () -> Void
-    private let onReachedLeadingEdgeOffset: CGFloat
+    private let onReachedLeadingEdgeOffset: CollectionHStackEdgeOffset
     private let onReachedTrailingEdge: () -> Void
-    private let onReachedTrailingEdgeOffset: CGFloat
+    private let onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset
 
     // internal
     private var effectiveItemCount: Int
@@ -67,6 +68,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
+
     private let sizeBinding: Binding<CGSize>
 
     // view providers
@@ -83,9 +85,9 @@ class UICollectionHStack<Element: Hashable>: UIView,
         itemSpacing: CGFloat,
         layout: CollectionHStackLayout,
         onReachedLeadingEdge: @escaping () -> Void,
-        onReachedLeadingEdgeOffset: CGFloat,
+        onReachedLeadingEdgeOffset: CollectionHStackEdgeOffset,
         onReachedTrailingEdge: @escaping () -> Void,
-        onReachedTrailingEdgeOffset: CGFloat,
+        onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset,
         proxy: CollectionHStackProxy<Element>,
         scrollBehavior: CollectionHStackScrollBehavior,
         sizeObserver: SizeObserver,
@@ -431,8 +433,31 @@ class UICollectionHStack<Element: Hashable>: UIView,
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         // leading edge
-        let reachedLeadingPosition = onReachedLeadingEdgeOffset
-        let reachedLeading = scrollView.contentOffset.x <= reachedLeadingPosition
+        handleReachedLeadingEdge(with: scrollView.contentOffset.x)
+
+        // trailing edge
+        if isCarousel {
+            handleCarouselReachedTrailingEdge(with: scrollView.contentOffset.x)
+        } else {
+            handleReachedTrailingEdge(with: scrollView.contentOffset.x)
+        }
+    }
+
+    private func handleReachedLeadingEdge(with contentOffset: CGFloat) {
+
+        let reachedLeading: Bool
+
+        switch onReachedLeadingEdgeOffset {
+        case let .columns(columns):
+            let minIndexPath = collectionView
+                .indexPathsForVisibleItems
+                .map(\.row)
+                .min() ?? Int.max
+
+            reachedLeading = minIndexPath ?? 0 <= columns - 1
+        case let .offset(offset):
+            reachedLeading = contentOffset <= offset
+        }
 
         if reachedLeading {
             if !onReachedEdgeStore.contains(.leading) {
@@ -442,28 +467,43 @@ class UICollectionHStack<Element: Hashable>: UIView,
         } else {
             onReachedEdgeStore.remove(.leading)
         }
+    }
 
-        // trailing edge
-        if isCarousel {
-            let reachPosition = scrollView.contentSize.width - scrollView.bounds.width * 2
-            let reachedTrailing = scrollView.contentOffset.x >= reachPosition
+    private func handleCarouselReachedTrailingEdge(with contentOffset: CGFloat) {
 
-            if reachedTrailing {
-                effectiveItemCount += 100
-                collectionView.reloadData()
+        let reachPosition = collectionView.contentSize.width - collectionView.bounds.width * 2
+        let reachedTrailing = contentOffset >= reachPosition
+
+        if reachedTrailing {
+            effectiveItemCount += 100
+            collectionView.reloadData()
+        }
+    }
+
+    private func handleReachedTrailingEdge(with contentOffset: CGFloat) {
+
+        let reachedTrailing: Bool
+
+        switch onReachedTrailingEdgeOffset {
+        case let .columns(columns):
+            let maxIndexPath = collectionView
+                .indexPathsForVisibleItems
+                .map(\.row)
+                .max() ?? Int.min
+
+            reachedTrailing = maxIndexPath >= effectiveItemCount - columns
+        case let .offset(offset):
+            let reachPosition = collectionView.contentSize.width - collectionView.bounds.width - offset
+            reachedTrailing = contentOffset >= reachPosition
+        }
+
+        if reachedTrailing {
+            if !onReachedEdgeStore.contains(.trailing) {
+                onReachedEdgeStore.insert(.trailing)
+                onReachedTrailingEdge()
             }
         } else {
-            let reachPosition = scrollView.contentSize.width - scrollView.bounds.width - onReachedTrailingEdgeOffset
-            let reachedTrailing = scrollView.contentOffset.x >= reachPosition
-
-            if reachedTrailing {
-                if !onReachedEdgeStore.contains(.trailing) {
-                    onReachedEdgeStore.insert(.trailing)
-                    onReachedTrailingEdge()
-                }
-            } else {
-                onReachedEdgeStore.remove(.trailing)
-            }
+            onReachedEdgeStore.remove(.trailing)
         }
     }
 
@@ -559,7 +599,6 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
     // MARK: UICollectionViewDataSourcePrefetching
 
-    // TODO: see if these actually do anything regarding prefetching images/View.onAppear
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
 
         let fetchedItems = indexPaths.map { data.wrappedValue[$0.row % data.wrappedValue.count] }

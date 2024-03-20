@@ -156,7 +156,7 @@ extension View {
         copy[keyPath: keyPath] = newValue
         return copy
     }
-    
+
     func onSizeChanged(_ onChange: @escaping (CGSize) -> Void) -> some View {
         background {
             GeometryReader { reader in

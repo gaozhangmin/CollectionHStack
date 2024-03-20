@@ -4,6 +4,9 @@ import SwiftUI
 
 // TODO: on tvOS, focus updates cause reconstructions of the non-binding init sets
 // TODO: inits with (Element, Index) -> any View
+// TODO: binding layouts?
+//       - already do this in CollectionVGrid, but don't really need to change the
+//         layout of this view often and height adjustments would probably be snappy
 
 // MARK: Binding<OrderedSet>
 
