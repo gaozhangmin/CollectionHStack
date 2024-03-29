@@ -18,6 +18,7 @@ import SwiftUI
 // - must be fresh
 // - turn off
 // TODO: continuousLeadingBoundary/item paging behavior every X items?
+//       - would replace fullpaging
 // TODO: on size changing (see iPadOS with navigation sidebar)
 // - fix layout scrolling?
 // - with animation
@@ -199,9 +200,47 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
     // MARK: proxy
 
-    func scrollTo(index: Int, animated: Bool) {
-        let indexPath = IndexPath(row: index, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+    // TODO: should recompute height?
+    func snapshotReload() {
+
+        guard let snapshot = collectionView.snapshotView(afterScreenUpdates: false) else {
+            collectionView.reloadData()
+            return
+        }
+
+        addSubview(snapshot)
+
+        NSLayoutConstraint.activate([
+            snapshot.topAnchor.constraint(equalTo: topAnchor),
+            snapshot.bottomAnchor.constraint(equalTo: bottomAnchor),
+            snapshot.leadingAnchor.constraint(equalTo: leadingAnchor),
+            snapshot.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
+
+        collectionView.alpha = 0
+        collectionView.reloadData()
+
+        UIView.animate(withDuration: 0.1) {
+            snapshot.alpha = 0
+            self.collectionView.alpha = 1
+        } completion: { _ in
+            snapshot.removeFromSuperview()
+        }
+    }
+
+    // TODO: other layouts implement their own `scrollTo`
+    func scrollTo(index: Int, animated: Bool = true) {
+        if let flowLayout = collectionView.flowLayout as? ContinuousLeadingEdgeFlowLayout {
+            flowLayout.scrollTo(index: index, animated: animated)
+        } else {
+            let indexPath = IndexPath(row: index, section: 0)
+            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+        }
+    }
+
+    func scrollTo(element: Element, animated: Bool = true) {
+        guard let index = currentHashes.index(of: element.hashValue) else { return }
+        scrollTo(index: index, animated: animated)
     }
 
     /// Computes the size that this view should be based on the effectiveWidth and the total item content height
@@ -423,6 +462,9 @@ class UICollectionHStack<Element: Hashable>: UIView,
                 itemSize = itemSize(for: layout)
                 size = itemSize
             }
+
+            // TODO: document this + `scrollTo` behavior
+            collectionView.flowLayout.itemSize = size
         }
 
         return max(size, .zero)

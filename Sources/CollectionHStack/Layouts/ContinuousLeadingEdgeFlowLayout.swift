@@ -11,6 +11,15 @@ class ContinuousLeadingEdgeFlowLayout: UICollectionViewFlowLayout, ColumnAligned
 
     var rows: Int = 1
 
+    func scrollTo(index: Int, animated: Bool) {
+
+        let proposedX = itemSize.width * index + minimumInteritemSpacing * max(index, 0)
+        let lastWindow = collectionView!.contentSize.width - collectionView!.bounds.width
+        let offset: CGFloat = min(proposedX, lastWindow)
+
+        collectionView?.setContentOffset(.init(x: offset, y: 0), animated: animated)
+    }
+
     override func targetContentOffset(
         forProposedContentOffset proposedContentOffset: CGPoint,
         withScrollingVelocity velocity: CGPoint
@@ -50,7 +59,7 @@ class ContinuousLeadingEdgeFlowLayout: UICollectionViewFlowLayout, ColumnAligned
             startOfColumnAttributes[0].frame.minX
         }
 
-        let leadingInset = collectionView!.flowLayout.sectionInset.left
+        let leadingInset = sectionInset.left
 
         return CGPoint(
             x: m - leadingInset,

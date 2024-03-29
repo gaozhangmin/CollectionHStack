@@ -1,7 +1,7 @@
 import UIKit
 
-// TODO: accustom for item sizes > collection view width?
-// TODO: accustom for item spacing which will make no other items appear on targetContentOffset?
+// TODO: care for item sizes > collection view width?
+// TODO: care for item spacing which will make no other items appear on targetContentOffset?
 // TODO: centered scroll behavior
 
 // get contentoffset from scrollview begin dragging
@@ -27,6 +27,8 @@ public enum CollectionHStackScrollBehavior {
         }
     }
 }
+
+// TODO: have leading vs centered be variable?
 
 /// A `UICollectionViewFlowLayout` that aligns with a column of items
 protocol ColumnAlignedLayout: UICollectionViewFlowLayout {

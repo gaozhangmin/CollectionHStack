@@ -12,4 +12,11 @@ public class CollectionHStackProxy<Element: Hashable>: ObservableObject {
     public func scrollTo(index: Int, animated: Bool = true) {
         collectionView?.scrollTo(index: index, animated: animated)
     }
+
+    /// Forces the `CollectionHStack` to re-layout its views.
+    /// This is useful if the layout is the same, but the views
+    /// have changed and require re-drawing.
+    public func layout() {
+        collectionView?.snapshotReload()
+    }
 }
