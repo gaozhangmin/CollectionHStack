@@ -229,7 +229,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
     }
 
     // TODO: other layouts implement their own `scrollTo`
-    func scrollTo(index: Int, animated: Bool = true) {
+    func scrollTo(index: Int, animated: Bool) {
         if let flowLayout = collectionView.flowLayout as? ContinuousLeadingEdgeFlowLayout {
             flowLayout.scrollTo(index: index, animated: animated)
         } else {
@@ -238,7 +238,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
         }
     }
 
-    func scrollTo(element: Element, animated: Bool = true) {
+    func scrollTo(element: Element, animated: Bool) {
         guard let index = currentHashes.index(of: element.hashValue) else { return }
         scrollTo(index: index, animated: animated)
     }
