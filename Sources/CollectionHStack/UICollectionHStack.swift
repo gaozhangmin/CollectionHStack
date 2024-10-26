@@ -585,10 +585,14 @@ class UICollectionHStack<Element: Hashable>: UIView,
         let spacing = (_rows - 1) * itemSpacing
 
         precondition(_rows > 0)
-
+        
+        // Note: `floor` because iOS 15 doesn't like cell height ==
+        //       collection view height. At worse, this creates a
+        //       few pixel padding.
+        
         return CGSize(
             width: width,
-            height: (size.height - spacing - insets) / _rows
+            height: floor((size.height - spacing - insets) / _rows)
         )
     }
 
