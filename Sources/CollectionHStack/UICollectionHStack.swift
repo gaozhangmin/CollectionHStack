@@ -202,7 +202,7 @@ class UICollectionHStack<Element, Data: Collection, ID: Hashable>:
 
         let newSize = computeSize()
 
-        if newSize != size {
+        if newSize != .zero && newSize != size {
             size = newSize
         }
 
@@ -422,6 +422,11 @@ class UICollectionHStack<Element, Data: Collection, ID: Hashable>:
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard !data.wrappedValue.isEmpty else {
+            let emptyCell = UICollectionViewCell()
+            emptyCell.backgroundColor = .clear
+            return emptyCell
+        }
 
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: HostingCollectionViewCell.reuseIdentifier,
@@ -599,7 +604,9 @@ class UICollectionHStack<Element, Data: Collection, ID: Hashable>:
         let insets = insets.bottom + insets.top
         let spacing = (_rows - 1) * itemSpacing
 
-        precondition(_rows > 0)
+        guard _rows > 0 else {
+            return .zero
+        }
 
         // Note: `floor` because iOS 15 doesn't like cell height ==
         //       collection view height. At worse, this creates a
@@ -615,6 +622,9 @@ class UICollectionHStack<Element, Data: Collection, ID: Hashable>:
 
     /// - Precondition: columns > 0
     private func itemWidth(columns: CGFloat, trailingInset: CGFloat = 0) -> CGFloat {
+        guard columns > 0 else {
+            return .zero
+        }
 
         precondition(columns > 0, "Given `columns` is less than or equal to 0")
 
@@ -637,6 +647,9 @@ class UICollectionHStack<Element, Data: Collection, ID: Hashable>:
 
     /// - Precondition: minWidth > 0
     private func itemWidth(minWidth: CGFloat) -> CGFloat {
+        guard minWidth > 0 else {
+            return .zero
+        }
 
         precondition(minWidth > 0, "Given `minWidth` is less than or equal to 0")
 
