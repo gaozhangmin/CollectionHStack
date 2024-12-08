@@ -17,7 +17,6 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-collections.git", exact: "1.0.5"),
         .package(url: "https://github.com/ra1028/DifferenceKit", from: "1.3.0"),
     ],
     targets: [
@@ -26,7 +25,6 @@ let package = Package(
         .target(
             name: "CollectionHStack",
             dependencies: [
-                .product(name: "OrderedCollections", package: "swift-collections"),
                 .product(name: "DifferenceKit", package: "DifferenceKit"),
             ]
         ),

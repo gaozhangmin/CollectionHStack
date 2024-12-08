@@ -13,7 +13,7 @@ extension AppStoreAppsView {
                     .fontWeight(.bold)
 
                 CollectionHStack(
-                    0 ..< 4,
+                    count: 4,
                     columns: 1,
                     rows: 4
                 ) { i in

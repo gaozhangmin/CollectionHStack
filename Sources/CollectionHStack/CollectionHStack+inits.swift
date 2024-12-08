@@ -1,27 +1,25 @@
 import Foundation
-import OrderedCollections
 import SwiftUI
 
 // TODO: on tvOS, focus updates cause reconstructions of the non-binding init sets
 // TODO: inits with (Element, Index) -> any View
-// TODO: binding layouts?
-//       - already do this in CollectionVGrid, but don't really need to change the
-//         layout of this view often and height adjustments would probably be snappy
 
-// MARK: Binding<OrderedSet>
+// MARK: - Collection
 
 public extension CollectionHStack {
 
     // columns
     init(
-        _ data: Binding<OrderedSet<Element>>,
+        uniqueElements: Data,
+        id: KeyPath<Element, ID>,
         columns: Int,
         rows: Int = 1,
         columnTrailingInset: CGFloat = 0,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            data: data,
+            id: id,
+            data: uniqueElements,
             layout: .grid(columns: CGFloat(columns), rows: rows, columnTrailingInset: columnTrailingInset),
             viewProvider: content
         )
@@ -29,13 +27,15 @@ public extension CollectionHStack {
 
     // fractional columns
     init(
-        _ data: Binding<OrderedSet<Element>>,
+        uniqueElements: Data,
+        id: KeyPath<Element, ID>,
         columns: CGFloat,
         rows: Int = 1,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            data: data,
+            id: id,
+            data: uniqueElements,
             layout: .grid(columns: columns, rows: rows, columnTrailingInset: 0),
             viewProvider: content
         )
@@ -43,13 +43,15 @@ public extension CollectionHStack {
 
     // minWidth
     init(
-        _ data: Binding<OrderedSet<Element>>,
+        uniqueElements: Data,
+        id: KeyPath<Element, ID>,
         minWidth: CGFloat,
         rows: Int = 1,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            data: data,
+            id: id,
+            data: uniqueElements,
             layout: .minimumWidth(columnWidth: minWidth, rows: rows),
             viewProvider: content
         )
@@ -57,149 +59,156 @@ public extension CollectionHStack {
 
     // self/variadic sizing
     init(
-        _ data: Binding<OrderedSet<Element>>,
+        uniqueElements: Data,
+        id: KeyPath<Element, ID>,
         rows: Int = 1,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            data: data,
+            id: id,
+            data: uniqueElements,
             layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
             viewProvider: content
         )
     }
 }
 
-// MARK: Range
-
-public extension CollectionHStack where Element == Int {
+public extension CollectionHStack where Element: Identifiable, ID == Element.ID {
 
     // columns
     init(
-        _ data: Range<Int>,
+        uniqueElements: Data,
         columns: Int,
         rows: Int = 1,
         columnTrailingInset: CGFloat = 0,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            columns: columns,
-            rows: rows,
-            columnTrailingInset: columnTrailingInset,
-            content: content
+            id: \.id,
+            data: uniqueElements,
+            layout: .grid(columns: CGFloat(columns), rows: rows, columnTrailingInset: columnTrailingInset),
+            viewProvider: content
         )
     }
 
     // fractional columns
     init(
-        _ data: Range<Int>,
+        uniqueElements: Data,
         columns: CGFloat,
         rows: Int = 1,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            columns: columns,
-            rows: rows,
-            content: content
+            id: \.id,
+            data: uniqueElements,
+            layout: .grid(columns: columns, rows: rows, columnTrailingInset: 0),
+            viewProvider: content
         )
     }
 
     // minWidth
     init(
-        _ data: Range<Int>,
+        uniqueElements: Data,
         minWidth: CGFloat,
         rows: Int = 1,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            minWidth: minWidth,
-            rows: rows,
-            content: content
+            id: \.id,
+            data: uniqueElements,
+            layout: .minimumWidth(columnWidth: minWidth, rows: rows),
+            viewProvider: content
         )
     }
 
     // self/variadic sizing
     init(
-        _ data: Range<Int>,
+        uniqueElements: Data,
         rows: Int = 1,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            rows: rows,
-            variadicWidths: variadicWidths,
-            content: content
+            id: \.id,
+            data: uniqueElements,
+            layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
+            viewProvider: content
         )
     }
 }
 
-// MARK: Sequence
+// MARK: Count
 
-public extension CollectionHStack {
+public extension CollectionHStack where Data == [Element], Element == Int, ID == Int {
 
     // columns
     init(
-        _ data: some Sequence<Element>,
+        count: Int,
         columns: Int,
         rows: Int = 1,
         columnTrailingInset: CGFloat = 0,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            columns: columns,
-            rows: rows,
-            columnTrailingInset: columnTrailingInset,
-            content: content
+            id: \.self,
+            data: Array(0 ..< count),
+            layout: .grid(
+                columns: CGFloat(columns),
+                rows: rows,
+                columnTrailingInset: columnTrailingInset
+            ),
+            viewProvider: content
         )
     }
 
     // fractional columns
     init(
-        _ data: some Sequence<Element>,
+        count: Int,
         columns: CGFloat,
         rows: Int = 1,
+        columnTrailingInset: CGFloat = 0,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            columns: columns,
-            rows: rows,
-            content: content
+            id: \.self,
+            data: Array(0 ..< count),
+            layout: .grid(
+                columns: columns,
+                rows: rows,
+                columnTrailingInset: columnTrailingInset
+            ),
+            viewProvider: content
         )
     }
 
     // minWidth
     init(
-        _ data: some Sequence<Element>,
+        count: Int,
         minWidth: CGFloat,
         rows: Int = 1,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            minWidth: minWidth,
-            rows: rows,
-            content: content
+            id: \.self,
+            data: Array(0 ..< count),
+            layout: .minimumWidth(columnWidth: minWidth, rows: rows),
+            viewProvider: content
         )
     }
 
     // self/variadic sizing
     init(
-        _ data: some Sequence<Element>,
+        count: Int,
         rows: Int = 1,
         variadicWidths: Bool = false,
         @ViewBuilder content: @escaping (Element) -> any View
     ) {
         self.init(
-            .constant(OrderedSet(data)),
-            rows: rows,
-            variadicWidths: variadicWidths,
-            content: content
+            id: \.self,
+            data: Array(0 ..< count),
+            layout: variadicWidths ? .selfSizingVariadicWidth(rows: rows) : .selfSizingSameSize(rows: rows),
+            viewProvider: content
         )
     }
 }

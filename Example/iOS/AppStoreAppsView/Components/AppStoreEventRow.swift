@@ -16,7 +16,7 @@ extension AppStoreAppsView {
                     .padding(.leading, 18)
 
                 CollectionHStack(
-                    apps,
+                    uniqueElements: apps,
                     columns: 1
                 ) { app in
                     AppStoreEventRowCard(app: app)

@@ -3,19 +3,11 @@ import SwiftUI
 public extension CollectionHStack {
 
     func allowBouncing(_ value: Bool) -> Self {
-        copy(modifying: \.allowBouncing, to: .constant(value))
-    }
-
-    func allowBouncing(_ binding: Binding<Bool>) -> Self {
-        copy(modifying: \.allowBouncing, to: binding)
+        copy(modifying: \.allowBouncing, to: value)
     }
 
     func allowScrolling(_ value: Bool) -> Self {
-        copy(modifying: \.allowScrolling, to: .constant(value))
-    }
-
-    func allowScrolling(_ binding: Binding<Bool>) -> Self {
-        copy(modifying: \.allowScrolling, to: binding)
+        copy(modifying: \.allowScrolling, to: value)
     }
 
     func asCarousel() -> Self {
@@ -27,11 +19,7 @@ public extension CollectionHStack {
     }
 
     func dataPrefix(_ prefix: Int?) -> Self {
-        copy(modifying: \.dataPrefix, to: .constant(prefix))
-    }
-
-    func dataPrefix(_ binding: Binding<Int?>) -> Self {
-        copy(modifying: \.dataPrefix, to: binding)
+        copy(modifying: \.dataPrefix, to: prefix)
     }
 
     // TODO: add once behavior defined
@@ -61,7 +49,7 @@ public extension CollectionHStack {
             .copy(modifying: \.onReachedTrailingEdgeOffset, to: offset)
     }
 
-    func proxy(_ proxy: CollectionHStackProxy<Element>) -> Self {
+    func proxy(_ proxy: CollectionHStackProxy) -> Self {
         copy(modifying: \.proxy, to: proxy)
     }
 

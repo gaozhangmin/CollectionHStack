@@ -42,7 +42,7 @@ struct ScrollBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount
                 ) { _ in
                     Color.blue
@@ -75,7 +75,7 @@ struct ScrollBehaviorView: View {
 
                 if columnOption == .variadicWidths {
                     CollectionHStack(
-                        0 ..< 40,
+                        count: 40,
                         rows: 2,
                         variadicWidths: true
                     ) { i in
@@ -87,7 +87,7 @@ struct ScrollBehaviorView: View {
                     .id(columnOption)
                 } else {
                     CollectionHStack(
-                        0 ..< 20,
+                        count: 20,
                         columns: fractionalColumnCount,
                         rows: columnOption == .oneRow ? 1 : 2
                     ) { _ in
@@ -109,7 +109,7 @@ struct ScrollBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: fractionalColumnCount
                 ) { _ in
                     Color.blue
@@ -128,7 +128,7 @@ struct ScrollBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount
                 ) { _ in
                     Color.blue

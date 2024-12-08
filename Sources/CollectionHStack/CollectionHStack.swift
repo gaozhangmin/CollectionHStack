@@ -1,4 +1,3 @@
-import OrderedCollections
 import SwiftUI
 
 #if os(tvOS)
@@ -11,7 +10,7 @@ private let defaultHorizontalInset: CGFloat = 15
 private let defaultItemSpacing: CGFloat = 10
 #endif
 
-public struct CollectionHStack<Element: Hashable>: View {
+public struct CollectionHStack<Element, Data: Collection, ID: Hashable>: View where Data.Element == Element, Data.Index == Int {
 
     @State
     private var contentSize: CGSize = .zero
@@ -19,11 +18,12 @@ public struct CollectionHStack<Element: Hashable>: View {
     @StateObject
     private var sizeObserver = SizeObserver()
 
-    var allowBouncing: Binding<Bool>
-    var allowScrolling: Binding<Bool>
+    var id: KeyPath<Element, ID>
+    var allowBouncing: Bool
+    var allowScrolling: Bool
     var clipsToBounds: Bool
-    let data: Binding<OrderedSet<Element>>
-    var dataPrefix: Binding<Int?>
+    let data: Data
+    var dataPrefix: Int?
     var didScrollToItems: ([Element]) -> Void
     var insets: EdgeInsets
     var isCarousel: Bool
@@ -33,16 +33,17 @@ public struct CollectionHStack<Element: Hashable>: View {
     var onReachedLeadingSideOffset: CollectionHStackEdgeOffset
     var onReachedTrailingEdge: () -> Void
     var onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset
-    var proxy: CollectionHStackProxy<Element>
+    var proxy: CollectionHStackProxy
     var scrollBehavior: CollectionHStackScrollBehavior
     let viewProvider: (Element) -> any View
 
     init(
-        allowBouncing: Binding<Bool> = .constant(true),
-        allowScrolling: Binding<Bool> = .constant(true),
+        id: KeyPath<Element, ID>,
+        allowBouncing: Bool = true,
+        allowScrolling: Bool = true,
         clipsToBounds: Bool = defaultClipsToBounds,
-        data: Binding<OrderedSet<Element>>,
-        dataPrefix: Binding<Int?> = .constant(nil),
+        data: Data,
+        dataPrefix: Int? = nil,
         didScrollToItems: @escaping ([Element]) -> Void = { _ in },
         insets: EdgeInsets = .init(top: 0, leading: defaultHorizontalInset, bottom: 0, trailing: defaultHorizontalInset),
         isCarousel: Bool = false,
@@ -52,10 +53,11 @@ public struct CollectionHStack<Element: Hashable>: View {
         onReachedLeadingSideOffset: CollectionHStackEdgeOffset = .columns(0),
         onReachedTrailingEdge: @escaping () -> Void = {},
         onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset = .columns(0),
-        proxy: CollectionHStackProxy<Element> = .init(),
+        proxy: CollectionHStackProxy = .init(),
         scrollBehavior: CollectionHStackScrollBehavior = .continuous,
         viewProvider: @escaping (Element) -> any View
     ) {
+        self.id = id
         self.allowBouncing = allowBouncing
         self.allowScrolling = allowScrolling
         self.clipsToBounds = clipsToBounds
@@ -81,6 +83,7 @@ public struct CollectionHStack<Element: Hashable>: View {
                 .frame(height: 1)
 
             BridgeView(
+                id: id,
                 allowBouncing: allowBouncing,
                 allowScrolling: allowScrolling,
                 clipsToBounds: clipsToBounds,

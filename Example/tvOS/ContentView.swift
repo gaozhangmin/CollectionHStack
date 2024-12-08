@@ -24,7 +24,7 @@ struct ContentView: View {
                 Spacer(minLength: 50)
 
                 CollectionHStack(
-                    0 ..< 10,
+                    count: 10,
                     columns: 1
                 ) { i in
                     Button {
@@ -39,7 +39,7 @@ struct ContentView: View {
                 .scrollBehavior(.fullPaging)
 
                 CollectionHStack(
-                    0 ..< 72,
+                    count: 72,
                     columns: 6
                 ) { i in
                     Button {
@@ -55,7 +55,7 @@ struct ContentView: View {
                 .scrollBehavior(.continuousLeadingEdge)
 
                 CollectionHStack(
-                    0 ..< 30,
+                    count: 30,
                     columns: 6
                 ) { i in
                     Button {
@@ -69,7 +69,7 @@ struct ContentView: View {
                 .scrollBehavior(.continuousLeadingEdge)
 
                 CollectionHStack(
-                    0 ..< 30,
+                    count: 30,
                     columns: 6
                 ) { i in
                     Button {
@@ -83,7 +83,7 @@ struct ContentView: View {
                 .scrollBehavior(.continuousLeadingEdge)
 
                 CollectionHStack(
-                    0 ..< 30,
+                    count: 30,
                     columns: 6
                 ) { i in
                     Button {

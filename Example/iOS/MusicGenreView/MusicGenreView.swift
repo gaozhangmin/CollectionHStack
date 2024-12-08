@@ -8,7 +8,7 @@ struct MusicGenreView: View {
             VStack(spacing: 20) {
 
                 CollectionHStack(
-                    sampleAlbums.random(in: 15 ..< 21),
+                    uniqueElements: sampleAlbums.random(in: 15 ..< 21),
                     columns: 1
                 ) { album in
                     HeroCard(album: album)

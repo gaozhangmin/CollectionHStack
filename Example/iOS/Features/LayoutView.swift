@@ -7,7 +7,7 @@ struct LayoutView: View {
     var minWidth: CGFloat = 120
 
     @StateObject
-    var proxy: CollectionHStackProxy<Int> = .init()
+    var proxy: CollectionHStackProxy = .init()
 
     var columnCount: Int {
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -38,7 +38,7 @@ struct LayoutView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount
                 ) { _ in
                     Color.blue
@@ -67,7 +67,7 @@ struct LayoutView: View {
                 ZStack {
                     ScrollView {
                         CollectionHStack(
-                            0 ..< 20,
+                            count: 20,
                             minWidth: minWidth
                         ) { _ in
                             Color.blue
@@ -93,7 +93,7 @@ struct LayoutView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount,
                     columnTrailingInset: 60
                 ) { _ in
@@ -112,7 +112,7 @@ struct LayoutView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: fractionalColumnCount
                 ) { _ in
                     HStack(spacing: 0) {
@@ -133,7 +133,7 @@ struct LayoutView: View {
                 .padding(.top, 30)
                 .padding(.leading, 15)
 
-                CollectionHStack(0 ..< 20) { _ in
+                CollectionHStack(count: 20) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
                         .frame(height: 200)
@@ -150,7 +150,7 @@ struct LayoutView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     variadicWidths: true
                 ) { i in
                     colors[mod: i]
@@ -168,7 +168,7 @@ struct LayoutView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: 4,
                     rows: 4
                 ) { _ in

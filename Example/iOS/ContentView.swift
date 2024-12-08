@@ -1,3 +1,4 @@
+import CollectionHStack
 import SwiftUI
 
 struct ContentView: View {

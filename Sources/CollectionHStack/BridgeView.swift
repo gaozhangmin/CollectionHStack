@@ -1,15 +1,15 @@
-import OrderedCollections
 import SwiftUI
 
-struct BridgeView<Element: Hashable>: UIViewRepresentable {
+struct BridgeView<Element, Data: Collection, ID: Hashable>: UIViewRepresentable where Data.Element == Element, Data.Index == Int {
 
-    typealias UIViewType = UICollectionHStack<Element>
+    typealias UIViewType = UICollectionHStack<Element, Data, ID>
 
-    let allowBouncing: Binding<Bool>
-    let allowScrolling: Binding<Bool>
+    let id: KeyPath<Element, ID>
+    let allowBouncing: Bool
+    let allowScrolling: Bool
     let clipsToBounds: Bool
-    let data: Binding<OrderedSet<Element>>
-    let dataPrefix: Binding<Int?>
+    let data: Data
+    let dataPrefix: Int?
     let didScrollToItems: ([Element]) -> Void
     let insets: EdgeInsets
     let isCarousel: Bool
@@ -19,7 +19,7 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
     let onReachedLeadingEdgeOffset: CollectionHStackEdgeOffset
     let onReachedTrailingEdge: () -> Void
     let onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset
-    let proxy: CollectionHStackProxy<Element>
+    let proxy: CollectionHStackProxy
     let scrollBehavior: CollectionHStackScrollBehavior
     let sizeObserver: SizeObserver
     let viewProvider: (Element) -> any View
@@ -27,6 +27,7 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIViewType {
         UICollectionHStack(
+            id: id,
             clipsToBounds: clipsToBounds,
             data: data,
             didScrollToItems: didScrollToItems,
@@ -49,9 +50,9 @@ struct BridgeView<Element: Hashable>: UIViewRepresentable {
     func updateUIView(_ view: UIViewType, context: Context) {
         view.update(
             with: data,
-            allowBouncing: allowBouncing.wrappedValue,
-            allowScrolling: allowScrolling.wrappedValue,
-            dataPrefix: dataPrefix.wrappedValue
+            allowBouncing: allowBouncing,
+            allowScrolling: allowScrolling,
+            dataPrefix: dataPrefix
         )
     }
 }

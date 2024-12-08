@@ -19,7 +19,7 @@ extension AppStoreAppsView {
                     .padding(.leading, 18)
 
                 CollectionHStack(
-                    apps,
+                    uniqueElements: apps,
                     columns: 1,
                     rows: 3
                 ) { app in

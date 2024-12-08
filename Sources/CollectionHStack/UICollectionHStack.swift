@@ -1,5 +1,4 @@
 import DifferenceKit
-import OrderedCollections
 import OSLog
 import SwiftUI
 
@@ -29,16 +28,28 @@ import SwiftUI
 
 // MARK: UICollectionHStack
 
-class UICollectionHStack<Element: Hashable>: UIView,
+public protocol _UICollectionHStack: UIView {
+
+    func scrollTo(index: Int, animated: Bool)
+    func snapshotReload()
+
+    func index<T: Hashable>(for element: T) -> Int?
+}
+
+class UICollectionHStack<Element, Data: Collection, ID: Hashable>:
+    UIView,
+    _UICollectionHStack,
     UICollectionViewDataSource,
     UICollectionViewDelegate,
     UICollectionViewDelegateFlowLayout,
     UICollectionViewDataSourcePrefetching
+    where Data.Element == Element, Data.Index == Int
 {
 
     private let logger = Logger()
 
-    private var currentHashes: [Int] = []
+    private var _id: KeyPath<Element, ID>
+    private var currentElementIDHashes: [Int] = []
 
     // events
     private let didScrollToItems: ([Element]) -> Void
@@ -51,14 +62,13 @@ class UICollectionHStack<Element: Hashable>: UIView,
     private var effectiveItemCount: Int
     private var effectiveWidth: CGFloat
     private let isCarousel: Bool
-    private var data: Binding<OrderedSet<Element>>
+    private var data: Data
     private let insets: EdgeInsets
     private let itemSpacing: CGFloat
     private var itemSize: CGSize!
     private var layout: CollectionHStackLayout
     private var onReachedEdgeStore: Set<Edge>
     private var prefetchedViewCache: [Int: UIHostingController<AnyView>]
-    private let proxy: CollectionHStackProxy<Element>
     private let scrollBehavior: CollectionHStackScrollBehavior
     private var size: CGSize {
         didSet {
@@ -78,8 +88,9 @@ class UICollectionHStack<Element: Hashable>: UIView,
     // MARK: init
 
     init(
+        id: KeyPath<Element, ID>,
         clipsToBounds: Bool,
-        data: Binding<OrderedSet<Element>>,
+        data: Data,
         didScrollToItems: @escaping ([Element]) -> Void,
         insets: EdgeInsets,
         isCarousel: Bool,
@@ -89,12 +100,13 @@ class UICollectionHStack<Element: Hashable>: UIView,
         onReachedLeadingEdgeOffset: CollectionHStackEdgeOffset,
         onReachedTrailingEdge: @escaping () -> Void,
         onReachedTrailingEdgeOffset: CollectionHStackEdgeOffset,
-        proxy: CollectionHStackProxy<Element>,
+        proxy: CollectionHStackProxy,
         scrollBehavior: CollectionHStackScrollBehavior,
         sizeObserver: SizeObserver,
         viewProvider: @escaping (Element) -> any View,
         sizeBinding: Binding<CGSize>
     ) {
+        self._id = id
         self.data = data
         self.didScrollToItems = didScrollToItems
         self.effectiveItemCount = 0
@@ -109,7 +121,6 @@ class UICollectionHStack<Element: Hashable>: UIView,
         self.onReachedTrailingEdgeOffset = onReachedTrailingEdgeOffset
         self.onReachedEdgeStore = []
         self.prefetchedViewCache = [:]
-        self.proxy = proxy
         self.scrollBehavior = scrollBehavior
         self.size = .zero
         self.viewProvider = viewProvider
@@ -238,9 +249,8 @@ class UICollectionHStack<Element: Hashable>: UIView,
         }
     }
 
-    func scrollTo(element: Element, animated: Bool) {
-        guard let index = currentHashes.index(of: element.hashValue) else { return }
-        scrollTo(index: index, animated: animated)
+    func index(for element: some Hashable) -> Int? {
+        currentElementIDHashes.firstIndex(of: element.hashValue)
     }
 
     /// Computes the size that this view should be based on the effectiveWidth and the total item content height
@@ -329,12 +339,12 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
     private func singleItemSize(width: CGFloat? = nil) -> CGSize {
 
-        guard !data.wrappedValue.isEmpty else { return .init(width: width ?? 0, height: 0) }
+        guard !data.isEmpty else { return .init(width: width ?? 0, height: 0) }
 
         let view: AnyView = if let width, width > 0 {
-            AnyView(viewProvider(data.wrappedValue[0]).frame(width: width))
+            AnyView(viewProvider(data[0]).frame(width: width))
         } else {
-            AnyView(viewProvider(data.wrappedValue[0]))
+            AnyView(viewProvider(data[0]))
         }
 
         let singleItem = UIHostingController(rootView: view)
@@ -345,7 +355,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
     // MARK: update
 
     func update(
-        with newData: Binding<OrderedSet<Element>>,
+        with newData: Data,
         allowBouncing: Bool? = nil,
         allowScrolling: Bool? = nil,
         dataPrefix: Int? = nil
@@ -355,11 +365,14 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
         if let dataPrefix, dataPrefix > 0 {
 
-            let newHashes = Array(newData.wrappedValue.map(\.hashValue).prefix(dataPrefix))
+            let newIDs = newData
+                .prefix(dataPrefix)
+                .map { $0[keyPath: _id] }
+                .map(\.hashValue)
 
             let changes = StagedChangeset(
-                source: currentHashes,
-                target: newHashes,
+                source: currentElementIDHashes,
+                target: newIDs,
                 section: 0
             )
 
@@ -367,15 +380,17 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
             collectionView.reload(using: changes) { data in
                 self.effectiveItemCount = data.count
-                self.currentHashes = newHashes
+                self.currentElementIDHashes = newIDs
             }
         } else {
 
-            let newHashes = newData.wrappedValue.map(\.hashValue)
+            let newIDs = newData
+                .map { $0[keyPath: _id] }
+                .map(\.hashValue)
 
             let changes = StagedChangeset(
-                source: currentHashes,
-                target: newHashes,
+                source: currentElementIDHashes,
+                target: newIDs,
                 section: 0
             )
 
@@ -383,7 +398,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
             collectionView.reload(using: changes) { data in
                 self.effectiveItemCount = data.count
-                self.currentHashes = newHashes
+                self.currentElementIDHashes = newIDs
             }
         }
 
@@ -413,11 +428,11 @@ class UICollectionHStack<Element: Hashable>: UIView,
             for: indexPath
         ) as! HostingCollectionViewCell
 
-        let item = data.wrappedValue[indexPath.row % data.wrappedValue.count]
+        let item = data[indexPath.row % data.count]
 
-        if let premade = prefetchedViewCache[item.hashValue] {
+        if let premade = prefetchedViewCache[item[keyPath: _id].hashValue] {
             cell.setupHostingView(premade: premade)
-            prefetchedViewCache.removeValue(forKey: item.hashValue)
+            prefetchedViewCache.removeValue(forKey: item[keyPath: _id].hashValue)
         } else {
             cell.setupHostingView(with: viewProvider(item))
         }
@@ -445,9 +460,9 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
         if case CollectionHStackLayout.selfSizingVariadicWidth = layout {
 
-            let item = data.wrappedValue[indexPath.row]
+            let item = data[indexPath.row]
 
-            if let prefetch = prefetchedViewCache[item.hashValue] {
+            if let prefetch = prefetchedViewCache[item[keyPath: _id].hashValue] {
                 prefetch.view.sizeToFit()
                 size = prefetch.view.bounds.size
             } else {
@@ -555,7 +570,7 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
         let visibleItems = collectionView
             .indexPathsForVisibleItems
-            .map { data.wrappedValue[$0.row % data.wrappedValue.count] }
+            .map { data[$0.row % data.count] }
 
         didScrollToItems(visibleItems)
     }
@@ -585,11 +600,11 @@ class UICollectionHStack<Element: Hashable>: UIView,
         let spacing = (_rows - 1) * itemSpacing
 
         precondition(_rows > 0)
-        
+
         // Note: `floor` because iOS 15 doesn't like cell height ==
         //       collection view height. At worse, this creates a
         //       few pixel padding.
-        
+
         return CGSize(
             width: width,
             height: floor((size.height - spacing - insets) / _rows)
@@ -647,20 +662,20 @@ class UICollectionHStack<Element: Hashable>: UIView,
 
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
 
-        let fetchedItems = indexPaths.map { data.wrappedValue[$0.row % data.wrappedValue.count] }
+        let fetchedItems = indexPaths.map { data[$0.row % data.count] }
 
-        for item in fetchedItems where !prefetchedViewCache.keys.contains(item.hashValue) {
+        for item in fetchedItems where !prefetchedViewCache.keys.contains(item[keyPath: _id].hashValue) {
             let premade = UIHostingController(rootView: AnyView(viewProvider(item)))
-            prefetchedViewCache[item.hashValue] = premade
+            prefetchedViewCache[item[keyPath: _id].hashValue] = premade
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
 
-        let fetchedItems = indexPaths.map { data.wrappedValue[$0.row % data.wrappedValue.count] }
+        let fetchedItems = indexPaths.map { data[$0.row % data.count] }
 
-        for item in fetchedItems where !prefetchedViewCache.keys.contains(item.hashValue) {
-            prefetchedViewCache.removeValue(forKey: item.hashValue)
+        for item in fetchedItems where !prefetchedViewCache.keys.contains(item[keyPath: _id].hashValue) {
+            prefetchedViewCache.removeValue(forKey: item[keyPath: _id].hashValue)
         }
     }
 }

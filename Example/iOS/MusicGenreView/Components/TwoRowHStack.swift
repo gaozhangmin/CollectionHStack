@@ -12,7 +12,7 @@ extension MusicGenreView {
                     .padding(.leading, 18)
 
                 CollectionHStack(
-                    sampleAlbums.random(in: 25 ..< 35),
+                    uniqueElements: sampleAlbums.random(in: 25 ..< 35),
                     columns: 2,
                     rows: 2
                 ) { album in

@@ -8,7 +8,7 @@ struct AppStoreAppsView: View {
             VStack(spacing: 30) {
 
                 CollectionHStack(
-                    sampleApps.shuffled().prefix(20).shuffled(),
+                    uniqueElements: sampleApps.shuffled().prefix(20).shuffled(),
                     columns: 1
                 ) { app in
                     HeroCard(app: app)

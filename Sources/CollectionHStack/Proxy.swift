@@ -1,9 +1,9 @@
 import Foundation
 import UIKit
 
-public class CollectionHStackProxy<Element: Hashable>: ObservableObject {
+public class CollectionHStackProxy: ObservableObject {
 
-    weak var collectionView: UICollectionHStack<Element>?
+    weak var collectionView: _UICollectionHStack?
 
     public init() {
         self.collectionView = nil
@@ -13,8 +13,9 @@ public class CollectionHStackProxy<Element: Hashable>: ObservableObject {
         collectionView?.scrollTo(index: index, animated: animated)
     }
 
-    public func scrollTo(element: Element, animated: Bool = true) {
-        collectionView?.scrollTo(element: element, animated: animated)
+    public func scrollTo(element: some Identifiable, animated: Bool = true) {
+        guard let index = collectionView?.index(for: element.id.hashValue) else { return }
+        scrollTo(index: index, animated: animated)
     }
 
     /// Forces the `CollectionHStack` to re-layout its views.

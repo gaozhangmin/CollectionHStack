@@ -1,5 +1,4 @@
 import CollectionHStack
-import OrderedCollections
 import SwiftUI
 
 struct OtherBehaviorView: View {
@@ -16,7 +15,7 @@ struct OtherBehaviorView: View {
     @State
     var onEdgeColor = Color.blue
     @State
-    var colors = OrderedSet((0 ..< 20).map { colorWheel(radius: $0 * 18) })
+    var colors = (0 ..< 20).map { colorWheel(radius: $0 * 18) }
 
     var columnCount: Int {
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -39,7 +38,7 @@ struct OtherBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 72,
+                    count: 72,
                     columns: columnCount
                 ) { i in
                     colorWheel(radius: i * 5)
@@ -58,7 +57,7 @@ struct OtherBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 10,
+                    count: 10,
                     columns: columnCount
                 ) { _ in
                     OnEdgeColorView(color: $onEdgeColor)
@@ -97,14 +96,14 @@ struct OtherBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
                         .cornerRadius(5)
                 }
-                .allowBouncing($allowBouncing)
+                .allowBouncing(allowBouncing)
 
                 // Scrolling
 
@@ -129,14 +128,14 @@ struct OtherBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount
                 ) { _ in
                     Color.blue
                         .aspectRatio(2 / 3, contentMode: .fill)
                         .cornerRadius(5)
                 }
-                .allowScrolling($allowScrolling)
+                .allowScrolling(allowScrolling)
 
                 // Clips to bounds
 
@@ -151,7 +150,7 @@ struct OtherBehaviorView: View {
                     .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount
                 ) { _ in
                     Color.blue
@@ -167,7 +166,7 @@ struct OtherBehaviorView: View {
                     .padding(.leading, 15)
 
                 CollectionHStack(
-                    0 ..< 20,
+                    count: 20,
                     columns: columnCount
                 ) { _ in
                     Color.blue
@@ -198,7 +197,7 @@ struct OtherBehaviorView: View {
                     }
 
                     Button {
-                        colors.elements.rotate()
+                        colors.rotate()
                     } label: {
                         Image(systemName: "arrow.circlepath")
                             .font(.body.weight(.semibold))
@@ -223,14 +222,15 @@ struct OtherBehaviorView: View {
                 .padding(.leading, 15)
 
                 CollectionHStack(
-                    $colors,
+                    uniqueElements: colors,
+                    id: \.self,
                     columns: columnCount
                 ) { color in
                     color
                         .aspectRatio(2 / 3, contentMode: .fill)
                         .cornerRadius(5)
                 }
-                .dataPrefix($dataPrefix)
+                .dataPrefix(dataPrefix)
             }
         }
         .navigationTitle("Other")
