@@ -422,7 +422,7 @@ class UICollectionHStack<Element, Data: Collection, ID: Hashable>:
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard !data.wrappedValue.isEmpty else {
+        guard !data.isEmpty else {
             let emptyCell = UICollectionViewCell()
             emptyCell.backgroundColor = .clear
             return emptyCell
